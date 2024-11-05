@@ -1,6 +1,104 @@
-<my-search-typeahead class="w-100 d-flex justify-content-center"></my-search-typeahead>
+<div class="root py-4 px-4 w-100 d-flex justify-content-between">
+  <a class="peertube-title me-3" [routerLink]="getDefaultRoute()" [queryParams]="getDefaultRouteQuery()">
+    <span class="icon icon-logo"></span>
+    <span class="instance-name">{{ instanceName }}</span>
+  </a>
 
-<a class="peertube-button-link orange-button publish-button" routerLink="/videos/upload">
-  <my-global-icon iconName="upload" aria-hidden="true"></my-global-icon>
-  <span i18n class="publish-button-label">Publish</span>
-</a>
+  <div class="d-flex align-items-center">
+    <my-search-typeahead class="w-100 me-5"></my-search-typeahead>
+
+    @if (!isLoggedIn) {
+      <my-button icon="cog" (click)="openQuickSettings()"></my-button>
+
+      <a *ngIf="isRegistrationAllowed()" routerLink="/signup" class="create-account-button peertube-button-link text-truncate d-block">
+        <my-signup-label [requiresApproval]="requiresApproval"></my-signup-label>
+      </a>
+
+      <my-login-link className="peertube-button-link orange-button w-100 text-truncate"></my-login-link>
+    } @else {
+      @defer (when isLoggedIn) {
+        <my-notification-dropdown class="me-3" (navigate)="onActiveLinkScrollToAnchor($event)"></my-notification-dropdown>
+      }
+
+      <my-button class="me-3" icon="cog" ptRouterLink="/my-account"></my-button>
+
+      <div
+        class="logged-in-more" ngbDropdown #dropdown="ngbDropdown" placement="bottom-left auto"
+        container="body" (openChange)="onDropdownOpenChange($event)"
+      >
+        <button class="button-unstyle" ngbDropdownToggle>
+          <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar>
+
+          <div class="logged-in-info text-start">
+            <div class="display-name ellipsis">{{ user.account?.displayName }}</div>
+
+            <div class="username ellipsis fs-8">&#64;{{ user.username }}</div>
+          </div>
+
+          <div class="dropdown-toggle-indicator">
+            <span class="chevron-down"></span>
+          </div>
+        </button>
+
+        <div ngbDropdownMenu>
+          <a
+            *ngIf="user.account" ngbDropdownItem ngbDropdownToggle class="dropdown-item" [routerLink]="[ '/a', user.account.nameWithHost ]"
+            #profile (click)="onActiveLinkScrollToAnchor(profile)"
+          >
+            <my-global-icon iconName="go" aria-hidden="true"></my-global-icon> <ng-container i18n>Public profile</ng-container>
+          </a>
+
+          <div class="dropdown-divider"></div>
+
+          <button
+            myPluginSelector pluginSelectorId="menu-user-dropdown-language-item"
+            ngbDropdownItem class="dropdown-item" (click)="openLanguageChooser()"
+          >
+            <my-global-icon iconName="language" aria-hidden="true"></my-global-icon>
+            <span i18n>Interface:</span>
+            <span class="ms-auto muted">{{ currentInterfaceLanguage }}</span>
+          </button>
+
+          <a ngbDropdownItem class="dropdown-item" routerLink="/my-account/settings" fragment="video-languages-subtitles"
+            #settingsLanguagesSubtitles (click)="onActiveLinkScrollToAnchor(settingsLanguagesSubtitles)">
+            <my-global-icon iconName="video-lang" aria-hidden="true"></my-global-icon>
+            <span i18n>Videos:</span>
+            <span class="ms-auto muted">{{ videoLanguages.join(', ') }}</span>
+          </a>
+
+          <a ngbDropdownItem class="dropdown-item settings-sensitive" routerLink="/my-account/settings"
+            fragment="video-sensitive-content-policy" #settingsSensitiveContentPolicy
+            (click)="onActiveLinkScrollToAnchor(settingsSensitiveContentPolicy)"
+          >
+            <my-global-icon class="hover-display-toggle" [hidden]="user.nsfwPolicy === 'display'" iconName="eye-open" aria-hidden="true"></my-global-icon>
+            <my-global-icon class="hover-display-toggle" [hidden]="user.nsfwPolicy !== 'display'" iconName="eye-close" aria-hidden="true"></my-global-icon>
+            <span i18n>Sensitive:</span>
+            <span class="ms-auto muted">{{ nsfwPolicy }}</span>
+          </a>
+
+          <button class="dropdown-item" (mousedown)="$event.stopPropagation(); toggleUseP2P()" [ariaPressed]="user.p2pEnabled" ngbDropdownItem>
+            <my-global-icon iconName="p2p" aria-hidden="true"></my-global-icon>
+            <ng-container i18n>Help share videos</ng-container>
+
+            <my-input-switch inputName="p2p-enabled" class="ms-auto" [preventUpdate]="true" [checked]="user.p2pEnabled"></my-input-switch>
+          </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button *ngIf="!isInMobileView" ngbDropdownItem class="dropdown-item" (click)="openHotkeysCheatSheet()">
+            <my-global-icon iconName="command" aria-hidden="true"></my-global-icon>
+            <ng-container i18n>Keyboard shortcuts</ng-container>
+          </button>
+
+          <button ngbDropdownItem (click)="logout($event)" class="dropdown-item">
+            <my-global-icon iconName="sign-out" aria-hidden="true"></my-global-icon>
+            <ng-container i18n>Log out</ng-container>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<my-language-chooser #languageChooserModal></my-language-chooser>
+<my-quick-settings #quickSettingsModal></my-quick-settings>

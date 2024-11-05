@@ -1,22 +1,89 @@
+@use 'sass:math';
 @use '_variables' as *;
 @use '_mixins' as *;
 
-.publish-button {
-  @include button-with-icon(21px, 3px, -1px);
-  @include margin-right(25px);
+.peertube-title {
+  font-size: 24px;
+  font-weight: $font-bold;
+  color: inherit !important;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 
-  @media screen and (max-width: $mobile-view) {
-    padding-right: 10px;
-    padding-left: 10px;
+  @include padding-left(18px);
+  @include disable-default-a-behaviour;
 
-    @include margin-right(10px);
+  .instance-name {
+    width: 100%;
 
-    .icon.icon-upload {
-      @include margin-right(0);
-    }
+    @include ellipsis;
 
-    .publish-button-label {
+    @media screen and (max-width: $mobile-view) {
       display: none;
     }
   }
+
+  .icon.icon-logo {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+
+    @include margin-right(10px);
+  }
+}
+
+.dropdown {
+  z-index: #{z('menu') + 1} !important;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  @include dropdown-with-icon-item;
+
+  &:hover {
+    .hover-display-toggle {
+      display: none;
+    }
+
+    .hover-display-toggle[hidden] {
+      display: inherit !important;
+    }
+  }
+}
+
+.logged-in-more {
+  flex: 1;
+  border-radius: 25px;
+  transition: all .1s ease-in-out;
+  cursor: pointer;
+  max-width: 250px;
+
+  > .dropdown-toggle {
+    display: flex;
+    align-items: center;
+
+    &::after {
+      // Disable bootstrap toggle
+      border: 0;
+    }
+  }
+
+  .dropdown-toggle-indicator {
+    position: relative;
+    display: none;
+    width: 17px;
+
+    span {
+      position: absolute;
+      top: -8px;
+      color: #808080;
+    }
+  }
+}
+
+.display-name {
+  font-weight: $font-semibold;
 }

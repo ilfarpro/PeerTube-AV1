@@ -8,25 +8,8 @@
   class="peertube-container"
   [ngClass]="{ 'user-logged-in': isUserLoggedIn(), 'user-not-logged-in': !isUserLoggedIn(), 'hotkeys-modal-opened': hotkeysModalOpened }"
 >
-  <header class="root-header">
-
-    <div class="top-left-block">
-      <button
-        class="border-0 p-0" [title]="getToggleTitle()" (click)="menu.toggleMenu()" (keyup.enter)="menu.toggleMenu()"
-        [ariaExpanded]="menu.isMenuDisplayed" aria-controls="left-menu"
-      >
-        <span class="icon icon-menu"></span>
-      </button>
-
-      <a class="peertube-title c-hand" [routerLink]="getDefaultRoute()" [queryParams]="getDefaultRouteQuery()">
-        <span class="icon icon-logo"></span>
-        <span class="instance-name">{{ instanceName }}</span>
-      </a>
-    </div>
-
-    <div class="root-header-right">
-      <my-header class="w-100 d-flex justify-content-end"></my-header>
-    </div>
+  <header class="root-header mb-2">
+    <my-header class="w-100"></my-header>
   </header>
 
   <div class="sub-header-container">

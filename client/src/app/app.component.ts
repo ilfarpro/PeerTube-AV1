@@ -106,10 +106,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.ngbConfig.animation = false
   }
 
-  get instanceName () {
-    return this.serverConfig.instance.name
-  }
-
   ngOnInit () {
     document.getElementById('incompatible-browser').className += ' browser-ok'
 
@@ -159,22 +155,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   // ---------------------------------------------------------------------------
-
-  getDefaultRoute () {
-    return this.redirectService.getDefaultRoute().split('?')[0]
-  }
-
-  getDefaultRouteQuery () {
-    return this.router.parseUrl(this.redirectService.getDefaultRoute()).queryParams
-  }
-
-  // ---------------------------------------------------------------------------
-
-  getToggleTitle () {
-    if (this.menu.isDisplayed()) return $localize`Close the left menu`
-
-    return $localize`Open the left menu`
-  }
 
   isUserLoggedIn () {
     return this.authService.isLoggedIn()
