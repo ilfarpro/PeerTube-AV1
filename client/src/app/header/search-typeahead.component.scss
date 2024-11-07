@@ -57,8 +57,8 @@
 #typeahead-suggestion-help,
 #typeahead-input-help,
 .suggestion {
-  border: 1px solid pvar(--mainBackgroundColor);
-  background: pvar(--mainBackgroundColor);
+  border: 1px solid pvar(--bg);
+  background: pvar(--bg);
   transition: .3s ease;
   transition-property: box-shadow;
   cursor: pointer;

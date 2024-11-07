@@ -12,12 +12,7 @@ export class ScreenService {
     this.refreshWindowInnerWidth()
   }
 
-  isInSmallView (marginLeft = 0) {
-    if (marginLeft > 0) {
-      const contentWidth = this.getWindowInnerWidth() - marginLeft
-      return contentWidth < 800
-    }
-
+  isInSmallView () {
     return this.getWindowInnerWidth() < 800
   }
 

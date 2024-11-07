@@ -7,7 +7,7 @@
   display: block;
   z-index: z(modal);
   width: 100%;
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
   padding: 1rem;
   text-align: center;
   text-decoration: underline;
@@ -27,7 +27,7 @@
 
 .sub-header-container {
   margin-top: $header-height;
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   width: 100%;
 }
 
@@ -36,7 +36,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
 }
 
 .broadcast-message {

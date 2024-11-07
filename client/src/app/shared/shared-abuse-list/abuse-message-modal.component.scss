@@ -53,11 +53,11 @@ textarea {
   &.by-me {
 
     .bubble {
-      color: var(--mainBackgroundColor);
+      color: var(--bg);
       background-color: var(--mainColorLighter);
 
       .date {
-        color: var(--mainBackgroundColor);
+        color: var(--bg);
       }
     }
   }

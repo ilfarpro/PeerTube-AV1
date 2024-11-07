@@ -89,7 +89,7 @@ $input-border-radius: 3px;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 1fr;
 
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
 
     .nav-preview {
       grid-row: 1;
@@ -120,7 +120,7 @@ $input-border-radius: 3px;
       overflow-y: auto;
       word-wrap: break-word;
 
-      scrollbar-color: pvar(--actionButtonColor) pvar(--mainBackgroundColor);
+      scrollbar-color: pvar(--actionButtonColor) pvar(--bg);
     }
 
     textarea,

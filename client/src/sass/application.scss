@@ -33,7 +33,7 @@ body {
   --mainHoverColor: #{$main-hover-color};
   --mainBackgroundHoverColor: #{$main-background-hover-color};
 
-  --mainBackgroundColor: #{$bg-color};
+  --bg: #{$bg-color};
   --mainForegroundColor: #{$fg-color};
 
   --greyForegroundColor: #{$grey-foreground-color};
@@ -63,14 +63,27 @@ body {
 
   --activatedActionButtonColor: #{$activated-action-button-color};
 
-  --horizontalMarginContent: #{$not-expanded-horizontal-margins};
-  --videosHorizontalMarginContent: 6vw;
+  --horizontalMarginContent: 2rem;
+  --videosHorizontalMarginContent: 2rem;
   --mainColWidth: calc(100vw - #{$menu-width});
+
+  // Create a theme system using CSS variables
+  --fg: #0A0A0A;
+  --bg :#E9DFDF;
+
+  --primary: #FF8F37;
+
+  --secondary: #8D7777;
+  // --secondary-300: #E9DFDF;
+  // --secondary-400: #D4C7C7;
+
+  --secondary-text-emphasis: #553D3D;
+
 
   font-family: $main-fonts;
   font-weight: $font-regular;
-  color: pvar(--mainForegroundColor);
-  background-color: pvar(--mainBackgroundColor);
+  color: pvar(--fg);
+  background-color: pvar(--bg);
   font-size: 1rem;
 
   // On desktop browsers, make sure vertical scroll bar is always visible
@@ -83,7 +96,7 @@ body {
 }
 
 ::selection {
-  color: pvar(--mainBackgroundColor);
+  color: pvar(--bg);
   background-color: pvar(--mainHoverColor);
 }
 
@@ -175,7 +188,7 @@ code {
     display: block;
     z-index: z(modal);
     padding: 1rem;
-    background: pvar(--mainBackgroundColor);
+    background: pvar(--bg);
     text-align: center;
     text-decoration: underline;
   }
@@ -191,12 +204,11 @@ code {
 
   // Override some properties if the main content is expanded (no menu on the left)
   &.expanded {
-    --horizontalMarginContent: #{$expanded-horizontal-margins};
     --mainColWidth: 100vw;
 
-    width: calc(100% - 48px);
+    width: calc(100% - #{$collapsed-menu-width});
 
-    @include margin-left(48px);
+    @include margin-left($collapsed-menu-width);
   }
 
   &.lock-scroll .main-row > router-outlet + * {  /* stylelint-disable-line selector-max-compound-selectors */
@@ -237,27 +249,10 @@ my-global-icon[iconName=external-link] {
   top: -0.1em;
 }
 
-@media screen and (max-width: #{breakpoint(xxl)}) {
-  .main-col {
-    --horizontalMarginContent: #{math.div($not-expanded-horizontal-margins, 2)};
-    --videosHorizontalMarginContent: 30px;
-
-    &.expanded {
-      --horizontalMarginContent: #{math.div($expanded-horizontal-margins, 2)};
-    }
-  }
-}
-
 @media screen and (max-width: #{breakpoint(xl)}) {
-  .main-col {
-    --videosHorizontalMarginContent: #{pvar(--horizontalMarginContent)};
-  }
-
   /* the following applies from 500px to 900px and is partially overridden from 500px to 800px by changes below to $small-view */
   .main-col,
   .main-col.expanded {
-    --horizontalMarginContent: #{math.div($expanded-horizontal-margins, 3)};
-
     .sub-menu {
       padding: 0 50px;
 

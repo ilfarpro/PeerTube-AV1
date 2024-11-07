@@ -1,14 +1,14 @@
 <div class="position-relative" id="typeahead-container">
+  <button class="button-unstyle search-button" title="Search" i18n-title (click)="doSearch()">
+    <my-global-icon iconName="search"></my-global-icon>
+  </button>
+
   <input
     type="search" id="search-video" name="search-video" #searchVideo
     i18n-ariaLabel aria-label="Search videos, playlists, channels…" i18n-placeholder placeholder="Search videos, playlists, channels…"
     [(ngModel)]="search" (ngModelChange)="onSearchChange()" (keydown)="handleKey($event)"
     autocomplete="off" aria-describedby="typeahead-input-help"
   >
-
-  <button class="button-unstyle search-button" title="Search" i18n-title (click)="doSearch()">
-    <my-global-icon iconName="search"></my-global-icon>
-  </button>
 
   <div class="position-absolute jump-to-suggestions">
 

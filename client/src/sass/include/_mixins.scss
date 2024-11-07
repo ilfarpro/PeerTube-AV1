@@ -155,6 +155,124 @@
   }
 }
 
+@mixin primary-button {
+  @include button-focus(pvar(--primary-300));
+
+  &,
+  &:active,
+  &:focus {
+    color: pvar(--fg);
+    background-color: pvar(--primary);
+    border-color: inherit;
+  }
+
+  // Override bootstrap
+  &.btn:active,
+  &.btn:focus-visible,
+  &.btn.show {
+    color: pvar(--fg) !important;
+    background-color: pvar(--primary) !important;
+    border-color: inherit !important;
+  }
+
+  &:hover {
+    color: pvar(--fg);
+    background-color: pvar(--primary-400);
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  my-global-icon {
+    @include apply-svg-color(pvar(--fg));
+  }
+}
+
+
+ @mixin secondary-button {
+  & {
+    color: pvar(--fg);
+    background-color: transparent;
+    border: 1px solid pvar(--secondary-400);
+  }
+
+  &:active,
+  &:focus,
+  &:focus-visible {
+    color: pvar(--fg);
+    background-color: pvar(--secondary);
+    border-color: pvar(--secondary);
+  }
+
+  // Override bootstrap
+  &.btn:active,
+  &.btn:focus-visible,
+  &.btn.show {
+    color: pvar(--fg) !important;
+    background-color: pvar(--secondary) !important;
+    border-color: pvar(--secondary) !important;
+  }
+
+  &:hover {
+    color: pvar(--fg);
+    background-color: pvar(--secondary-400);
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  my-global-icon {
+    @include apply-svg-color(pvar(--secondary-400));
+  }
+}
+
+@mixin tertiary-button {
+  color: pvar(--secondary);
+  background-color: transparent;
+  border: 1px solid transparent;
+
+  &:hover {
+    color: pvar(--secondary);
+    background-color: pvar(--secondary-300);
+  }
+
+  &[disabled] {
+    cursor: default;
+  }
+
+  &:active {
+    background-color: pvar(--secondary-200);
+  }
+
+  &.show {
+    border-color: pvar(--secondary);
+  }
+
+  // Override bootstrap
+  &.btn:active {
+    background-color: pvar(--secondary-200) !important;
+  }
+
+  &.btn.show {
+    border-color: pvar(--secondary) !important;
+  }
+
+  @include button-focus(--secondary);
+}
+
+@mixin rounded-icon-button {
+  padding: 0.5rem;
+  border-radius: 100%;
+
+  my-global-icon {
+    width: 24px;
+  }
+}
+
 @mixin orange-button-inverted {
   padding: 2px 13px;
   border: 2px solid pvar(--mainColor);
@@ -166,7 +284,7 @@
   &:active,
   &:focus {
     color: pvar(--mainColor);
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
   }
 
   // Override bootstrap
@@ -174,7 +292,7 @@
   &.btn:focus-visible,
   &.btn.show {
     color: pvar(--mainColor);
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
     border-color: inherit !important;
   }
 
@@ -191,21 +309,6 @@
 
   my-global-icon {
     @include apply-svg-color(pvar(--mainColor));
-  }
-}
-
-@mixin tertiary-button {
-  color: pvar(--greyForegroundColor);
-  background-color: transparent;
-
-  @include button-focus($grey-button-outline-color);
-
-  &[disabled] {
-    cursor: default;
-  }
-
-  my-global-icon {
-    @include apply-svg-color(transparent);
   }
 }
 
@@ -346,7 +449,7 @@
     filter: alpha(opacity=0);
     opacity: 0;
     outline: none;
-    background: pvar(--mainBackgroundColor);
+    background: pvar(--bg);
     cursor: inherit;
     display: block;
   }
@@ -539,8 +642,8 @@
       height: 12px;
       opacity: 0;
       transform: rotate(45deg) scale(0);
-      border-right: 2px solid pvar(--mainBackgroundColor);
-      border-bottom: 2px solid pvar(--mainBackgroundColor);
+      border-right: 2px solid pvar(--bg);
+      border-bottom: 2px solid pvar(--bg);
     }
   }
 
@@ -625,7 +728,7 @@
   }
 }
 
-@mixin divider($color: pvar(--submenuBackgroundColor), $background: pvar(--mainBackgroundColor)) {
+@mixin divider($color: pvar(--submenuBackgroundColor), $background: pvar(--bg)) {
   width: 95%;
   border-top: .05rem solid $color;
   height: .05rem;

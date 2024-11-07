@@ -29,7 +29,7 @@ my-video-thumbnail,
 .video {
   display: grid;
   grid-template-columns: 1fr auto;
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   padding: 10px;
   border-bottom: 1px solid $separator-border-color;
 

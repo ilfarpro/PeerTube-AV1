@@ -1,35 +1,14 @@
+import { Injectable } from '@angular/core'
 import { fromEvent } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
-import { Injectable } from '@angular/core'
-import { GlobalIconName } from '@app/shared/shared-icons/global-icon.component'
-import { HTMLServerConfig } from '@peertube/peertube-models'
 import { LocalStorageService, ScreenService } from '../wrappers'
-
-export type MenuLink = {
-  icon: GlobalIconName
-  iconClass?: string
-
-  label: string
-  // Used by the left menu for example
-  shortLabel: string
-
-  path: string
-
-  isPrimaryButton?: boolean // default false
-}
-
-export type MenuSection = {
-  key: string
-  title: string
-  links: MenuLink[]
-}
 
 @Injectable()
 export class MenuService {
   private static LS_MENU_COLLAPSED = 'menu-collapsed'
 
-  isMenuCollapsed = false
-  isMenuChangedByUser = false
+  private menuCollapsed = false
+  private menuChangedByUser = false
 
   constructor (
     private screenService: ScreenService,
@@ -42,27 +21,32 @@ export class MenuService {
 
     this.handleWindowResize()
 
-    this.isMenuCollapsed = this.localStorageService.getItem(MenuService.LS_MENU_COLLAPSED) === 'true'
+    this.menuCollapsed = this.localStorageService.getItem(MenuService.LS_MENU_COLLAPSED) === 'true'
+    this.menuChangedByUser = this.menuCollapsed
+  }
+
+  isMenuCollapsed () {
+    return this.menuCollapsed
   }
 
   toggleMenu () {
-    this.setMenuCollapsed(!this.isMenuCollapsed)
-    this.isMenuChangedByUser = true
+    this.setMenuCollapsed(!this.menuCollapsed)
+    this.menuChangedByUser = true
 
-    this.localStorageService.setItem(MenuService.LS_MENU_COLLAPSED, this.isMenuCollapsed + '')
+    this.localStorageService.setItem(MenuService.LS_MENU_COLLAPSED, this.menuCollapsed + '')
   }
 
   isCollapsed () {
-    return this.isMenuCollapsed
+    return this.menuCollapsed
   }
 
   setMenuCollapsed (collapsed: boolean) {
-    this.isMenuCollapsed = collapsed
+    this.menuCollapsed = collapsed
 
     if (!this.screenService.isInTouchScreen()) return
 
     // On touch screens, lock body scroll and display content overlay when memu is opened
-    if (!this.isMenuCollapsed) {
+    if (!this.menuCollapsed) {
       document.body.classList.add('menu-open')
       this.screenService.onFingerSwipe('left', () => this.setMenuCollapsed(true))
       return
@@ -72,7 +56,9 @@ export class MenuService {
   }
 
   onResize () {
-    this.isMenuCollapsed = window.innerWidth < 800 && !this.isMenuChangedByUser
+    if (this.screenService.isInSmallView() && !this.menuChangedByUser) {
+      this.menuCollapsed = true
+    }
   }
 
   // ---------------------------------------------------------------------------

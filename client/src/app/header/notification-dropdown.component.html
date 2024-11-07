@@ -4,7 +4,7 @@
 </ng-template>
 
 @if (isInMobileView) {
-  <div i18n-title title="View your notifications" class="notification-inbox-link">
+  <div i18n-title title="View your notifications" class="peertube-button tertiary-button rounded-icon-button">
     <ng-container *ngTemplateOutlet="notificationNumber"></ng-container>
 
     <a routerLink="/my-account/notifications" routerLinkActive="active" #link (click)="onNavigate(link)">
@@ -17,8 +17,8 @@
     #dropdown="ngbDropdown" (shown)="onDropdownShown()" (hidden)="onDropdownHidden()"
   >
     <button
-      i18n-title title="View your notifications"
-      class="border-0 text-start disable-dropdown-caret" [ngClass]="{ 'notification-inbox-dropdown': true, 'shown': opened, 'hidden': isInMobileView }"
+      i18n-title title="View your notifications" class="peertube-button tertiary-button rounded-icon-button disable-dropdown-caret"
+      [ngClass]="{ 'notification-inbox-dropdown': true, 'shown': opened, 'hidden': isInMobileView }"
       ngbDropdownToggle
     >
       <ng-container *ngTemplateOutlet="notificationNumber"></ng-container>
@@ -34,13 +34,14 @@
           <div>
             <button
               *ngIf="unreadNotifications"
-              i18n-title title="Mark all as read" class="me-2"
+              i18n-title title="Mark all as read" class="me-2 peertube-button tertiary-button rounded-icon-button"
               (click)="markAllAsRead()"
             >
               <my-global-icon iconName="tick"></my-global-icon>
             </button>
 
             <a
+              class="peertube-button-link tertiary-button rounded-icon-button"
               i18n-title title="Update your notification preferences"
               routerLink="/my-account/settings" fragment="notifications"
               #settingsNotifications (click)="onNavigate(settingsNotifications)"

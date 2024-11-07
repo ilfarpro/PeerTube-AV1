@@ -1,22 +1,19 @@
-import { delay, forkJoin } from 'rxjs'
-import { filter, first, map } from 'rxjs/operators'
-import { DOCUMENT, getLocaleDirection, PlatformLocation, NgIf, NgClass } from '@angular/common'
+import { DOCUMENT, getLocaleDirection, NgClass, NgIf, PlatformLocation } from '@angular/common'
 import { AfterViewInit, Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { Event, GuardsCheckStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterLink, RouterOutlet } from '@angular/router'
 import {
   AuthService,
+  Hotkey,
+  HotkeysService,
   MarkdownService,
   PeerTubeRouterService,
-  RedirectService,
   ScreenService,
   ScrollService,
   ServerService,
   ThemeService,
   User,
-  UserLocalStorageService,
-  Hotkey,
-  HotkeysService
+  UserLocalStorageService
 } from '@app/core'
 import { HooksService } from '@app/core/plugins/hooks.service'
 import { PluginService } from '@app/core/plugins/plugin.service'
@@ -25,20 +22,22 @@ import { AdminWelcomeModalComponent } from '@app/modal/admin-welcome-modal.compo
 import { CustomModalComponent } from '@app/modal/custom-modal.component'
 import { InstanceConfigWarningModalComponent } from '@app/modal/instance-config-warning-modal.component'
 import { NgbConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { LoadingBarService, LoadingBarModule } from '@ngx-loading-bar/core'
+import { LoadingBarModule, LoadingBarService } from '@ngx-loading-bar/core'
 import { getShortLocale } from '@peertube/peertube-core-utils'
 import { BroadcastMessageLevel, HTMLServerConfig, UserRole } from '@peertube/peertube-models'
 import { logger } from '@root-helpers/logger'
 import { peertubeLocalStorage } from '@root-helpers/peertube-web-storage'
-import { MenuService } from './core/menu/menu.service'
-import { POP_STATE_MODAL_DISMISS } from './helpers'
 import { SharedModule } from 'primeng/api'
 import { ToastModule } from 'primeng/toast'
+import { delay, forkJoin } from 'rxjs'
+import { filter, first, map } from 'rxjs/operators'
+import { MenuService } from './core/menu/menu.service'
+import { HeaderComponent } from './header/header.component'
+import { POP_STATE_MODAL_DISMISS } from './helpers'
+import { HotkeysCheatSheetComponent } from './hotkeys/hotkeys-cheat-sheet.component'
+import { MenuComponent } from './menu/menu.component'
 import { ConfirmComponent } from './modal/confirm.component'
 import { GlobalIconComponent, GlobalIconName } from './shared/shared-icons/global-icon.component'
-import { MenuComponent } from './menu/menu.component'
-import { HeaderComponent } from './header/header.component'
-import { HotkeysCheatSheetComponent } from './hotkeys/hotkeys-cheat-sheet.component'
 import { InstanceService } from './shared/shared-main/instance/instance.service'
 
 @Component({
@@ -89,7 +88,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private pluginService: PluginService,
     private instanceService: InstanceService,
     private domSanitizer: DomSanitizer,
-    private redirectService: RedirectService,
     private screenService: ScreenService,
     private hotkeysService: HotkeysService,
     private themeService: ThemeService,

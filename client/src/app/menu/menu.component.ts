@@ -6,8 +6,6 @@ import {
   AuthStatus,
   AuthUser,
   HooksService,
-  MenuLink,
-  MenuSection,
   MenuService,
   ServerService,
   UserService
@@ -24,8 +22,27 @@ import debug from 'debug'
 import { of, Subscription } from 'rxjs'
 import { first, map, switchMap } from 'rxjs/operators'
 import { LanguageChooserComponent } from './language-chooser.component'
-import { NotificationDropdownComponent } from './notification-dropdown.component'
+import { NotificationDropdownComponent } from '../header/notification-dropdown.component'
 import { QuickSettingsModalComponent } from './quick-settings-modal.component'
+
+type MenuLink = {
+  icon: GlobalIconName
+  iconClass?: string
+
+  label: string
+  // Used by the left menu for example
+  shortLabel: string
+
+  path: string
+
+  isPrimaryButton?: boolean // default false
+}
+
+type MenuSection = {
+  key: string
+  title: string
+  links: MenuLink[]
+}
 
 const debugLogger = debug('peertube:menu:MenuComponent')
 

@@ -31,21 +31,21 @@ body {
   --bs-border-color-translucent: #{pvar(--inputBorderColor)};
 
   --bs-body-color: #{pvar(--mainForegroundColor)};
-  --bs-body-bg: #{pvar(--mainBackgroundColor)};
+  --bs-body-bg: #{pvar(--bg)};
 
   --bs-emphasis-color: #{pvar(--mainForegroundColor)};
 }
 
 .accordion {
   --bs-accordion-color: #{pvar(--mainForegroundColor)};
-  --bs-accordion-bg: #{pvar(--mainBackgroundColor)};
+  --bs-accordion-bg: #{pvar(--bg)};
 
   --bs-accordion-btn-color: var(--bs-accordion-color);
   --bs-accordion-btn-bg: var(--bs-accordion-bg);
 }
 
 .popover {
-  --bs-popover-bg: #{pvar(--mainBackgroundColor)};
+  --bs-popover-bg: #{pvar(--bg)};
   --bs-popover-body-color: #{pvar(--mainForegroundColor)};
   --bs-popover-header-color: #{pvar(--mainForegroundColor)};
 
@@ -89,7 +89,7 @@ body {
     padding: 3px 15px;
 
     &.active {
-      color: pvar(--mainBackgroundColor) !important;
+      color: pvar(--bg) !important;
       background-color: pvar(--mainColor);
       font-weight: $font-semibold;
     }
@@ -148,7 +148,7 @@ body {
   text-align: center;
 
   .modal-content {
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
     word-break: break-word;
   }
 
@@ -258,7 +258,7 @@ body {
 
   &.active {
     color: pvar(--mainForegroundColor);
-    background-color: pvar(--mainBackgroundColor) !important;
+    background-color: pvar(--bg) !important;
     border-bottom-color: pvar(--mainColor);
   }
 
@@ -275,7 +275,7 @@ body {
 // ---------------------------------------------------------------------------
 
 .card {
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   border-color: #dee2e6;
 }
 

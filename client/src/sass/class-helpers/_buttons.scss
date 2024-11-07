@@ -16,18 +16,28 @@
   @include peertube-button-big-link;
 }
 
-.orange-button,
-.primary-button {
+.orange-button {
   @include orange-button;
+}
+
+.primary-button {
+  @include primary-button;
+}
+
+.rounded-icon-button {
+  @include rounded-icon-button;
 }
 
 .orange-button-inverted {
   @include orange-button-inverted;
 }
 
-.grey-button,
-.secondary-button {
+.grey-button {
   @include grey-button;
+}
+
+.secondary-button {
+  @include secondary-button;
 }
 
 .tertiary-button {

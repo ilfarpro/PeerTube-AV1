@@ -12,7 +12,7 @@
   left: 0;
   color: pvar(--mainForegroundColor);
   font-size: 1em;
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
 }
 
 .cfp-hotkeys-container.fade {
@@ -57,7 +57,7 @@
 
   > span {
     display: inline-block;
-    color: pvar(--mainBackgroundColor);
+    color: pvar(--bg);
     background-color: pvar(--mainForegroundColor);
     border: 1px solid pvar(--mainForegroundColor);
     border-radius: 5px;

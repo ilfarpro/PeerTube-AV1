@@ -97,7 +97,7 @@
 }
 
 .owner-block {
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   padding: 30px;
   width: 300px;
   font-size: var(--myFontSize);
@@ -129,7 +129,7 @@
     max-height: 140px;
     word-break: break-word;
 
-    @include fade-text(120px, pvar(--mainBackgroundColor));
+    @include fade-text(120px, pvar(--bg));
   }
 }
 
@@ -220,7 +220,7 @@ my-copy-button {
       grid-column: 2;
       max-height: 70px;
 
-      @include fade-text(30px, pvar(--mainBackgroundColor));
+      @include fade-text(30px, pvar(--bg));
     }
 
     .view-account {

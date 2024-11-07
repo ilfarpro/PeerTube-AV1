@@ -12,13 +12,13 @@ a {
 
     &.focus-visible {
       background-color: pvar(--mainHoverColor);
-      color: pvar(--mainBackgroundColor);
+      color: pvar(--bg);
     }
   }
 }
 
 .result-type {
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   color: pvar(--mainForegroundColor);
 }
 

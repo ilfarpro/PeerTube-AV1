@@ -28,7 +28,7 @@
 
   .progress-bar {
     font-weight: $font-semibold;
-    color: pvar(--mainBackgroundColor);
+    color: pvar(--bg);
     background-color: pvar(--mainColor);
     display: flex;
     flex-direction: column;

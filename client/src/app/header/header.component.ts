@@ -5,7 +5,6 @@ import {
   AuthService,
   AuthStatus,
   AuthUser,
-  HooksService,
   HotkeysService,
   MenuService,
   RedirectService,
@@ -13,9 +12,9 @@ import {
   ServerService,
   UserService
 } from '@app/core'
+import { NotificationDropdownComponent } from '@app/header/notification-dropdown.component'
 import { scrollToTop } from '@app/helpers'
 import { LanguageChooserComponent } from '@app/menu/language-chooser.component'
-import { NotificationDropdownComponent } from '@app/menu/notification-dropdown.component'
 import { QuickSettingsModalComponent } from '@app/menu/quick-settings-modal.component'
 import { ActorAvatarComponent } from '@app/shared/shared-actor-image/actor-avatar.component'
 import { InputSwitchComponent } from '@app/shared/shared-forms/input-switch.component'
@@ -60,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('dropdown') dropdown: NgbDropdown
 
   user: AuthUser
-  isLoggedIn: boolean
+  loggedIn: boolean
 
   hotkeysHelpVisible = false
 
@@ -68,6 +67,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   nsfwPolicy: string
 
   currentInterfaceLanguage: string
+
+  loaded = false
 
   private languages: VideoConstant<string>[] = []
 
@@ -88,8 +89,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private screenService: ScreenService,
     private menuService: MenuService,
     private modalService: PeertubeModalService,
-    private router: Router,
-    private hooks: HooksService
+    private router: Router
   ) { }
 
   get isInMobileView () {
@@ -111,14 +111,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit () {
     this.currentInterfaceLanguage = this.languageChooserModal.getCurrentLanguage()
 
-    this.isLoggedIn = this.authService.isLoggedIn()
+    this.loggedIn = this.authService.isLoggedIn()
     this.updateUserState()
 
     this.authSub = this.authService.loginChangedSource.subscribe(status => {
       if (status === AuthStatus.LoggedIn) {
-        this.isLoggedIn = true
+        this.loggedIn = true
       } else if (status === AuthStatus.LoggedOut) {
-        this.isLoggedIn = false
+        this.loggedIn = false
       }
 
       this.updateUserState()
@@ -141,6 +141,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.quickSettingsModalSub = this.modalService.openQuickSettingsSubject
       .subscribe(() => this.openQuickSettings())
+
+    this.loaded = true
   }
 
   ngOnDestroy () {
@@ -288,7 +290,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private updateUserState () {
-    this.user = this.isLoggedIn
+    this.user = this.loggedIn
       ? this.authService.getUser()
       : undefined
 

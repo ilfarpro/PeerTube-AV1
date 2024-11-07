@@ -80,7 +80,7 @@ $nav-link-height: 40px;
     /* Hide active tab style to not have a moving tab effect */
     a.nav-link.active {
       border-color: transparent;
-      background-color: pvar(--mainBackgroundColor) !important;
+      background-color: pvar(--bg) !important;
     }
   }
 }

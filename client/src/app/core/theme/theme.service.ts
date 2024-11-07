@@ -9,11 +9,13 @@ import { PluginService } from '../plugins/plugin.service'
 import { ServerService } from '../server'
 import { UserService } from '../users/user.service'
 import { LocalStorageService } from '../wrappers/storage.service'
+import { darken, lighten, format, parse, blend } from 'color-bits'
 
 @Injectable()
 export class ThemeService {
-
+  private oldInjectedProperties: string[] = []
   private oldThemeName: string
+
   private themes: ServerConfigTheme[] = []
 
   private themeFromLocalStorage: ServerConfigTheme
@@ -103,7 +105,7 @@ export class ThemeService {
     return instanceTheme
   }
 
-  private loadTheme (name: string) {
+  private loadThemeStyle (name: string) {
     const links = document.getElementsByTagName('link')
     for (let i = 0; i < links.length; i++) {
       const link = links[i]
@@ -120,7 +122,7 @@ export class ThemeService {
 
     logger.info(`Enabling ${currentTheme} theme.`)
 
-    this.loadTheme(currentTheme)
+    this.loadThemeStyle(currentTheme)
 
     const theme = this.getTheme(currentTheme)
     if (theme) {
@@ -135,7 +137,57 @@ export class ThemeService {
       this.localStorageService.removeItem(UserLocalStorageKeys.LAST_ACTIVE_THEME, false)
     }
 
+    this.injectColorPalette()
+
     this.oldThemeName = currentTheme
+  }
+
+  private injectColorPalette () {
+    const style = document.body.style
+    const computedStyle = getComputedStyle(document.body)
+
+    // FIXME: Remove previously injected properties
+    for (const property of this.oldInjectedProperties) {
+      style.removeProperty(property)
+    }
+
+    this.oldInjectedProperties = []
+
+    const lightenRatios = [
+      { suffix: 100, value: 0.8 },
+      { suffix: 200, value: 0.6 },
+      { suffix: 300, value: 0.4 },
+      { suffix: 400, value: 0.2 },
+      { suffix: 500, value: 0 }
+    ]
+
+    const darkenRatios = [
+      { suffix: 600, value: 0.2 },
+      { suffix: 700, value: 0.4 },
+      { suffix: 800, value: 0.6 },
+      { suffix: 900, value: 0.8 }
+    ]
+
+    for (const prefix of [ 'primary', 'secondary' ]) {
+      const mainColor = computedStyle.getPropertyValue('--' + prefix)
+
+      if (!mainColor) {
+        console.error(`Cannot create palette of unexisting "--${prefix}" CSS body variable`)
+        continue
+      }
+
+      const mainColorParsed = parse(mainColor)
+      for (const { ratios, color } of [ { ratios: lightenRatios, color: parse('#fff') }, { ratios: darkenRatios, color: parse('#000') } ]) {
+        for (const ratio of ratios) {
+          const key = `--${prefix}-${ratio.suffix}`
+
+          if (!computedStyle.getPropertyValue(key)) {
+            style.setProperty(key, format(blend(mainColorParsed, color, ratio.value)))
+            this.oldInjectedProperties.push(key)
+          }
+        }
+      }
+    }
   }
 
   private listenUserTheme () {

@@ -39,7 +39,7 @@ header {
     width: $size;
     height: $size;
     border-radius: $size;
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
     position: absolute;
     bottom: 0;
     right: 0;
@@ -77,7 +77,7 @@ header {
   &.completed {
     .step-index {
       background-color: pvar(--mainColor);
-      color: pvar(--mainBackgroundColor);
+      color: pvar(--bg);
     }
 
     .step-label {

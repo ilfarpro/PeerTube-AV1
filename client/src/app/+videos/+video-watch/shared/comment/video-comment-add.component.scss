@@ -67,8 +67,8 @@ form {
     &:hover {
       my-global-icon svg {
         background-color: pvar(--inputBorderColor);
-        color: pvar(--mainBackgroundColor);
-        fill: pvar(--mainBackgroundColor);
+        color: pvar(--bg);
+        fill: pvar(--bg);
       }
     }
   }

@@ -50,7 +50,7 @@ a {
   @include disable-default-a-behaviour;
 
   &:hover {
-    color: pvar(--mainBackgroundColor);
+    color: pvar(--bg);
   }
 }
 

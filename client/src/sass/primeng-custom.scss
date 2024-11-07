@@ -146,7 +146,7 @@ body .p-paginator .p-dropdown {
 // Dropdown
 
 body .p-dropdown {
-  background: pvar(--mainBackgroundColor);;
+  background: pvar(--bg);;
   border: 1px solid pvar(--inputBorderColor);
   transition: border-color 0.2s, box-shadow 0.2s;
   border-radius: 3px;
@@ -190,7 +190,7 @@ body .p-dropdown.p-dropdown-clearable .p-dropdown-label {
   @include padding-right(4em);
 }
 body .p-dropdown-panel {
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   border: 1px solid pvar(--inputBorderColor);
   border-radius: 6px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -199,7 +199,7 @@ body .p-dropdown-panel {
   padding: 0.429em 0.857em 0.429em 0.857em;
   border-bottom: 1px solid pvar(--mainColorVeryLight);
   color: pvar(--mainForegroundColor);
-  background-color: pvar(--mainBackgroundColor);
+  background-color: pvar(--bg);
   margin: 0;
 }
 .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
@@ -528,7 +528,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 // multiselect
 
 .p-multiselect {
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
   border: 1px solid pvar(--inputBorderColor);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   border-radius: 3px;
@@ -589,7 +589,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 }
 
 .p-multiselect-panel {
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
   color: pvar(--mainForegroundColor);
   border: 1px solid pvar(--inputBorderColor);
   border-radius: 3px;
@@ -599,7 +599,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
   padding: 0.429rem 0.857rem;
   border-bottom: 1px solid pvar(--inputBorderColor);
   color: pvar(--mainForegroundColor);
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
   margin: 0;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -651,7 +651,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
   margin-top: 0;
 }
 .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
-  color: pvar(--mainBackgroundColor);
+  color: pvar(--bg);
   background: pvar(--mainColor);
 }
 .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight.p-focus {
@@ -700,7 +700,7 @@ p-multiselect.ng-dirty.ng-invalid > .p-multiselect {
 .p-inputtext {
   font-size: 15px;
   color: pvar(--mainForegroundColor);
-  background: pvar(--mainBackgroundColor);
+  background: pvar(--bg);
   padding: 3px 15px;
   border: 1px solid pvar(--inputBorderColor);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
@@ -758,7 +758,7 @@ p-table {
 
   .p-datatable-header {
     border: none !important;
-    background-color: pvar(--mainBackgroundColor) !important;
+    background-color: pvar(--bg) !important;
 
     .caption {
       min-height: 40px;
@@ -773,7 +773,7 @@ p-table {
   }
 
   th {
-    background-color: pvar(--mainBackgroundColor) !important;
+    background-color: pvar(--bg) !important;
     outline: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -802,7 +802,7 @@ p-table {
 
   tr {
     outline: 0;
-    background-color: pvar(--mainBackgroundColor) !important;
+    background-color: pvar(--bg) !important;
     height: 46px;
 
     &.p-highlight {
@@ -911,7 +911,7 @@ p-table {
 
   p-paginator {
     .p-paginator {
-      background-color: pvar(--mainBackgroundColor) !important;
+      background-color: pvar(--bg) !important;
       position: relative;
       border: none;
       border-top: 1px solid !important;
@@ -940,7 +940,7 @@ p-table {
       .p-dropdown,
       .p-dropdown-trigger {
         color: pvar(--mainForegroundColor);
-        background-color: pvar(--mainBackgroundColor);
+        background-color: pvar(--bg);
       }
 
       .p-paginator-current {
@@ -1070,7 +1070,7 @@ p-tablecheckbox:hover div .p-checkbox-box {
 
   .p-checkbox-box {
     &.p-highlight {
-      color: pvar(--mainBackgroundColor) !important;
+      color: pvar(--bg) !important;
       background-color: pvar(--mainColor) !important;
       border-color: pvar(--mainColor) !important;
     }
@@ -1101,7 +1101,7 @@ p-toast {
 
   .p-toast-message {
     font-family: $main-fonts;
-    background-color: pvar(--mainBackgroundColor) !important;
+    background-color: pvar(--bg) !important;
     color: pvar(--mainForegroundColor) !important;
     border-radius: 5px;
     box-sizing: border-box;

@@ -16,12 +16,14 @@
     @include margin-right(3px);
   }
 
-  &.has-icon {
-    @include button-with-icon(21px, 0);
-  }
+  &:not(.rounded-icon-button) {
+    &.has-icon {
+      @include button-with-icon(24px, 0);
+    }
 
-  &.icon-only {
-    padding: 6px 8px !important;
+    &.icon-only {
+      padding: 6px 8px !important;
+    }
   }
 }
 

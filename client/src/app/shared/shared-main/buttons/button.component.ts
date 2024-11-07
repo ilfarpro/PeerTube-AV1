@@ -17,13 +17,15 @@ import { LoaderComponent } from '../common/loader.component'
 
 export class ButtonComponent implements OnChanges, AfterViewInit {
   @Input() label = ''
-  @Input() theme: 'orange' | 'grey' | 'primary' | 'secondary' = 'grey'
+  @Input() theme: 'orange' | 'grey' | 'primary' | 'secondary' | 'tertiary' = 'grey'
   @Input() icon: GlobalIconName
   @Input() ptRouterLink: string[] | string
   @Input() title: string
+
   @Input({ transform: booleanAttribute }) loading = false
   @Input({ transform: booleanAttribute }) disabled = false
   @Input({ transform: booleanAttribute }) responsiveLabel = false
+  @Input({ transform: booleanAttribute }) rounded = false
 
   @ViewChild('labelContent') labelContent: ElementRef
 
@@ -45,7 +47,9 @@ export class ButtonComponent implements OnChanges, AfterViewInit {
       'grey-button': this.theme === 'grey',
       'primary-button': this.theme === 'primary',
       'secondary-button': this.theme === 'secondary',
+      'tertiary-button': this.theme === 'tertiary',
       'has-icon': !!this.icon,
+      'rounded-icon-button': !!this.rounded,
       'icon-only': !(this.labelContent?.nativeElement as HTMLElement)?.innerText,
       'responsive-label': this.responsiveLabel
     }

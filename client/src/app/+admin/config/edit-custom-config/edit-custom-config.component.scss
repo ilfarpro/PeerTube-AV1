@@ -138,7 +138,7 @@ ngb-tabset:not(.previews) ::ng-deep {
     top: .3em;
     font-size: 90%;
     color: pvar(--mainColor);
-    background-color: pvar(--mainBackgroundColor);
+    background-color: pvar(--bg);
     padding: 0 .3em;
 
     @include peertube-button-link;

@@ -42,12 +42,11 @@ ul {
 }
 
 .toggle-menu {
-  color: pvar(--menuForegroundColor);
+  color: pvar(--secondary);
   width: 24px;
   height: 24px;
   border-radius: 100%;
-  background-color: #3C2E2E;
-  color: #C1B0B0;
+  background-color: pvar(--secondary-400);
 
   @include button-with-icon(20px, 0, -1px, 1px);
 }
@@ -69,8 +68,7 @@ ul {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   border-radius: 14px;
-  background-color: pvar(--menuBackgroundColor);
-  color: pvar(--menuForegroundColor);
+  background-color: pvar(--secondary-300);
   overflow-y: auto;
   scrollbar-color: transparent transparent;
 
@@ -111,7 +109,7 @@ ul {
     content: '';
     display: block;
     height: 2px;
-    background: #3C2E2E;
+    background: pvar(--secondary);
     margin: 1rem var(--menuXPadding);
   }
 }
@@ -130,10 +128,11 @@ ul {
   display: flex;
   align-items: center;
 
-  color: pvar(--menuForegroundColor);
+  color: pvar(--fg);
+  color: #2b2f32;
   white-space: normal;
   word-break: break-word;
-  transition: background-color .1s ease-in-out;
+  transition: background-color .1s ease-inF-out;
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -154,6 +153,7 @@ ul {
     height: 22px;
     position: relative;
     top: -1px;
+    color: pvar(--secondary);
 
     + *:not(.visually-hidden) {
       @include margin-left(12px);
@@ -173,5 +173,6 @@ ul {
 .about {
   .description {
     font-size: 14px;
+    color: pvar(--secondary-text-emphasis);
   }
 }

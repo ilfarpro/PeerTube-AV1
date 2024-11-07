@@ -12,7 +12,7 @@ p-inputmask {
     }
 
     &:disabled {
-      background: pvar(--mainBackgroundColor);
+      background: pvar(--bg);
       opacity: 0.5;
     }
   }

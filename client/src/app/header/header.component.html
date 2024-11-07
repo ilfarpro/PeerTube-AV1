@@ -4,10 +4,10 @@
     <span class="instance-name">{{ instanceName }}</span>
   </a>
 
-  <div class="d-flex align-items-center">
+  <div class="d-flex align-items-center" [hidden]="!loaded">
     <my-search-typeahead class="w-100 me-5"></my-search-typeahead>
 
-    @if (!isLoggedIn) {
+    @if (!loaded) {
       <my-button class="me-3" icon="cog" (click)="openQuickSettings()"></my-button>
 
       <a *ngIf="isRegistrationAllowed()" routerLink="/signup" class="create-account-button peertube-button-link text-truncate d-block">
@@ -16,18 +16,16 @@
 
       <my-login-link className="peertube-button-link orange-button w-100 text-truncate"></my-login-link>
     } @else {
-      @defer (when isLoggedIn) {
-        <my-notification-dropdown class="me-3" (navigate)="onActiveLinkScrollToAnchor($event)"></my-notification-dropdown>
-      }
+      <my-notification-dropdown class="me-3" (navigate)="onActiveLinkScrollToAnchor($event)"></my-notification-dropdown>
 
-      <my-button class="me-3" icon="cog" ptRouterLink="/my-account"></my-button>
+      <my-button theme="tertiary" rounded="true" class="me-3" icon="cog" ptRouterLink="/my-account"></my-button>
 
       <div
         class="logged-in-more" ngbDropdown #dropdown="ngbDropdown" placement="bottom-left auto"
         container="body" (openChange)="onDropdownOpenChange($event)"
       >
         <button class="button-unstyle" ngbDropdownToggle>
-          <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar>
+          <!-- <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar> -->
 
           <div class="logged-in-info text-start">
             <div class="display-name ellipsis">{{ user.account?.displayName }}</div>
@@ -45,7 +43,7 @@
             *ngIf="user.account" ngbDropdownItem ngbDropdownToggle class="dropdown-item" [routerLink]="[ '/a', user.account.nameWithHost ]"
             #profile (click)="onActiveLinkScrollToAnchor(profile)"
           >
-            <my-global-icon iconName="go" aria-hidden="true"></my-global-icon> <ng-container i18n>Public profile</ng-container>
+            <my-global-icon iconName="user" aria-hidden="true"></my-global-icon> <ng-container i18n>Public profile</ng-container>
           </a>
 
           <div class="dropdown-divider"></div>
@@ -86,7 +84,7 @@
           <div class="dropdown-divider"></div>
 
           <button *ngIf="!isInMobileView" ngbDropdownItem class="dropdown-item" (click)="openHotkeysCheatSheet()">
-            <my-global-icon iconName="command" aria-hidden="true"></my-global-icon>
+            <my-global-icon iconName="keyboard" aria-hidden="true"></my-global-icon>
             <ng-container i18n>Keyboard shortcuts</ng-container>
           </button>
 

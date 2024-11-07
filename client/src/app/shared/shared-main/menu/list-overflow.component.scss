@@ -57,7 +57,7 @@ button {
     @include disable-default-a-behaviour;
 
     &.active {
-      color: pvar(--mainBackgroundColor) !important;
+      color: pvar(--bg) !important;
       background-color: pvar(--mainHoverColor);
       opacity: .9;
     }
