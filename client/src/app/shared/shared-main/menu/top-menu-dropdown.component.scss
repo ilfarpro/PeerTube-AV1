@@ -1,12 +1,6 @@
 @use '_variables' as *;
 @use '_mixins' as *;
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .sub-menu ::ng-deep .dropdown-toggle::after {
   position: relative;
   top: 2px;

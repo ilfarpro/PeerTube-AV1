@@ -6,12 +6,12 @@
   line-height: 42px;
 
   @include peertube-input-text(270px, 14px);
-  @include padding-left(42px); // For the search icon
-  @include padding-right(20px);
 
   & {
     padding-top: 6px;
     padding-bottom: 6px;
+    padding-inline-start: 42px; // For the search icon
+    padding-inline-end: 20px; // For the search icon
   }
 
   &::placeholder {

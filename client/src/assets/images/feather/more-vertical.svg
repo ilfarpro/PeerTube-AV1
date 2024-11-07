@@ -1,8 +1,1 @@
-<svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M2 8.875C2.48325 8.875 2.875 8.48325 2.875 8C2.875 7.51675 2.48325 7.125 2 7.125C1.51675 7.125 1.125 7.51675 1.125 8C1.125 8.48325 1.51675 8.875 2 8.875Z" fill="currentColor"/>
-  <path d="M2 8.875C2.48325 8.875 2.875 8.48325 2.875 8C2.875 7.51675 2.48325 7.125 2 7.125C1.51675 7.125 1.125 7.51675 1.125 8C1.125 8.48325 1.51675 8.875 2 8.875Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/>
-  <path d="M2 2.75C2.48325 2.75 2.875 2.35825 2.875 1.875C2.875 1.39175 2.48325 1 2 1C1.51675 1 1.125 1.39175 1.125 1.875C1.125 2.35825 1.51675 2.75 2 2.75Z" fill="currentColor"/>
-  <path d="M2 2.75C2.48325 2.75 2.875 2.35825 2.875 1.875C2.875 1.39175 2.48325 1 2 1C1.51675 1 1.125 1.39175 1.125 1.875C1.125 2.35825 1.51675 2.75 2 2.75Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/>
-  <path d="M2 15C2.48325 15 2.875 14.6082 2.875 14.125C2.875 13.6418 2.48325 13.25 2 13.25C1.51675 13.25 1.125 13.6418 1.125 14.125C1.125 14.6082 1.51675 15 2 15Z" fill="currentColor"/>
-  <path d="M2 15C2.48325 15 2.875 14.6082 2.875 14.125C2.875 13.6418 2.48325 13.25 2 13.25C1.51675 13.25 1.125 13.6418 1.125 14.125C1.125 14.6082 1.51675 15 2 15Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>

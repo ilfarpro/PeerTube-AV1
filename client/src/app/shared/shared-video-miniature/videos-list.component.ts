@@ -19,8 +19,8 @@ import { logger } from '@root-helpers/logger'
 import debug from 'debug'
 import { Observable, Subject, Subscription, forkJoin, fromEvent, of } from 'rxjs'
 import { concatMap, debounceTime, map, switchMap } from 'rxjs/operators'
-import { InfiniteScrollerDirective } from '../shared-main/common/infinite-scroller.directive'
 import { ButtonComponent } from '../shared-main/buttons/button.component'
+import { InfiniteScrollerDirective } from '../shared-main/common/infinite-scroller.directive'
 import { FeedComponent } from '../shared-main/feeds/feed.component'
 import { Syndication } from '../shared-main/feeds/syndication.model'
 import { Video } from '../shared-main/video/video.model'
@@ -73,11 +73,6 @@ enum GroupDate {
 export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() getVideosObservableFunction: (pagination: ComponentPaginationLight, filters: VideoFilters) => Observable<ResultList<Video>>
   @Input() getSyndicationItemsFunction: (filters: VideoFilters) => Promise<Syndication[]> | Syndication[]
-  @Input() baseRouteBuilderFunction: (filters: VideoFilters) => string[]
-
-  @Input() title: string
-  @Input() titleTooltip: string
-  @Input({ transform: booleanAttribute }) displayTitle = true
 
   @Input() defaultSort: VideoSortField
   @Input() defaultScope: VideoFilterScope = 'federated'
@@ -425,20 +420,6 @@ export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
       : baseQuery
 
     debugLogger('Will inject %O in URL query', queryParams)
-
-    const baseRoute = this.baseRouteBuilderFunction
-      ? this.baseRouteBuilderFunction(this.filters)
-      : []
-
-    const pathname = window.location.pathname
-
-    const baseRouteChanged = baseRoute.length !== 0 &&
-                             pathname !== '/' && // Exclude special '/' case, we'll be redirected without component change
-                             baseRoute.length !== 0 && pathname !== baseRoute.join('/')
-
-    if (baseRouteChanged || Object.keys(baseQuery).length !== 0 || customizedByUser) {
-      this.peertubeRouter.silentNavigate(baseRoute, queryParams)
-    }
 
     this.filtersChanged.emit(this.filters)
   }

@@ -1,0 +1,40 @@
+@use '_variables' as *;
+@use '_mixins' as *;
+
+.root {
+  width: 100%;
+  border-bottom: 1px solid pvar(--secondary-text-emphasis);
+}
+
+.x-menu-entry {
+  color: pvar(--secondary);
+  display: inline-block;
+  font-weight: $font-bold;
+  white-space: nowrap;
+
+  @include font-size(22px);
+  @include disable-default-a-behaviour;
+  @include margin-right(2rem);
+
+  &.active {
+    color: pvar(--fg);
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 4px;
+      background-color: pvar(--primary);
+      border-radius: 2px;
+      position: absolute;
+      bottom: -2px;
+      width: 100%;
+    }
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: pvar(--fg);
+  }
+}

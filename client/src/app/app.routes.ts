@@ -5,16 +5,12 @@ import { EmptyComponent } from './empty.component'
 import { HomepageRedirectComponent } from './homepage-redirect.component'
 import { USER_USERNAME_REGEX_CHARACTERS } from './shared/form-validators/user-validators'
 import { ActorRedirectGuard } from './shared/shared-main/router/actor-redirect-guard.service'
+import { VideosParentComponent } from './videos-parent.component'
 
 const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./+admin/routes'),
-    canActivateChild: [ MetaGuard ]
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./+home/routes'),
     canActivateChild: [ MetaGuard ]
   },
   {
@@ -128,11 +124,33 @@ const routes: Routes = [
       preload: 5000
     }
   },
+
+  // /home and other /videos routes
   {
-    path: 'videos',
-    loadChildren: () => import('./+videos/routes'),
-    canActivateChild: [ MetaGuard ]
+    matcher: (url): UrlMatchResult => {
+      if (url.length < 1) return null
+
+      const matchResult = url[0].path === 'home' || url[0].path === 'videos'
+      if (!matchResult) return null
+
+      // So the children can detect the appropriate route
+      return { consumed: [] }
+    },
+    component: VideosParentComponent,
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./+home/routes'),
+        canActivateChild: [ MetaGuard ]
+      },
+      {
+        path: 'videos',
+        loadChildren: () => import('./+videos/routes'),
+        canActivateChild: [ MetaGuard ]
+      }
+    ]
   },
+
   {
     path: 'video-playlists/watch',
     redirectTo: 'videos/watch/playlist'

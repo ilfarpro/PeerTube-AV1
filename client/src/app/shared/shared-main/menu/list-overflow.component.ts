@@ -1,5 +1,4 @@
-import { lowerFirst, uniqueId } from 'lodash-es'
-import { take } from 'rxjs/operators'
+import { NgClass, NgFor, NgIf, NgTemplateOutlet, SlicePipe } from '@angular/common'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,11 +12,11 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core'
+import { RouterLink, RouterLinkActive } from '@angular/router'
 import { ScreenService } from '@app/core'
-import { NgbDropdown, NgbModal, NgbDropdownAnchor, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap'
+import { NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import debug from 'debug'
-import { RouterLinkActive, RouterLink } from '@angular/router'
-import { NgFor, NgTemplateOutlet, NgIf, NgClass, SlicePipe } from '@angular/common'
+import { lowerFirst, uniqueId } from 'lodash-es'
 
 const debugLogger = debug('peertube:main:ListOverflowItem')
 
@@ -37,7 +36,7 @@ export interface ListOverflowItem {
     NgTemplateOutlet,
     NgIf,
     NgbDropdown,
-    NgbDropdownAnchor,
+    NgbDropdownToggle,
     NgClass,
     NgbDropdownMenu,
     RouterLinkActive,
@@ -54,10 +53,8 @@ export class ListOverflowComponent<T extends ListOverflowItem> implements AfterV
   @ViewChildren('itemsRendered') itemsRendered: QueryList<ElementRef>
 
   showItemsUntilIndexExcluded: number
-  active = false
   isInMobileView = false
-
-  private openedOnHover = false
+  initialized = false
 
   constructor (
     private cdr: ChangeDetectorRef,
@@ -66,7 +63,10 @@ export class ListOverflowComponent<T extends ListOverflowItem> implements AfterV
   ) {}
 
   ngAfterViewInit () {
-    setTimeout(() => this.onWindowResize(), 0)
+    setTimeout(() => {
+      this.onWindowResize()
+      this.initialized = true
+    }, 0)
   }
 
   isMenuDisplayed () {
@@ -98,32 +98,6 @@ export class ListOverflowComponent<T extends ListOverflowItem> implements AfterV
 
     this.showItemsUntilIndexExcluded = showItemsUntilIndexExcluded
     this.cdr.markForCheck()
-  }
-
-  openDropdownOnHover (dropdown: NgbDropdown) {
-    this.openedOnHover = true
-    dropdown.open()
-
-    // Menu was closed
-    dropdown.openChange
-            .pipe(take(1))
-            .subscribe(() => this.openedOnHover = false)
-  }
-
-  dropdownAnchorClicked (dropdown: NgbDropdown) {
-    if (this.openedOnHover) {
-      this.openedOnHover = false
-      return
-    }
-
-    return dropdown.toggle()
-  }
-
-  closeDropdownIfHovered (dropdown: NgbDropdown) {
-    if (this.openedOnHover === false) return
-
-    dropdown.close()
-    this.openedOnHover = false
   }
 
   toggleModal () {

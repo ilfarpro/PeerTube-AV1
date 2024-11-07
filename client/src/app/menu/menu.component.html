@@ -14,11 +14,11 @@
 
     <nav>
       <ng-container *ngFor="let menuSection of menuSections" >
-        <ul [ngClass]="[ menuSection.key, 'menu-block' ]">
+        <ul class="ul-unstyle" [ngClass]="[ menuSection.key, 'menu-block' ]">
           <li i18n>
             <div class="block-title ellipsis" [ngClass]="{ 'visually-hidden': collapsed }">{{ menuSection.title }}</div>
 
-            <ul>
+            <ul class="ul-unstyle">
               <li *ngFor="let link of menuSection.links">
                 @if (link.isPrimaryButton === true) {
                   <my-button class="d-block menu-button" theme="primary" [icon]="link.icon" [ariaLabel]="link.label" [ptRouterLink]="link.path">
@@ -44,7 +44,7 @@
 
       <div [ngClass]="{ 'visually-hidden': collapsed }" class="description">{{ shortDescription }}</div>
 
-      <my-button class="mt-2 d-block" theme="secondary" icon="help" i18n-ariaLabel aria-label="More info" i18n>
+      <my-button class="mt-2 d-block" theme="secondary" icon="help" i18n-ariaLabel aria-label="More info" i18n ptRouterLink="/about">
         @if (!collapsed) {
           More info
         }

@@ -16,7 +16,7 @@
   @include margin-right(55px);
 
   &.active {
-    border-bottom-color: pvar(--mainColor);
+    border-bottom-color: pvar(--primary);
   }
 
   &:hover,

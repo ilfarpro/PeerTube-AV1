@@ -4,11 +4,11 @@
     <span class="instance-name">{{ instanceName }}</span>
   </a>
 
-  <div class="d-flex align-items-center" [hidden]="!loaded">
+  <div class="d-flex align-items-center" [hidden]="!loaded || (loggedIn && !user.account)">
     <my-search-typeahead class="w-100 me-5"></my-search-typeahead>
 
-    @if (!loaded) {
-      <my-button class="me-3" icon="cog" (click)="openQuickSettings()"></my-button>
+    @if (!loggedIn) {
+      <my-button theme="tertiary" rounded="true" class="me-3" icon="cog" (click)="openQuickSettings()"></my-button>
 
       <a *ngIf="isRegistrationAllowed()" routerLink="/signup" class="create-account-button peertube-button-link text-truncate d-block">
         <my-signup-label [requiresApproval]="requiresApproval"></my-signup-label>
@@ -25,7 +25,7 @@
         container="body" (openChange)="onDropdownOpenChange($event)"
       >
         <button class="button-unstyle" ngbDropdownToggle>
-          <!-- <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar> -->
+          <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar>
 
           <div class="logged-in-info text-start">
             <div class="display-name ellipsis">{{ user.account?.displayName }}</div>

@@ -2,15 +2,6 @@
 @use '_variables' as *;
 @use '_mixins' as *;
 
-ul {
-  margin: 0;
-  padding: 0;
-
-  li {
-    list-style: none;
-  }
-}
-
 .menu-wrapper {
   --menuXPadding: 1.5rem;
 

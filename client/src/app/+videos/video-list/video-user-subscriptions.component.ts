@@ -29,8 +29,6 @@ export class VideoUserSubscriptionsComponent implements DisableForReuseHook {
     }
   ]
 
-  titlePage = $localize`Videos from your subscriptions`
-
   disabled = false
 
   private feedToken: string

@@ -79,7 +79,6 @@ body {
 
   --secondary-text-emphasis: #553D3D;
 
-
   font-family: $main-fonts;
   font-weight: $font-regular;
   color: pvar(--fg);
@@ -98,6 +97,11 @@ body {
 ::selection {
   color: pvar(--bg);
   background-color: pvar(--mainHoverColor);
+}
+
+// Force to override bootstrap utilities
+body [hidden] {
+  display: none !important;
 }
 
 noscript,

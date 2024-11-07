@@ -1,30 +1,23 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router'
-import { ComponentPaginationLight, DisableForReuseHook, MetaService, RedirectService, ServerService } from '@app/core'
+import { ActivatedRoute } from '@angular/router'
+import { ComponentPaginationLight, DisableForReuseHook, MetaService, ServerService } from '@app/core'
 import { HooksService } from '@app/core/plugins/hooks.service'
 import { VideoService } from '@app/shared/shared-main/video/video.service'
 import { VideoFilterScope, VideoFilters } from '@app/shared/shared-video-miniature/video-filters.model'
-import { ClientFilterHookName, VideoSortField } from '@peertube/peertube-models'
+import { VideoSortField } from '@peertube/peertube-models'
 import { Subscription } from 'rxjs'
 import { VideosListComponent } from '../../shared/shared-video-miniature/videos-list.component'
 
-export type VideosListCommonPageRouteData = {
-  sort: VideoSortField
-
-  scope: VideoFilterScope
-  hookParams: ClientFilterHookName
-  hookResult: ClientFilterHookName
-}
-
 @Component({
-  templateUrl: './videos-list-common-page.component.html',
+  templateUrl: './videos-list-all.component.html',
   standalone: true,
-  imports: [ VideosListComponent ]
+  imports: [
+    VideosListComponent
+  ]
 })
-export class VideosListCommonPageComponent implements OnInit, OnDestroy, DisableForReuseHook {
+export class VideosListAllComponent implements OnInit, OnDestroy, DisableForReuseHook {
   getVideosObservableFunction = this.getVideosObservable.bind(this)
   getSyndicationItemsFunction = this.getSyndicationItems.bind(this)
-  baseRouteBuilderFunction = this.baseRouteBuilder.bind(this)
 
   title: string
   titleTooltip: string
@@ -34,16 +27,12 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
   defaultSort: VideoSortField
   defaultScope: VideoFilterScope
 
-  hookParams: ClientFilterHookName
-  hookResult: ClientFilterHookName
-
   loadUserVideoPreferences = true
 
   displayFilters = true
 
   disabled = false
 
-  private trendingDays: number
   private routeSub: Subscription
 
   constructor (
@@ -51,17 +40,15 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
     private route: ActivatedRoute,
     private videoService: VideoService,
     private hooks: HooksService,
-    private meta: MetaService,
-    private redirectService: RedirectService
+    private meta: MetaService
   ) {
   }
 
   ngOnInit () {
-    this.trendingDays = this.server.getHTMLConfig().trending.videos.intervalDays
+    this.defaultSort = '-publishedAt'
+    this.defaultScope = 'federated'
 
-    this.routeSub = this.route.params.subscribe(params => {
-      this.update(params['page'])
-    })
+    this.routeSub = this.route.params.subscribe(() => this.update())
   }
 
   ngOnDestroy () {
@@ -80,8 +67,8 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
       this.videoService.getVideos.bind(this.videoService),
       params,
       'common',
-      this.hookParams,
-      this.hookResult
+      'filter:api.browse-videos.videos.list.params',
+      'filter:api.browse-videos.videos.list.result'
     )
   }
 
@@ -96,18 +83,6 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
     this.updateGroupByDate(filters.sort)
   }
 
-  baseRouteBuilder (filters: VideoFilters) {
-    const sanitizedSort = this.getSanitizedSort(filters.sort)
-
-    let suffix: string
-
-    if (filters.scope === 'local') suffix = 'local'
-    else if (sanitizedSort === 'publishedAt') suffix = 'recently-added'
-    else suffix = 'trending'
-
-    return [ '/videos', suffix ]
-  }
-
   disableForReuse () {
     this.disabled = true
   }
@@ -116,73 +91,11 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
     this.disabled = false
   }
 
-  update (page: string) {
-    const data = this.getData(page)
-
-    this.hookParams = data.hookParams
-    this.hookResult = data.hookResult
-
-    this.defaultSort = data.sort
-    this.defaultScope = data.scope
-
+  update () {
     this.buildTitle()
     this.updateGroupByDate(this.defaultSort)
 
     this.meta.setTitle(this.title)
-  }
-
-  private getData (page: string) {
-    if (page === 'trending') return this.generateTrendingData(this.route.snapshot)
-
-    if (page === 'local') return this.generateLocalData()
-
-    return this.generateRecentlyAddedData()
-  }
-
-  private generateRecentlyAddedData (): VideosListCommonPageRouteData {
-    return {
-      sort: '-publishedAt',
-      scope: 'federated',
-      hookParams: 'filter:api.recently-added-videos.videos.list.params',
-      hookResult: 'filter:api.recently-added-videos.videos.list.result'
-    }
-  }
-
-  private generateLocalData (): VideosListCommonPageRouteData {
-    return {
-      sort: '-publishedAt' as VideoSortField,
-      scope: 'local',
-      hookParams: 'filter:api.local-videos.videos.list.params',
-      hookResult: 'filter:api.local-videos.videos.list.result'
-    }
-  }
-
-  private generateTrendingData (route: ActivatedRouteSnapshot): VideosListCommonPageRouteData {
-    const sort = route.queryParams['sort'] ?? this.parseTrendingAlgorithm(this.redirectService.getDefaultTrendingAlgorithm())
-
-    return {
-      sort,
-      scope: 'federated',
-      hookParams: 'filter:api.trending-videos.videos.list.params',
-      hookResult: 'filter:api.trending-videos.videos.list.result'
-    }
-  }
-
-  private parseTrendingAlgorithm (algorithm: string): VideoSortField {
-    switch (algorithm) {
-      case 'most-viewed':
-        return '-trending'
-
-      case 'most-liked':
-        return '-likes'
-
-      // We'll automatically apply "best" sort if using "hot" sort with a logged user
-      case 'best':
-        return '-hot'
-
-      default:
-        return '-' + algorithm as VideoSortField
-    }
   }
 
   private updateGroupByDate (sort: VideoSortField) {
@@ -190,6 +103,7 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
   }
 
   private buildTitle (scope: VideoFilterScope = this.defaultScope, sort: VideoSortField = this.defaultSort) {
+    const trendingDays = this.server.getHTMLConfig().trending.videos.intervalDays
     const sanitizedSort = this.getSanitizedSort(sort)
 
     if (scope === 'local') {
@@ -223,12 +137,12 @@ export class VideosListCommonPageComponent implements OnInit, OnDestroy, Disable
       }
 
       if (sanitizedSort === 'trending') {
-        if (this.trendingDays === 1) {
+        if (trendingDays === 1) {
           this.titleTooltip = $localize`Videos with the most views during the last 24 hours`
           return
         }
 
-        this.titleTooltip = $localize`Videos with the most views during the last ${this.trendingDays} days`
+        this.titleTooltip = $localize`Videos with the most views during the last ${trendingDays} days`
       }
 
       return

@@ -1,4 +1,4 @@
-<ul class="sub-menu" [ngClass]="{ 'sub-menu-fixed': !isBroadcastMessageDisplayed, 'no-scroll': isModalOpened }">
+<ul class="sub-menu ul-unstyle" [ngClass]="{ 'sub-menu-fixed': !isBroadcastMessageDisplayed, 'no-scroll': isModalOpened }">
   <ng-container *ngFor="let menuEntry of menuEntries; index as id">
     @if (isDisplayed(menuEntry)) {
       @if (menuEntry.routerLink) {
@@ -21,7 +21,7 @@
         <li ngbDropdown #dropdown="ngbDropdown" autoClose="true" container="body">
           <button ngbDropdownToggle class="sub-menu-entry" [ngClass]="{ active: !!suffixLabels[menuEntry.label] }">{{ menuEntry.label }}</button>
 
-          <ul ngbDropdownMenu>
+          <ul class="ul-unstyle" ngbDropdownMenu>
             <li *ngFor="let menuChild of menuEntry.children">
               <a
                 *ngIf="isDisplayed(menuChild)" ngbDropdownItem

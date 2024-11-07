@@ -1,39 +1,42 @@
-<div #itemsParent class="list-overflow-parent">
-  <span [id]="getId(id)" #itemsRendered *ngFor="let item of items; index as id">
-    <ng-container *ngTemplateOutlet="itemTemplate; context: {item: item}"></ng-container>
-  </span>
+<div #itemsParent class="list-overflow-parent" [ngClass]="{ 'opacity-0': !initialized }">
 
-  <ng-container *ngIf="isMenuDisplayed()">
-    <button *ngIf="isInMobileView" class="btn btn-outline-secondary btn-sm list-overflow-menu" (click)="toggleModal()">
-      <span class="chevron-down"></span>
-    </button>
+  <ul class="ul-unstyle d-flex">
+    <li class="d-inline-block" *ngFor="let item of items; index as id" [id]="getId(id)" #itemsRendered>
+      <ng-container *ngTemplateOutlet="itemTemplate; context: {item: item}"></ng-container>
+    </li>
+  </ul>
 
-    <div
-      *ngIf="!isInMobileView" class="list-overflow-menu"
-      ngbDropdown container="body" #dropdown="ngbDropdown"
-      (mouseleave)="closeDropdownIfHovered(dropdown)" (mouseenter)="openDropdownOnHover(dropdown)"
-    >
-      <button class="btn btn-outline-secondary btn-sm" [ngClass]="{ 'route-active': active }"
-        ngbDropdownAnchor (click)="dropdownAnchorClicked(dropdown)" role="button"
-      >
+  @if (isMenuDisplayed()) {
+    @if (isInMobileView) {
+      <button type="button" class="peertube-button tertiary-button list-overflow-menu" (click)="toggleModal()">
         <span class="chevron-down"></span>
       </button>
+    } @else {
+      <div class="list-overflow-menu" ngbDropdown container="body" #dropdown="ngbDropdown">
+        <button class="peertube-button tertiary-button p-0" ngbDropdownToggle type="button">
+          <span class="chevron-down"></span>
+        </button>
 
-      <div ngbDropdownMenu>
-        <a *ngFor="let item of items | slice:showItemsUntilIndexExcluded:items.length"
-          [routerLink]="item.routerLink" routerLinkActive="active" class="dropdown-item">
-          {{ item.label }}
-        </a>
+        <ul class="ul-unstyle" ngbDropdownMenu>
+          <li *ngFor="let item of items | slice:showItemsUntilIndexExcluded:items.length">
+            <a [routerLink]="item.routerLink" routerLinkActive="active" class="dropdown-item">
+              {{ item.label }}
+            </a>
+          </li>
+        </ul>
       </div>
-    </div>
-  </ng-container>
+    }
+  }
 </div >
 
 <ng-template #modal let-close="close" let-dismiss="dismiss">
   <div class="modal-body">
-    <a *ngFor="let item of items | slice:showItemsUntilIndexExcluded:items.length"
-       [routerLink]="item.routerLink" routerLinkActive="active" (click)="dismissOtherModals()">
-       {{ item.label }}
-    </a>
+    <ul class="ul-unstyle">
+      <li *ngFor="let item of items | slice:showItemsUntilIndexExcluded:items.length">
+        <a [routerLink]="item.routerLink" routerLinkActive="active" (click)="dismissOtherModals()">
+          {{ item.label }}
+        </a>
+      </li>
+    </ul>
   </div>
 </ng-template>
