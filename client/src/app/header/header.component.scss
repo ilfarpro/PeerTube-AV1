@@ -28,6 +28,8 @@
     width: 34px;
     height: 34px;
 
+    background-repeat: no-repeat;
+
     @include margin-right(10px);
   }
 }

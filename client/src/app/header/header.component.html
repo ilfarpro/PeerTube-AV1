@@ -8,7 +8,7 @@
     <my-search-typeahead class="w-100 me-5"></my-search-typeahead>
 
     @if (!isLoggedIn) {
-      <my-button icon="cog" (click)="openQuickSettings()"></my-button>
+      <my-button class="me-3" icon="cog" (click)="openQuickSettings()"></my-button>
 
       <a *ngIf="isRegistrationAllowed()" routerLink="/signup" class="create-account-button peertube-button-link text-truncate d-block">
         <my-signup-label [requiresApproval]="requiresApproval"></my-signup-label>

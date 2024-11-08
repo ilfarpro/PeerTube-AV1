@@ -45,15 +45,13 @@ export class MyLibraryComponent implements OnInit {
       {
         label: $localize`Channels`,
         routerLink: '/my-library/video-channels'
-      }
-    ]
+      },
 
-    if (this.user.canSeeVideosLink) {
-      this.menuEntries.push({
+      {
         label: $localize`Videos`,
         routerLink: '/my-library/videos'
-      })
-    }
+      }
+    ]
 
     this.menuEntries = this.menuEntries.concat([
       {

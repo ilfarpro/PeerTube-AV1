@@ -1,13 +1,13 @@
-import { Subscription } from 'rxjs'
-import { filter } from 'rxjs/operators'
+import { NgClass, NgFor, NgIf } from '@angular/common'
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { NavigationEnd, Router, RouterLinkActive, RouterLink } from '@angular/router'
-import { MenuService, ScreenService } from '@app/core'
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router'
+import { ScreenService } from '@app/core'
 import { scrollToTop } from '@app/helpers'
 import { GlobalIconName } from '@app/shared/shared-icons/global-icon.component'
-import { NgbDropdown, NgbModal, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap'
+import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { Subscription } from 'rxjs'
+import { filter } from 'rxjs/operators'
 import { GlobalIconComponent } from '../../shared-icons/global-icon.component'
-import { NgClass, NgFor, NgIf } from '@angular/common'
 
 export type TopMenuDropdownParam = {
   label: string
@@ -57,17 +57,11 @@ export class TopMenuDropdownComponent implements OnInit, OnChanges, OnDestroy {
   constructor (
     private router: Router,
     private modalService: NgbModal,
-    private screen: ScreenService,
-    private menuService: MenuService
+    private screen: ScreenService
   ) { }
 
   get isInSmallView () {
-    let marginLeft = 0
-    if (this.menuService.isMenuDisplayed) {
-      marginLeft = this.menuService.menuWidth
-    }
-
-    return this.screen.isInSmallView(marginLeft)
+    return this.screen.isInSmallView()
   }
 
   get isBroadcastMessageDisplayed () {

@@ -2,10 +2,6 @@
 @use '_variables' as *;
 @use '_mixins' as *;
 
-$menu-link-icon-size: 22px;
-$menu-link-icon-margin-right: 18px;
-$footer-links-base-opacity: .8;
-
 ul {
   margin: 0;
   padding: 0;
@@ -15,11 +11,119 @@ ul {
   }
 }
 
-.footer-bottom {
-  li {
+.menu-wrapper {
+  --menuXPadding: 1.5rem;
+
+  position: fixed;
+  height: calc(100vh - #{$header-height});
+
+  z-index: z(menu);
+  scrollbar-color: pvar(--actionButtonColor) pvar(--menuBackgroundColor);
+
+  width: calc(#{$menu-width} - 2rem);
+
+  @include margin-left(2rem);
+
+  &.collapsed {
+    --menuXPadding: 0.25rem;
+
     width: auto;
-    display: inline-flex;
+
+    @include margin-left(0);
   }
+
+  @media screen and (max-width: $mobile-view) {
+    width: 100% !important;
+
+    .main-menu {
+      overflow-y: auto !important;
+    }
+  }
+}
+
+.toggle-menu {
+  color: pvar(--menuForegroundColor);
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background-color: #3C2E2E;
+  color: #C1B0B0;
+
+  @include button-with-icon(20px, 0, -1px, 1px);
+}
+
+.menu-wrapper:not(.collapsed) .toggle-menu {
+  position: absolute;
+  top: 20px;
+
+  @include right(24px);
+}
+
+.collapsed .toggle-menu my-global-icon {
+  right: -1px;
+  top: 0;
+}
+
+.main-menu {
+  position: relative;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-radius: 14px;
+  background-color: pvar(--menuBackgroundColor);
+  color: pvar(--menuForegroundColor);
+  overflow-y: auto;
+  scrollbar-color: transparent transparent;
+
+  max-height: calc(100% - 50px); // Space for links below the menu
+
+  &:focus,
+  &:hover {
+    scrollbar-color: auto;
+  }
+
+  @media not all and (hover: hover) and (pointer: fine) {
+    scrollbar-color: auto;
+  }
+}
+
+.collapsed .main-menu {
+  max-height: calc(100% - 10px);
+
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.menu-link,
+.menu-button,
+.block-title,
+.about .description,
+.about my-button {
+  @include padding-left(var(--menuXPadding));
+  @include padding-right(var(--menuXPadding));
+}
+
+.menu-block,
+.collapsed .toggle-menu-container {
+  &::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #3C2E2E;
+    margin: 1rem var(--menuXPadding);
+  }
+}
+
+.collapsed .toggle-menu-container {
+  text-align: center;
+}
+
+.block-title {
+  font-weight: $font-bold;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
 .menu-link {
@@ -27,16 +131,14 @@ ul {
   align-items: center;
 
   color: pvar(--menuForegroundColor);
-  cursor: pointer;
   white-space: normal;
   word-break: break-word;
   transition: background-color .1s ease-in-out;
-  line-height: $line-height-normal;
   width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 
   @include disable-default-a-behaviour;
-  @include padding-left($menu-lateral-padding);
-  @include padding-right(20px);
 
   &.active {
     background-color: rgba(255, 255, 255, 0.15);
@@ -48,118 +150,28 @@ ul {
   }
 
   my-global-icon {
-    display: flex;
-    width: $menu-link-icon-size;
-    height: $menu-link-icon-size;
+    width: 22px;
+    height: 22px;
+    position: relative;
+    top: -1px;
 
-    @include apply-svg-color(#808080);
-    @include margin-right($menu-link-icon-margin-right);
-  }
-}
-
-.menu-wrapper {
-  position: fixed;
-  height: calc(100vh - #{$header-height});
-  padding: 0;
-  width: $menu-width;
-  z-index: z(menu);
-  scrollbar-color: pvar(--actionButtonColor) pvar(--menuBackgroundColor);
-}
-
-nav {
-  background-color: pvar(--menuBackgroundColor);
-  color: pvar(--menuForegroundColor);
-
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-
-  @include ellipsis;
-
-  &:focus,
-  &:hover {
-    overflow-y: auto;
-  }
-
-  @media not all and (hover: hover) and (pointer: fine) {
-    overflow-y: auto;
-  }
-}
-
-.menu-block,
-.footer-block {
-  margin-bottom: 15px;
-
-  .block-container {
-    @include margin-left(26px);
-    @include margin-right(15px);
-    @include ellipsis;
-  }
-
-  .block-title {
-    text-transform: uppercase;
-    font-weight: $font-bold;
-    font-size: 13px;
-  }
-
-  a,
-  button {
-    min-height: 40px;
-  }
-}
-
-.footer {
-  padding-bottom: 15px;
-}
-
-.footer-bottom {
-  padding: 0 $menu-lateral-padding;
-}
-
-.footer-links {
-  a,
-  button {
-    color: pvar(--menuForegroundColor);
-    opacity: $footer-links-base-opacity;
-    white-space: nowrap;
-    font-size: 0.75rem;
-    line-height: 1.4rem;
-    font-weight: $font-semibold;
-
-    @include margin-right(8px);
-    @include disable-default-a-behaviour;
-
-    &:hover {
-      opacity: $footer-links-base-opacity + .2;
+    + *:not(.visually-hidden) {
+      @include margin-left(12px);
     }
   }
 }
 
-.footer-copyleft a {
-  color: pvar(--menuForegroundColor);
-  opacity: $footer-links-base-opacity - .2;
-  font-size: 0.85rem;
-
-  @include disable-default-a-behaviour;
-
-  &:hover {
-    opacity: $footer-links-base-opacity;
-  }
+.menu-wrapper.collapsed .menu-link {
+  justify-content: center;
 }
 
-@media screen and (max-width: $mobile-view) {
-  .menu-wrapper {
-    width: 100% !important;
 
-    nav {
-      overflow-y: auto;
-    }
-  }
+.menu-button {
+  margin-top: 0.5rem;
+}
 
-  .footer {
-    width: 100% !important;
+.about {
+  .description {
+    font-size: 14px;
   }
 }

@@ -156,13 +156,24 @@ export class EditBasicConfigurationComponent implements OnInit, OnChanges {
   }
 
   buildLandingPageOptions () {
-    this.defaultLandingPageOptions = this.menuService.buildCommonLinks(this.serverConfig)
-      .links
-      .map(o => ({
-        id: o.path,
-        label: o.label,
-        description: o.path
-      }))
+    let links: { label: string, path: string }[] = []
+
+    if (this.serverConfig.homepage.enabled) {
+      links.push({ label: $localize`Home`, path: '/home' })
+    }
+
+    links = links.concat([
+      { label: $localize`Discover`, path: '/videos/overview' },
+      { label: $localize`Trending`, path: '/videos/trending' },
+      { label: $localize`Recently added`, path: '/videos/recently-added' },
+      { label: $localize`Local videos`, path: '/videos/local' }
+    ])
+
+    this.defaultLandingPageOptions = links.map(o => ({
+      id: o.path,
+      label: o.label,
+      description: o.path
+    }))
   }
 
   getDefaultThemeLabel () {

@@ -10,23 +10,26 @@ const icons = {
   'support': require('../../../assets/images/misc/support.svg'),
   'peertube-x': require('../../../assets/images/misc/peertube-x.svg'),
   'robot': require('../../../assets/images/misc/miscellaneous-services.svg'), // material ui
-  'videos': require('../../../assets/images/misc/video-library.svg'), // material ui
-  'history': require('../../../assets/images/misc/history.svg'), // material ui
-  'subscriptions': require('../../../assets/images/misc/subscriptions.svg'), // material ui
   'playlist-add': require('../../../assets/images/misc/playlist-add.svg'), // material ui
   'follower': require('../../../assets/images/misc/account-arrow-left.svg'), // material ui
   'following': require('../../../assets/images/misc/account-arrow-right.svg'), // material ui
   'tip': require('../../../assets/images/misc/tip.svg'), // material ui
   'flame': require('../../../assets/images/misc/flame.svg'),
-  'local': require('../../../assets/images/misc/local.svg'),
 
   // feather/lucide icons
+  'history': require('../../../assets/images/feather/history.svg'),
+  'subscriptions': require('../../../assets/images/feather/subscriptions.svg'),
+  'videos': require('../../../assets/images/feather/videos.svg'),
   'add': require('../../../assets/images/feather/plus-circle.svg'),
   'alert': require('../../../assets/images/feather/alert.svg'),
+  'overview': require('../../../assets/images/feather/overview.svg'),
+  'moderation': require('../../../assets/images/feather/moderation.svg'),
+  'config': require('../../../assets/images/feather/config.svg'),
   'award': require('../../../assets/images/feather/award.svg'),
   'bell': require('../../../assets/images/feather/bell.svg'),
-  'channel': require('../../../assets/images/feather/tv.svg'),
+  'channel': require('../../../assets/images/feather/channel.svg'),
   'chevrons-up': require('../../../assets/images/feather/chevrons-up.svg'),
+  'chevron-left': require('../../../assets/images/feather/chevron-left.svg'),
   'circle-tick': require('../../../assets/images/feather/check-circle.svg'),
   'clock-arrow-down': require('../../../assets/images/feather/clock-arrow-down.svg'),
   'clock': require('../../../assets/images/feather/clock.svg'),
@@ -64,7 +67,7 @@ const icons = {
   'ownership-change': require('../../../assets/images/feather/share.svg'),
   'p2p': require('../../../assets/images/feather/airplay.svg'),
   'play': require('../../../assets/images/feather/play.svg'),
-  'playlists': require('../../../assets/images/feather/list.svg'),
+  'playlists': require('../../../assets/images/feather/playlists.svg'),
   'refresh': require('../../../assets/images/feather/refresh-cw.svg'),
   'repeat': require('../../../assets/images/feather/repeat.svg'),
   'search': require('../../../assets/images/feather/search.svg'),
@@ -94,7 +97,7 @@ export type GlobalIconName = keyof typeof icons
   standalone: true
 })
 export class GlobalIconComponent implements OnInit {
-  @Input() iconName: GlobalIconName
+  @Input({ required: true }) iconName: GlobalIconName
 
   constructor (
     private el: ElementRef,

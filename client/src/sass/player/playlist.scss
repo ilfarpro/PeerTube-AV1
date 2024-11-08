@@ -92,8 +92,8 @@ $playlist-menu-width: 350px;
 }
 
 .vjs-playlist-icon {
-  mask-image: url('#{$assets-path}/images/feather/list.svg');
-  -webkit-mask-image: url('#{$assets-path}/images/feather/list.svg');
+  mask-image: url('#{$assets-path}/images/feather/playlists.svg');
+  -webkit-mask-image: url('#{$assets-path}/images/feather/playlists.svg');
   mask-size: cover;
   -webkit-mask-size: cover;
 

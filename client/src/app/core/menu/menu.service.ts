@@ -3,7 +3,7 @@ import { debounceTime } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { GlobalIconName } from '@app/shared/shared-icons/global-icon.component'
 import { HTMLServerConfig } from '@peertube/peertube-models'
-import { ScreenService } from '../wrappers'
+import { LocalStorageService, ScreenService } from '../wrappers'
 
 export type MenuLink = {
   icon: GlobalIconName
@@ -14,6 +14,8 @@ export type MenuLink = {
   shortLabel: string
 
   path: string
+
+  isPrimaryButton?: boolean // default false
 }
 
 export type MenuSection = {
@@ -24,39 +26,45 @@ export type MenuSection = {
 
 @Injectable()
 export class MenuService {
-  isMenuDisplayed = true
+  private static LS_MENU_COLLAPSED = 'menu-collapsed'
+
+  isMenuCollapsed = false
   isMenuChangedByUser = false
-  menuWidth = 240 // should be kept equal to $menu-width
 
   constructor (
-    private screenService: ScreenService
+    private screenService: ScreenService,
+    private localStorageService: LocalStorageService
   ) {
     // Do not display menu on small or touch screens
     if (this.screenService.isInSmallView() || this.screenService.isInTouchScreen()) {
-      this.setMenuDisplay(false)
+      this.setMenuCollapsed(true)
     }
 
     this.handleWindowResize()
+
+    this.isMenuCollapsed = this.localStorageService.getItem(MenuService.LS_MENU_COLLAPSED) === 'true'
   }
 
   toggleMenu () {
-    this.setMenuDisplay(!this.isMenuDisplayed)
+    this.setMenuCollapsed(!this.isMenuCollapsed)
     this.isMenuChangedByUser = true
+
+    this.localStorageService.setItem(MenuService.LS_MENU_COLLAPSED, this.isMenuCollapsed + '')
   }
 
-  isDisplayed () {
-    return this.isMenuDisplayed
+  isCollapsed () {
+    return this.isMenuCollapsed
   }
 
-  setMenuDisplay (display: boolean) {
-    this.isMenuDisplayed = display
+  setMenuCollapsed (collapsed: boolean) {
+    this.isMenuCollapsed = collapsed
 
     if (!this.screenService.isInTouchScreen()) return
 
     // On touch screens, lock body scroll and display content overlay when memu is opened
-    if (this.isMenuDisplayed) {
+    if (!this.isMenuCollapsed) {
       document.body.classList.add('menu-open')
-      this.screenService.onFingerSwipe('left', () => this.setMenuDisplay(false))
+      this.screenService.onFingerSwipe('left', () => this.setMenuCollapsed(true))
       return
     }
 
@@ -64,102 +72,10 @@ export class MenuService {
   }
 
   onResize () {
-    this.isMenuDisplayed = window.innerWidth >= 800 && !this.isMenuChangedByUser
+    this.isMenuCollapsed = window.innerWidth < 800 && !this.isMenuChangedByUser
   }
 
-  buildLibraryLinks (userCanSeeVideosLink: boolean): MenuSection {
-    let links: MenuLink[] = []
-
-    if (userCanSeeVideosLink) {
-      links.push({
-        path: '/my-library/video-channels',
-        icon: 'channel' as GlobalIconName,
-        iconClass: 'channel-icon',
-        shortLabel: $localize`Channels`,
-        label: $localize`My channels`
-      })
-
-      links.push({
-        path: '/my-library/videos',
-        icon: 'videos' as GlobalIconName,
-        shortLabel: $localize`Videos`,
-        label: $localize`My videos`
-      })
-    }
-
-    links = links.concat([
-      {
-        path: '/my-library/video-playlists',
-        icon: 'playlists' as GlobalIconName,
-        shortLabel: $localize`Playlists`,
-        label: $localize`My playlists`
-      },
-      {
-        path: '/videos/subscriptions',
-        icon: 'subscriptions' as GlobalIconName,
-        shortLabel: $localize`Subscriptions`,
-        label: $localize`My subscriptions`
-      },
-      {
-        path: '/my-library/history/videos',
-        icon: 'history' as GlobalIconName,
-        shortLabel: $localize`History`,
-        label: $localize`My history`
-      }
-    ])
-
-    return {
-      key: 'in-my-library',
-      title: $localize`In my library`,
-      links
-    }
-  }
-
-  buildCommonLinks (config: HTMLServerConfig): MenuSection {
-    let links: MenuLink[] = []
-
-    if (config.homepage.enabled) {
-      links.push({
-        icon: 'home' as 'home',
-        label: $localize`Home`,
-        shortLabel: $localize`Home`,
-        path: '/home'
-      })
-    }
-
-    links = links.concat([
-      {
-        icon: 'globe' as 'globe',
-        label: $localize`Discover videos`,
-        shortLabel: $localize`Discover`,
-        path: '/videos/overview'
-      },
-      {
-        icon: 'trending' as 'trending',
-        label: $localize`Trending videos`,
-        shortLabel: $localize`Trending`,
-        path: '/videos/trending'
-      },
-      {
-        icon: 'add' as 'add',
-        label: $localize`Recently added videos`,
-        shortLabel: $localize`Recently added`,
-        path: '/videos/recently-added'
-      },
-      {
-        icon: 'local' as 'local',
-        label: $localize`Local videos`,
-        shortLabel: $localize`Local videos`,
-        path: '/videos/local'
-      }
-    ])
-
-    return {
-      key: 'on-instance',
-      title: $localize`ON ${config.instance.name}`,
-      links
-    }
-  }
+  // ---------------------------------------------------------------------------
 
   private handleWindowResize () {
     // On touch screens, do not handle window resize event since opened menu is handled with a content overlay

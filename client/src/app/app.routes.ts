@@ -1,5 +1,4 @@
 import { Routes, UrlMatchResult, UrlSegment } from '@angular/router'
-import { MenuGuards } from '@app/core/routing/menu-guard.service'
 import { POSSIBLE_LOCALES } from '@peertube/peertube-core-utils'
 import { MetaGuard } from './core'
 import { EmptyComponent } from './empty.component'
@@ -10,8 +9,6 @@ import { ActorRedirectGuard } from './shared/shared-main/router/actor-redirect-g
 const routes: Routes = [
   {
     path: 'admin',
-    canActivate: [ MenuGuards.close() ],
-    canDeactivate: [ MenuGuards.open() ],
     loadChildren: () => import('./+admin/routes'),
     canActivateChild: [ MetaGuard ]
   },

@@ -16,7 +16,8 @@
   @include peertube-button-big-link;
 }
 
-.orange-button {
+.orange-button,
+.primary-button {
   @include orange-button;
 }
 
@@ -24,7 +25,8 @@
   @include orange-button-inverted;
 }
 
-.grey-button {
+.grey-button,
+.secondary-button {
   @include grey-button;
 }
 

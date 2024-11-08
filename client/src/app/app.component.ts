@@ -196,7 +196,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     eventsObs.pipe(
       filter((e: Event): e is GuardsCheckStart => e instanceof GuardsCheckStart),
       filter(() => this.screenService.isInSmallView() || this.screenService.isInTouchScreen())
-    ).subscribe(() => this.menu.setMenuDisplay(false)) // User clicked on a link in the menu, change the page
+    ).subscribe(() => this.menu.setMenuCollapsed(true)) // User clicked on a link in the menu, change the page
 
     // Handle lazy loaded module
     eventsObs.pipe(

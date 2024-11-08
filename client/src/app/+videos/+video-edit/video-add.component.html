@@ -6,7 +6,7 @@
   }
 </ng-template>
 
-<ng-container *ngIf="user.isUploadDisabled()">
+<ng-container *ngIf="user.hasUploadDisabled()">
   <my-alert class="upload-message upload-disabled" type="warning">
     <div>{{ uploadMessages?.noQuota }}</div>
     <ng-template [ngTemplateOutlet]="AlertButtons"></ng-template>
@@ -17,7 +17,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="!user.isUploadDisabled()">
+<ng-container *ngIf="!user.hasUploadDisabled()">
   <my-alert rounded="false" *ngIf="user.isAutoBlocked(serverConfig)" class="upload-message auto-blocked" type="warning">
     <div>{{ uploadMessages?.autoBlock }}</div>
     <ng-template [ngTemplateOutlet]="AlertButtons" *ngIf="!hasNoQuotaLeft && !hasNoQuotaLeftDaily"></ng-template>
@@ -42,7 +42,7 @@
   </my-alert>
 </ng-container>
 
-<div *ngIf="!user.isUploadDisabled()" class="margin-content">
+<div *ngIf="!user.hasUploadDisabled()" class="margin-content">
   <my-user-quota *ngIf="!isInSecondStep() || secondStepType === 'go-live'"></my-user-quota>
 
   <div class="title-page" *ngIf="isInSecondStep()">

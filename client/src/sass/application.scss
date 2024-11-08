@@ -194,9 +194,9 @@ code {
     --horizontalMarginContent: #{$expanded-horizontal-margins};
     --mainColWidth: 100vw;
 
-    width: 100%;
+    width: calc(100% - 48px);
 
-    @include margin-left(0);
+    @include margin-left(48px);
   }
 
   &.lock-scroll .main-row > router-outlet + * {  /* stylelint-disable-line selector-max-compound-selectors */
