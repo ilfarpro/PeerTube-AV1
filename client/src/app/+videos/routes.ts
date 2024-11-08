@@ -28,6 +28,10 @@ export default [
         data: {
           meta: {
             title: $localize`Discover videos`
+          },
+          reuse: {
+            enabled: true,
+            key: 'videos-discover'
           }
         }
       },

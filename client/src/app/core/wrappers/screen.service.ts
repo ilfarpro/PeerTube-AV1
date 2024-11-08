@@ -28,19 +28,6 @@ export class ScreenService {
     return !!('ontouchstart' in window || (navigator as any).msMaxTouchPoints)
   }
 
-  getNumberOfAvailableMiniatures () {
-    const screenWidth = this.getWindowInnerWidth()
-
-    let numberOfVideos = 1
-
-    if (screenWidth > 1850) numberOfVideos = 5
-    else if (screenWidth > 1410) numberOfVideos = 4
-    else if (screenWidth > 1120) numberOfVideos = 3
-    else if (screenWidth > 890) numberOfVideos = 2
-
-    return numberOfVideos
-  }
-
   // Cache window inner width, because it's an expensive call
   getWindowInnerWidth () {
     if (this.cacheWindowInnerWidthExpired()) this.refreshWindowInnerWidth()

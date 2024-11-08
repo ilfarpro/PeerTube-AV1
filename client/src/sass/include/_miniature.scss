@@ -117,7 +117,7 @@
   }
 }
 
-@mixin grid-videos-miniature-layout {
+@mixin grid-videos-miniature-layout ($rows-limit: 0) {
   @media screen and (min-width: $mobile-view) {
     .videos,
     .playlists {
@@ -130,6 +130,12 @@
         auto-fill,
         minmax(var(--miniatureMinWidth), 1fr)
       );
+
+      @if ($rows-limit != 0) {
+        grid-template-rows: repeat($rows-limit, auto);
+        overflow: hidden;
+        grid-auto-rows: 0;
+      }
 
       .video-wrapper,
       .playlist-wrapper {
@@ -155,7 +161,7 @@
   }
 }
 
-@mixin grid-videos-miniature-layout-with-margins {
+@mixin grid-videos-miniature-layout-with-margins ($rows-limit: 0) {
   @include grid-videos-miniature-margins;
-  @include grid-videos-miniature-layout;
+  @include grid-videos-miniature-layout($rows-limit);
 }

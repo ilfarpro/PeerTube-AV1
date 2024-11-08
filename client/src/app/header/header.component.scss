@@ -56,16 +56,26 @@
   }
 }
 
-.logged-in-more {
+.logged-in-container {
   flex: 1;
   border-radius: 25px;
   transition: all .1s ease-in-out;
   cursor: pointer;
   max-width: 250px;
 
+  .display-name {
+    font-weight: $font-bold;
+    color: pvar(--fg);
+  }
+
+  .username {
+    color: pvar(--secondary);
+  }
+
   > .dropdown-toggle {
     display: flex;
     align-items: center;
+    border-radius: 6px;
 
     &::after {
       // Disable bootstrap toggle
@@ -84,8 +94,4 @@
       color: #808080;
     }
   }
-}
-
-.display-name {
-  font-weight: $font-semibold;
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core'
-import { RouterOutlet } from '@angular/router'
+import { Component, OnInit } from '@angular/core'
+import { AuthService, ServerService } from '@app/core'
 import { HorizontalMenuComponent } from '@app/shared/shared-main/menu/horizontal-menu.component'
 import { ListOverflowItem } from '@app/shared/shared-main/menu/list-overflow.component'
 
@@ -7,16 +7,32 @@ import { ListOverflowItem } from '@app/shared/shared-main/menu/list-overflow.com
   selector: 'my-home-menu',
   templateUrl: './home-menu.component.html',
   standalone: true,
-  imports: [
-    HorizontalMenuComponent,
-    RouterOutlet
-  ]
+  imports: [ HorizontalMenuComponent ]
 })
-export class HomeMenuComponent {
-  menuEntries: ListOverflowItem[] = [
-    { label: $localize`Home`, routerLink: '/home' },
-    { label: $localize`Discover`, routerLink: '/videos/overview' },
-    { label: $localize`Subscriptions`, routerLink: '/videos/subscriptions' },
-    { label: $localize`Browse videos`, routerLink: '/videos/browse' }
-  ]
+export class HomeMenuComponent implements OnInit {
+  menuEntries: ListOverflowItem[] = []
+
+  constructor (
+    private server: ServerService,
+    private authService: AuthService
+  ) {
+
+  }
+
+  ngOnInit () {
+    const config = this.server.getHTMLConfig()
+    this.menuEntries = []
+
+    if (config.homepage.enabled) {
+      this.menuEntries.push({ label: $localize`Home`, routerLink: '/home' })
+    }
+
+    this.menuEntries.push({ label: $localize`Discover`, routerLink: '/videos/overview' })
+
+    if (this.authService.isLoggedIn()) {
+      this.menuEntries.push({ label: $localize`Subscriptions`, routerLink: '/videos/subscriptions' })
+    }
+
+    this.menuEntries.push({ label: $localize`Browse videos`, routerLink: '/videos/browse' })
+  }
 }

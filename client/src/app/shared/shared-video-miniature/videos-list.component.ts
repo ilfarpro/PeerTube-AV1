@@ -421,6 +421,10 @@ export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
 
     debugLogger('Will inject %O in URL query', queryParams)
 
+    if (Object.keys(baseQuery).length !== 0 || customizedByUser) {
+      this.peertubeRouter.silentNavigate([], queryParams)
+    }
+
     this.filtersChanged.emit(this.filters)
   }
 

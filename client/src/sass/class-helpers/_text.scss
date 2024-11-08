@@ -12,6 +12,10 @@
   color: pvar(--green);
 }
 
+.text-fg {
+  color: pvar(--fg)
+}
+
 @mixin underline-orange {
   text-decoration: underline !important;
   text-decoration-color: pvar(--mainColor) !important;
@@ -31,6 +35,18 @@
     opacity: 0.8;
 
     @include underline-orange;
+  }
+}
+
+.border-highlight {
+  &::after {
+    content: '';
+    display: block;
+    height: 4px;
+    background-color: pvar(--primary);
+    border-radius: 2px;
+    position: absolute;
+    width: 20px;
   }
 }
 

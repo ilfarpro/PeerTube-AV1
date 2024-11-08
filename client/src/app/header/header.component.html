@@ -21,10 +21,10 @@
       <my-button theme="tertiary" rounded="true" class="me-3" icon="cog" ptRouterLink="/my-account"></my-button>
 
       <div
-        class="logged-in-more" ngbDropdown #dropdown="ngbDropdown" placement="bottom-left auto"
+        class="logged-in-container" ngbDropdown #dropdown="ngbDropdown" placement="bottom-left auto"
         container="body" (openChange)="onDropdownOpenChange($event)"
       >
-        <button class="button-unstyle" ngbDropdownToggle>
+        <button class="tertiary-button" ngbDropdownToggle>
           <my-actor-avatar [actor]="user.account" actorType="account" size="34" class="me-2"></my-actor-avatar>
 
           <div class="logged-in-info text-start">
