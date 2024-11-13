@@ -7,7 +7,6 @@ import {
   Notifier,
   PeerTubeRouterService,
   ScreenService,
-  ServerService,
   User,
   UserService
 } from '@app/core'
@@ -33,10 +32,7 @@ const debugLogger = debug('peertube:videos:VideosListComponent')
 export type HeaderAction = {
   iconName: GlobalIconName
   label: string
-  justIcon?: boolean
   routerLink?: string
-  href?: string
-  click?: (e: Event) => void
 }
 
 enum GroupDate {
@@ -62,6 +58,7 @@ enum GroupDate {
     NgFor,
     RouterLinkActive,
     RouterLink,
+    ButtonComponent,
     NgTemplateOutlet,
     ButtonComponent,
     VideoFiltersHeaderComponent,
@@ -112,7 +109,7 @@ export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
     date: true,
     views: true,
     by: true,
-    avatar: false,
+    avatar: true,
     privacyLabel: true,
     privacyText: false,
     state: false,
@@ -146,8 +143,7 @@ export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private screenService: ScreenService,
-    private peertubeRouter: PeerTubeRouterService,
-    private serverService: ServerService
+    private peertubeRouter: PeerTubeRouterService
   ) {
 
   }
@@ -208,8 +204,8 @@ export class VideosListComponent implements OnInit, OnChanges, OnDestroy {
     if (changes['displayOptions'] || !this.displayOptions) {
       this.displayOptions = {
         ...this.defaultDisplayOptions,
-        avatar: this.serverService.getHTMLConfig().client.videos.miniature.displayAuthorAvatar,
-        ...changes['displayOptions']
+
+        ...(changes['displayOptions']?.currentValue ?? {})
       }
     }
 

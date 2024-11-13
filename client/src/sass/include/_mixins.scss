@@ -84,18 +84,23 @@
   line-height: $font-size + math.round(math.div($font-size, 2));
 }
 
+@mixin rounded-line-height-1-42 ($font-size) {
+  line-height: math.round($font-size * 1.4285714286);
+}
+
 @mixin peertube-input-text($width, $font-size: $form-input-font-size) {
   font-size: $font-size;
 
-  padding: 3px 15px;
+  padding: 6px 20px;
+  line-height: 1.66;
   width: $width;
   max-width: $width;
   color: pvar(--inputForegroundColor);
   background-color: pvar(--inputBackgroundColor);
   border: 1px solid pvar(--inputBorderColor);
-  border-radius: 3px;
+  border-radius: 4px;
 
-  @include rounded-line-height-1-5($font-size);
+  @include rounded-line-height-1-42($font-size);
 
   &::placeholder {
     color: pvar(--inputPlaceholderColor);

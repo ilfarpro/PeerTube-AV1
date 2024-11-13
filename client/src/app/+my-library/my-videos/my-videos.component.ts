@@ -64,7 +64,8 @@ export class MyVideosComponent implements OnInit, DisableForReuseHook {
     privacyText: true,
     state: true,
     blacklistInfo: true,
-    forceChannelInBy: true
+    forceChannelInBy: true,
+    nsfw: true
   }
   videoDropdownDisplayOptions: VideoActionsDisplayType = {
     playlist: true,

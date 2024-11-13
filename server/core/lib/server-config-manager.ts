@@ -56,7 +56,6 @@ class ServerConfigManager {
       client: {
         videos: {
           miniature: {
-            displayAuthorAvatar: CONFIG.CLIENT.VIDEOS.MINIATURE.DISPLAY_AUTHOR_AVATAR,
             preferAuthorDisplayName: CONFIG.CLIENT.VIDEOS.MINIATURE.PREFER_AUTHOR_DISPLAY_NAME
           },
           resumableUpload: {

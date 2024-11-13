@@ -1,54 +1,60 @@
-<div class="menu-wrapper" [ngClass]="{ collapsed: collapsed }">
-  <div class="main-menu">
-    <div class="toggle-menu-container">
-      @if (collapsed) {
-        <button type="button" class="button-unstyle toggle-menu" i18n-title title="Display the lateral bar" (click)="toggleMenu()">
-          <my-global-icon class="transform-rotate-180" iconName="chevron-left"></my-global-icon>
-        </button>
-      } @else {
-        <button type="button" class="button-unstyle toggle-menu" i18n-title title="Hide the lateral bar" (click)="toggleMenu()">
-          <my-global-icon iconName="chevron-left"></my-global-icon>
-        </button>
-      }
-    </div>
+<div class="menu-container" [ngClass]="{ collapsed: collapsed }">
 
-    <nav>
-      <ng-container *ngFor="let menuSection of menuSections" >
-        <ul class="ul-unstyle" [ngClass]="[ menuSection.key, 'menu-block' ]">
-          <li i18n>
-            <div class="block-title ellipsis" [ngClass]="{ 'visually-hidden': collapsed }">{{ menuSection.title }}</div>
+  <div class="main-menu-wrapper">
+    <div class="main-menu-scrollbar">
 
-            <ul class="ul-unstyle">
-              <li *ngFor="let link of menuSection.links">
-                @if (link.isPrimaryButton === true) {
-                  <my-button class="d-block menu-button" theme="primary" [icon]="link.icon" [ariaLabel]="link.label" [ptRouterLink]="link.path">
-                    @if (!collapsed) {
-                      {{ link.label }}
+      <div class="main-menu">
+        <div class="toggle-menu-container">
+          @if (collapsed) {
+            <button type="button" class="button-unstyle toggle-menu" i18n-title title="Display the lateral bar" (click)="toggleMenu()">
+              <my-global-icon class="transform-rotate-180" iconName="chevron-left"></my-global-icon>
+            </button>
+          } @else {
+            <button type="button" class="button-unstyle toggle-menu" i18n-title title="Hide the lateral bar" (click)="toggleMenu()">
+              <my-global-icon iconName="chevron-left"></my-global-icon>
+            </button>
+          }
+        </div>
+
+        <nav>
+          <ng-container *ngFor="let menuSection of menuSections" >
+            <ul class="ul-unstyle" [ngClass]="[ menuSection.key, 'menu-block' ]">
+              <li i18n>
+                <div class="block-title ellipsis" [ngClass]="{ 'visually-hidden': collapsed }">{{ menuSection.title }}</div>
+
+                <ul class="ul-unstyle">
+                  <li *ngFor="let link of menuSection.links">
+                    @if (link.isPrimaryButton === true) {
+                      <my-button class="d-block menu-button" theme="primary" [icon]="link.icon" [ariaLabel]="link.label" [ptRouterLink]="link.path">
+                        @if (!collapsed) {
+                          {{ link.label }}
+                        }
+                      </my-button>
+                    } @else {
+                      <a class="menu-link ellipsis" [routerLink]="link.path" routerLinkActive="active">
+                        <my-global-icon *ngIf="link.icon" [iconName]="link.icon" [ngClass]="link.iconClass" aria-hidden="true"></my-global-icon>
+                        <span [ngClass]="{ 'visually-hidden': collapsed }">{{ link.shortLabel }}</span>
+                      </a>
                     }
-                  </my-button>
-                } @else {
-                  <a class="menu-link ellipsis" [routerLink]="link.path" routerLinkActive="active">
-                    <my-global-icon *ngIf="link.icon" [iconName]="link.icon" [ngClass]="link.iconClass" aria-hidden="true"></my-global-icon>
-                    <span [ngClass]="{ 'visually-hidden': collapsed }">{{ link.shortLabel }}</span>
-                  </a>
-                }
+                  </li>
+                </ul>
               </li>
             </ul>
-          </li>
-        </ul>
-      </ng-container>
-    </nav>
+          </ng-container>
+        </nav>
 
-    <div class="about">
-      <div [ngClass]="{ 'visually-hidden': collapsed }" class="block-title">About</div>
+        <div class="about">
+          <div [ngClass]="{ 'visually-hidden': collapsed }" class="block-title">About</div>
 
-      <div [ngClass]="{ 'visually-hidden': collapsed }" class="description">{{ shortDescription }}</div>
+          <div [ngClass]="{ 'visually-hidden': collapsed }" class="description">{{ shortDescription }}</div>
 
-      <my-button class="mt-2 d-block" theme="secondary" icon="help" i18n-ariaLabel aria-label="More info" i18n ptRouterLink="/about">
-        @if (!collapsed) {
-          More info
-        }
-      </my-button>
+          <my-button class="mt-2 d-block" theme="secondary" icon="help" i18n-ariaLabel aria-label="More info" i18n ptRouterLink="/about">
+            @if (!collapsed) {
+              More info
+            }
+          </my-button>
+        </div>
+      </div>
     </div>
   </div>
 

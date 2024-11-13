@@ -8,8 +8,6 @@
   @include peertube-input-text(270px, 14px);
 
   & {
-    padding-top: 6px;
-    padding-bottom: 6px;
     padding-inline-start: 42px; // For the search icon
     padding-inline-end: 20px; // For the search icon
   }

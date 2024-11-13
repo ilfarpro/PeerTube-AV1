@@ -60,7 +60,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     date: true,
     views: true,
     by: true,
-    avatar: false,
+    avatar: true,
     privacyLabel: false,
     privacyText: false,
     state: false,

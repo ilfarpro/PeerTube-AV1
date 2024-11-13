@@ -2,9 +2,8 @@
 @use '_mixins' as *;
 
 @mixin miniature-name {
-  font-size: 1.1em;
   transition: color 0.2s;
-  font-weight: $font-semibold;
+  font-weight: $font-bold;
   color: pvar(--mainForegroundColor);
 
   @include peertube-word-wrap(false);
@@ -28,7 +27,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 3px;
+  border-radius: 4px;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -94,7 +93,7 @@
 
 @mixin static-thumbnail-overlay {
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(17, 17, 17, 0.8);
   color: #fff;
 }
 

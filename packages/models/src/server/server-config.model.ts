@@ -39,7 +39,6 @@ export interface ServerConfig {
   client: {
     videos: {
       miniature: {
-        displayAuthorAvatar: boolean
         preferAuthorDisplayName: boolean
       }
       resumableUpload: {

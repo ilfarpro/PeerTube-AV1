@@ -25,7 +25,7 @@
           <span i18n *ngIf="isVideoPasswordProtected()" class="pt-badge badge-yellow">Password protected</span>
         </div>
 
-        <span class="video-miniature-created-at-views">
+        <span class="date-and-views">
           <my-date-toggle [date]="playlistElement.video.publishedAt"></my-date-toggle>
 
           <span class="views" [title]="playlistElement.video.getExactNumberOfViews()">
