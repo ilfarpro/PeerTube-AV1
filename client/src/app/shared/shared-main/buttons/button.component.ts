@@ -17,7 +17,7 @@ import { LoaderComponent } from '../common/loader.component'
 
 export class ButtonComponent implements OnChanges, AfterViewInit {
   @Input() label = ''
-  @Input() theme: 'orange' | 'grey' | 'primary' | 'secondary' | 'tertiary' = 'grey'
+  @Input() theme: 'primary' | 'secondary' | 'tertiary' = 'secondary'
   @Input() icon: GlobalIconName
   @Input() ptRouterLink: string[] | string
   @Input() title: string
@@ -43,14 +43,12 @@ export class ButtonComponent implements OnChanges, AfterViewInit {
     this.classes = {
       'peertube-button': !this.ptRouterLink,
       'peertube-button-link': !!this.ptRouterLink,
-      'orange-button': this.theme === 'orange',
-      'grey-button': this.theme === 'grey',
       'primary-button': this.theme === 'primary',
       'secondary-button': this.theme === 'secondary',
       'tertiary-button': this.theme === 'tertiary',
       'has-icon': !!this.icon,
       'rounded-icon-button': !!this.rounded,
-      'icon-only': !(this.labelContent?.nativeElement as HTMLElement)?.innerText,
+      'icon-only': !this.label && !(this.labelContent?.nativeElement as HTMLElement)?.innerText,
       'responsive-label': this.responsiveLabel
     }
   }

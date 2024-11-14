@@ -174,13 +174,6 @@ my-video-thumbnail,
     my-peertube-checkbox {
       @include margin-right(5px);
     }
-
-    input {
-      margin-top: 10px;
-
-      @include peertube-button;
-      @include orange-button;
-    }
   }
 }
 

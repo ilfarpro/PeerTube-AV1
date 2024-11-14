@@ -65,8 +65,6 @@ my-select-custom-value {
 input[type=submit] {
   display: flex;
 
-  @include peertube-button;
-  @include orange-button;
   @include margin-left(auto);
 
   + .form-error {
@@ -131,18 +129,6 @@ ngb-tabset:not(.previews) ::ng-deep {
   height: 0;
   width: 100%;
   justify-content: right;
-
-  .callout-link {
-    position: relative;
-    right: 3.3em;
-    top: .3em;
-    font-size: 90%;
-    color: pvar(--mainColor);
-    background-color: pvar(--bg);
-    padding: 0 .3em;
-
-    @include peertube-button-link;
-  }
 }
 
 my-actor-banner-edit {

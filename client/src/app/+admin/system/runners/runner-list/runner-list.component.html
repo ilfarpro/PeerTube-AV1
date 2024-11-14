@@ -5,7 +5,7 @@
   </span>
 
   <div>
-    <a routerLink="/admin/system/runners/registration-tokens-list" class="peertube-button-link peertube-button-icon grey-button">
+    <a routerLink="/admin/system/runners/registration-tokens-list" class="peertube-button-link peertube-button-icon secondary-button">
       <my-global-icon iconName="cog" aria-hidden="true"></my-global-icon>
       <ng-container i18n>Runner registration tokens</ng-container>
     </a>
@@ -36,7 +36,7 @@
       <td class="action-cell">
         <my-action-dropdown
           placement="bottom-right top-right left auto" container="body"
-          i18n-label label="Actions" [actions]="actions" [entry]="runner"
+          i18n-label label="Actions" [actions]="actions" [entry]="runner" buttonSize="small"
         ></my-action-dropdown>
       </td>
 

@@ -51,11 +51,6 @@
   }
 }
 
-.action-button {
-  @include peertube-button-link;
-  @include button-with-icon(21px, 0, -2px);
-}
-
 @media screen and (max-width: $small-view) {
   .first-row {
     flex-wrap: wrap;

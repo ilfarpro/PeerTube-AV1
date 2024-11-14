@@ -9,7 +9,7 @@
     <div class="caption">
       <div>
         <my-action-dropdown
-          *ngIf="isInSelectionMode()" i18n-label label="Batch actions" theme="orange"
+          *ngIf="isInSelectionMode()" i18n-label label="Batch actions" theme="primary"
           [actions]="bulkActions" [entry]="selectedRows"
         >
         </my-action-dropdown>
@@ -31,7 +31,7 @@
       <th scope="col" style="width: 40px;">
         <span i18n class="visually-hidden">More information</span>
       </th>
-      <th scope="col" style="width: 150px;">
+      <th scope="col" style="width: 70px;">
         <span i18n class="visually-hidden">Actions</span>
       </th>
       <th scope="col" i18n>Account</th>
@@ -56,7 +56,7 @@
       <td class="action-cell">
         <my-action-dropdown
           [ngClass]="{ 'show': expanded }" placement="bottom-right" container="body"
-          i18n-label label="Actions" [actions]="videoCommentActions" [entry]="videoComment"
+          [actions]="videoCommentActions" [entry]="videoComment" buttonSize="small"
         ></my-action-dropdown>
       </td>
 

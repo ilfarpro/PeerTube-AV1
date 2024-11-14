@@ -145,8 +145,3 @@ my-timestamp-input {
 input[type=text] {
   @include peertube-input-text(200px);
 }
-
-input[type=submit] {
-  @include peertube-button;
-  @include orange-button;
-}

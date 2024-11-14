@@ -314,11 +314,11 @@ body {
   font-weight: $font-semibold;
 
   .active {
-    @include orange-button;
+    @include primary-button;
   }
 
   :not(.active) {
-    @include grey-button;
+    @include secondary-button;
   }
 
   > * {

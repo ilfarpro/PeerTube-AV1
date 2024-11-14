@@ -49,16 +49,8 @@ $width-size: 275px;
     @include peertube-input-text($width-size);
   }
 
-  input[type=button] {
-    width: $width-size;
-    margin-top: 30px;
-
-    @include peertube-button;
-    @include orange-button;
-  }
-
   .button-file {
     @include peertube-button-file(max-content);
-    @include orange-button;
+    @include primary-button;
   }
 }

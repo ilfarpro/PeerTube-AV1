@@ -8,6 +8,10 @@
   @include peertube-button-big;
 }
 
+.peertube-button-small {
+  @include peertube-button-small;
+}
+
 .peertube-button-link {
   @include peertube-button-link;
 }
@@ -16,24 +20,12 @@
   @include peertube-button-big-link;
 }
 
-.orange-button {
-  @include orange-button;
-}
-
 .primary-button {
   @include primary-button;
 }
 
 .rounded-icon-button {
   @include rounded-icon-button;
-}
-
-.orange-button-inverted {
-  @include orange-button-inverted;
-}
-
-.grey-button {
-  @include grey-button;
 }
 
 .secondary-button {
@@ -58,7 +50,7 @@
 
 .peertube-create-button {
   @include peertube-button-link;
-  @include orange-button;
+  @include primary-button;
   @include button-with-icon(20px, 5px, -1px);
 }
 

@@ -99,7 +99,7 @@ p-calendar {
 
 .button-file {
   @include peertube-button-file(max-content);
-  @include orange-button;
+  @include primary-button;
 }
 
 .hide-chapter-label {

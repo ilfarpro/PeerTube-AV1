@@ -9,13 +9,6 @@ input[type=text] {
   @include peertube-input-text(340px);
 }
 
-input[type=submit] {
-  margin-top: 15px;
-
-  @include peertube-button;
-  @include orange-button;
-}
-
 textarea {
   max-width: 100%;
 

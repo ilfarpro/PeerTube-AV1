@@ -6,12 +6,12 @@
   </div>
 
   <div>
-    <a routerLink="/my-library/video-imports" class="peertube-button-link grey-button peertube-button-icon me-2">
+    <a routerLink="/my-library/video-imports" class="peertube-button-link secondary-button peertube-button-icon me-2">
       <my-global-icon iconName="cloud-download" aria-hidden="true"></my-global-icon>
       <ng-container i18n>My imports</ng-container>
     </a>
 
-    <a routerLink="/my-library/ownership" class="peertube-button-link grey-button peertube-button-icon">
+    <a routerLink="/my-library/ownership" class="peertube-button-link secondary-button peertube-button-icon">
       <my-global-icon iconName="users" aria-hidden="true"></my-global-icon>
       <ng-container i18n>Ownership changes</ng-container>
     </a>
@@ -45,10 +45,7 @@
   #videosSelection
 >
   <ng-template ptTemplate="globalButtons">
-    <button class="action-button action-button-delete-selection" (click)="deleteSelectedVideos()">
-      <my-global-icon iconName="delete" aria-hidden="true"></my-global-icon>
-      <ng-container i18n>Delete</ng-container>
-    </button>
+    <my-delete-button class="delete-selection" (click)="deleteSelectedVideos()"></my-delete-button>
   </ng-template>
 
   <ng-template ptTemplate="rowButtons" let-video>

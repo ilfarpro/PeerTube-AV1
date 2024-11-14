@@ -38,7 +38,7 @@
       <td class="action-cell">
         <my-action-dropdown
           [ngClass]="{ 'show': expanded }" placement="bottom-right top-right left auto" container="body"
-          i18n-label label="Actions" [actions]="abuseActions" [entry]="abuse"
+          i18n-label label="Actions" [actions]="abuseActions" [entry]="abuse" buttonSize="small"
         ></my-action-dropdown>
       </td>
 
@@ -133,7 +133,7 @@
       <td class="abuse-messages">
         <button
           *ngIf="isLocalAbuse(abuse)" (click)="openAbuseMessagesModal(abuse)"
-          class="peertube-button grey-button"
+          class="peertube-button secondary-button"
           [ariaLabel]="getSendMessageButtonLabel(abuse)"
           [title]="getSendMessageButtonLabel(abuse)"
         >

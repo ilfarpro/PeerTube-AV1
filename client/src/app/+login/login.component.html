@@ -87,7 +87,7 @@
             ></my-input-text>
           </div>
 
-          <input type="submit" class="peertube-button orange-button w-100" i18n-value value="Login" [disabled]="!form.valid">
+          <input type="submit" class="peertube-button primary-button w-100" i18n-value value="Login" [disabled]="!form.valid">
 
           <div *ngIf="!otpStep" class="additional-links d-flex justify-content-center mt-4 mb-5 text-center">
             <button type="button" i18n class="button-unstyle link-orange mx-3" (click)="openForgotPasswordModal()" i18n-title title="Click here to reset your password">
@@ -158,12 +158,12 @@
 
   <div class="modal-footer inputs">
     <input
-      type="button" role="button" i18n-value value="Cancel" class="peertube-button grey-button d-none d-sm-block"
+      type="button" role="button" i18n-value value="Cancel" class="peertube-button secondary-button d-none d-sm-block"
       (click)="hideForgotPasswordModal()" (key.enter)="hideForgotPasswordModal()"
     >
 
     <input
-      type="submit" i18n-value="Password reset button" value="Reset" class="peertube-button orange-button"
+      type="submit" i18n-value="Password reset button" value="Reset" class="peertube-button primary-button"
       (click)="askResetPassword()" [disabled]="!forgotPasswordEmailInput.validity.valid"
     >
   </div>

@@ -5,7 +5,7 @@
   </span>
 
   <div>
-    <a routerLink="/admin/system/runners/runners-list" class="peertube-button-link peertube-button-icon grey-button">
+    <a routerLink="/admin/system/runners/runners-list" class="peertube-button-link peertube-button-icon secondary-button">
       <my-global-icon iconName="codesandbox" aria-hidden="true"></my-global-icon>
       <ng-container i18n>Remote runners</ng-container>
     </a>
@@ -32,7 +32,7 @@
   <ng-template pTemplate="caption">
     <div class="caption">
       <div class="left-buttons">
-        <my-button theme="orange" i18n-label label="Generate token" icon="add" (click)="generateToken()"></my-button>
+        <my-button theme="primary" i18n-label label="Generate token" icon="add" (click)="generateToken()"></my-button>
       </div>
     </div>
   </ng-template>
@@ -42,7 +42,7 @@
       <td class="action-cell">
         <my-action-dropdown
           placement="bottom-right top-right left auto" container="body"
-          i18n-label label="Actions" [actions]="actions" [entry]="registrationToken"
+          i18n-label label="Actions" [actions]="actions" [entry]="registrationToken" buttonSize="small"
         ></my-action-dropdown>
       </td>
 

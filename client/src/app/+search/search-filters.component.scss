@@ -25,11 +25,6 @@ input[type=text] {
   @include peertube-input-text(100%);
 }
 
-input[type=submit] {
-  @include peertube-button-link;
-  @include orange-button;
-}
-
 .submit-button {
   text-align: end;
 }

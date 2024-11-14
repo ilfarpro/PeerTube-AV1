@@ -30,7 +30,7 @@
               <strong>I already have an account</strong>, I log in
             </a>
 
-            <button cdkStepperNext>
+            <button class="peertube-button-big primary-button" cdkStepperNext>
               <my-signup-label [requiresApproval]="requiresApproval"></my-signup-label>
             </button>
           </div>
@@ -56,8 +56,8 @@
           ></my-register-step-terms>
 
           <div class="step-buttons">
-            <button cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
-            <button cdkStepperNext [disabled]="!formStepTerms || !formStepTerms.valid">{{ defaultNextStepButtonLabel }}</button>
+            <button class="peertube-button-big secondary-button" cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
+            <button class="peertube-button-big primary-button" cdkStepperNext [disabled]="!formStepTerms || !formStepTerms.valid">{{ defaultNextStepButtonLabel }}</button>
           </div>
         </cdk-step>
 
@@ -73,8 +73,8 @@
           ></my-register-step-user>
 
           <div class="step-buttons">
-            <button cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
-            <button cdkStepperNext [disabled]="!formStepUser || !formStepUser.valid" (click)="videoUploadDisabled && signup()">{{ stepUserButtonLabel }}</button>
+            <button class="peertube-button-big secondary-button" cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
+            <button class="peertube-button-big primary-button" cdkStepperNext [disabled]="!formStepUser || !formStepUser.valid" (click)="videoUploadDisabled && signup()">{{ stepUserButtonLabel }}</button>
           </div>
         </cdk-step>
 
@@ -90,7 +90,7 @@
           ></my-register-step-channel>
 
           <div class="step-buttons">
-            <button cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
+            <button class="peertube-button-big secondary-button" cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
 
             <div class="skip-step">
               <button class="underline-orange button-unstyle" (click)="skipChannelCreation()">
@@ -100,7 +100,7 @@
               <div class="skip-step-description" i18n>You will be able to create a channel later</div>
             </div>
 
-            <button cdkStepperNext [disabled]="!formStepChannel || !formStepChannel.valid || hasSameChannelAndAccountNames()" (click)="signup()">
+            <button class="peertube-button-big primary-button" cdkStepperNext [disabled]="!formStepChannel || !formStepChannel.valid || hasSameChannelAndAccountNames()" (click)="signup()">
               <my-signup-label [requiresApproval]="requiresApproval"></my-signup-label>
             </button>
           </div>
@@ -122,7 +122,7 @@
           ></my-signup-success-before-email>
 
           <div *ngIf="signupError" class="step-buttons">
-            <button cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
+            <button class="peertube-button-big secondary-button" cdkStepperPrevious>{{ defaultPreviousStepButtonLabel }}</button>
           </div>
         </cdk-step>
       </my-custom-stepper>

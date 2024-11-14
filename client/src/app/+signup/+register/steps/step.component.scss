@@ -11,11 +11,6 @@ input:not([type=submit]) {
   }
 }
 
-input[type=submit],
-button {
-  @include peertube-button;
-}
-
 label {
   font-size: 18px;
   margin-bottom: 5px;

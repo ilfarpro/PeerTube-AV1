@@ -39,10 +39,6 @@
 
   .delete-history {
     grid-column: 4;
-
-    @include peertube-button;
-    @include grey-button;
-    @include button-with-icon;
   }
 }
 

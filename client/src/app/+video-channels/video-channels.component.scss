@@ -133,13 +133,6 @@
   }
 }
 
-.view-account.short {
-  margin-top: 30px;
-
-  @include peertube-button-link;
-  @include orange-button-inverted;
-}
-
 .view-account.complete {
   display: none;
 }
@@ -232,7 +225,6 @@ my-copy-button {
     display: block;
     text-align: end;
     margin-top: 10px;
-    color: pvar(--mainColor);
   }
 
   .view-account.short {

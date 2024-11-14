@@ -70,7 +70,7 @@ label + .form-group-description,
   height: auto;
 
   @include peertube-button;
-  @include grey-button;
+  @include tertiary-button;
 
   &.reset-button-small {
     font-size: 80%;

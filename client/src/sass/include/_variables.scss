@@ -15,7 +15,6 @@ $grey-background-color: #E5E5E5;
 $grey-background-hover-color: #EFEFEF;
 $grey-foreground-color: #585858;
 $grey-foreground-hover-color: #303030;
-$grey-button-outline-color: color.scale($grey-foreground-color, $alpha: -95%);
 
 $main-color: hsl(24, 90%, 50%);
 $main-color-lighter: color.adjust($main-color, $lightness: 10%);
@@ -35,7 +34,7 @@ $red: #dc3545;
 $green: #198754;
 $white: #fff;
 
-$button-font-size: 15px;
+$button-font-size: 1rem;
 
 $header-height: 84px;
 

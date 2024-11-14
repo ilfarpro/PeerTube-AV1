@@ -8,7 +8,7 @@
 .actor-img-edit-button {
   @include peertube-button-file(31px);
   @include button-with-icon(19px, 0);
-  @include orange-button;
+  @include primary-button;
 
   & {
     display: flex;

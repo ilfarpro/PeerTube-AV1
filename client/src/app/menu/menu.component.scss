@@ -36,7 +36,11 @@
   border-radius: 100%;
   background-color: pvar(--secondary-400);
 
-  @include button-with-icon(20px, 0, -1px, 1px);
+  @include button-with-icon(20px, 0, 0, 1px);
+
+  my-global-icon {
+    margin: auto;
+  }
 
   &:hover {
     opacity: 0.8;
@@ -88,20 +92,6 @@
   background-color: pvar(--secondary-300);
 }
 
-.collapsed {
-  .main-menu-wrapper {
-    max-height: 100%;
-  }
-
-  .main-menu {
-    border-start-start-radius: 0;
-    border-end-start-radius: 0;
-
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-}
-
 .menu-link,
 .menu-button,
 .block-title,
@@ -122,8 +112,26 @@
   }
 }
 
-.collapsed .toggle-menu-container {
-  text-align: center;
+.collapsed {
+  .main-menu-wrapper {
+    max-height: 100%;
+  }
+
+  .main-menu {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .toggle-menu-container {
+    text-align: center;
+  }
+
+  .menu-link {
+    justify-content: center;
+  }
 }
 
 .block-title {
@@ -140,7 +148,7 @@
   color: #2b2f32;
   white-space: normal;
   word-break: break-word;
-  transition: background-color .1s ease-inF-out;
+  transition: background-color .1s ease-in-out;
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -159,6 +167,7 @@
   my-global-icon {
     width: 22px;
     height: 22px;
+    line-height: 22px;
     position: relative;
     top: -1px;
     color: pvar(--secondary);
@@ -167,10 +176,6 @@
       @include margin-left(12px);
     }
   }
-}
-
-.menu-container.collapsed .menu-link {
-  justify-content: center;
 }
 
 .menu-button {

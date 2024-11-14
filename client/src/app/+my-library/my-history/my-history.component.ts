@@ -13,12 +13,14 @@ import { Video } from '@app/shared/shared-main/video/video.model'
 import { UserHistoryService } from '@app/shared/shared-main/users/user-history.service'
 import { MiniatureDisplayOptions } from '@app/shared/shared-video-miniature/video-miniature.component'
 import { VideosSelectionComponent } from '@app/shared/shared-video-miniature/videos-selection.component'
+import { ButtonComponent } from '@app/shared/shared-main/buttons/button.component'
 
 @Component({
   templateUrl: './my-history.component.html',
   styleUrls: [ './my-history.component.scss' ],
   standalone: true,
   imports: [
+    ButtonComponent,
     GlobalIconComponent,
     NgIf,
     AdvancedInputFilterComponent,

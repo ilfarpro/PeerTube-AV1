@@ -20,10 +20,6 @@
     &.has-icon {
       @include button-with-icon(24px, 0);
     }
-
-    &.icon-only {
-      padding: 6px 8px !important;
-    }
   }
 }
 

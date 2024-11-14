@@ -44,18 +44,6 @@ my-instance-about-accordion {
     }
   }
 
-  > button {
-    @include peertube-button-big;
-
-    &[cdkStepperNext] {
-      @include orange-button;
-    }
-
-    &[cdkStepperPrevious] {
-      @include grey-button;
-    }
-  }
-
   > button,
   .skip-step {
     margin-top: 20px;

@@ -14,11 +14,6 @@ input[type=email] {
   @include peertube-input-text(100%);
 }
 
-input[type=submit] {
-  @include peertube-button;
-  @include orange-button;
-}
-
 .pending-email {
   margin-bottom: 15px;
 }

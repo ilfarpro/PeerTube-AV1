@@ -130,11 +130,6 @@ my-subscribe-button {
     }
   }
 
-  .show-channel a {
-    @include peertube-button-link;
-    @include orange-button-inverted;
-  }
-
   .videos {
     display: none;
   }
