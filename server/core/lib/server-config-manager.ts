@@ -130,6 +130,7 @@ class ServerConfigManager {
       },
       theme: {
         registered: this.getRegisteredThemes(),
+        builtIn: this.getBuiltInThemes(),
         default: defaultTheme
       },
       email: {
@@ -368,6 +369,17 @@ class ServerConfigManager {
                           css: t.css,
                           clientScripts: t.clientScripts
                         }))
+  }
+
+  getBuiltInThemes () {
+    return [
+      {
+        name: 'peertube-core-dark' as 'peertube-core-dark'
+      },
+      {
+        name: 'peertube-core-light' as 'peertube-core-light'
+      }
+    ]
   }
 
   getRegisteredPlugins () {

@@ -3,7 +3,7 @@ import { HTMLServerConfig, ServerConfigTheme } from '@peertube/peertube-models'
 import { logger } from '@root-helpers/logger'
 import { capitalizeFirstLetter } from '@root-helpers/string'
 import { UserLocalStorageKeys } from '@root-helpers/users'
-import { format, parse, toHSLA } from 'color-bits'
+import { getLuminance, parse, toHSLA } from 'color-bits'
 import debug from 'debug'
 import { environment } from '../../../environments/environment'
 import { AuthService } from '../auth'
@@ -19,9 +19,10 @@ export class ThemeService {
   private oldInjectedProperties: string[] = []
   private oldThemeName: string
 
+  private internalThemes: string[] = []
   private themes: ServerConfigTheme[] = []
 
-  private themeFromLocalStorage: ServerConfigTheme
+  private themeFromLocalStorage: Pick<ServerConfigTheme, 'name' | 'version'>
   private themeDOMLinksFromLocalStorage: HTMLLinkElement[] = []
 
   private serverConfig: HTMLServerConfig
@@ -39,6 +40,8 @@ export class ThemeService {
     this.loadAndSetFromLocalStorage()
 
     this.serverConfig = this.server.getHTMLConfig()
+    this.internalThemes = this.serverConfig.theme.builtIn.map(t => t.name)
+
     const themes = this.serverConfig.theme.registered
 
     this.removeThemeFromLocalStorageIfNeeded(themes)
@@ -49,15 +52,28 @@ export class ThemeService {
 
   getDefaultThemeLabel () {
     if (this.hasDarkTheme()) {
-      return $localize`Light/Orange or Dark`
+      return $localize`Light (Orange) or Dark (Brown)`
     }
 
-    return $localize`Light/Orange`
+    return $localize`Light (Orange)`
   }
 
   buildAvailableThemes () {
-    return this.serverConfig.theme.registered
-               .map(t => ({ id: t.name, label: capitalizeFirstLetter(t.name) }))
+    return [
+      ...this.serverConfig.theme.registered.map(t => ({ id: t.name, label: capitalizeFirstLetter(t.name) })),
+
+      ...this.serverConfig.theme.builtIn.map(t => {
+        if (t.name === 'peertube-core-dark') {
+          return { id: t.name, label: $localize`Dark (Brown)` }
+        }
+
+        if (t.name === 'peertube-core-light') {
+          return { id: t.name, label: $localize`Light (Orange)` }
+        }
+
+        return { id: t.name, label: capitalizeFirstLetter(t.name) }
+      })
+    ]
   }
 
   private injectThemes (themes: ServerConfigTheme[], fromLocalStorage = false) {
@@ -116,6 +132,8 @@ export class ThemeService {
         link.disabled = link.getAttribute('title') !== name
       }
     }
+
+    document.body.dataset.ptTheme = name
   }
 
   private updateCurrentTheme () {
@@ -128,7 +146,12 @@ export class ThemeService {
     this.loadThemeStyle(currentTheme)
 
     const theme = this.getTheme(currentTheme)
-    if (theme) {
+
+    if (this.internalThemes.includes(currentTheme)) {
+      logger.info(`Enabling internal theme ${currentTheme}`)
+
+      this.localStorageService.setItem(UserLocalStorageKeys.LAST_ACTIVE_THEME, JSON.stringify({ name: currentTheme }), false)
+    } else if (theme) {
       logger.info(`Adding scripts of theme ${currentTheme}`)
 
       this.pluginService.addPlugin(theme, true)
@@ -156,8 +179,33 @@ export class ThemeService {
 
     this.oldInjectedProperties = []
 
-    for (const prefix of [ 'primary', 'secondary', 'main-fg' ]) {
+    const toProcess = [
+      { prefix: 'primary', invertIfDark: false },
+      { prefix: 'secondary', invertIfDark: true },
+      { prefix: 'main-fg', invertIfDark: true }
+    ]
+
+    for (const { prefix, invertIfDark } of toProcess) {
       const mainColor = computedStyle.getPropertyValue('--' + prefix)
+
+      let darkInverter = 1
+
+      if (invertIfDark) {
+        const deprecatedFG = computedStyle.getPropertyValue('--mainForegroundColor')
+        const deprecatedBG = computedStyle.getPropertyValue('--mainBackgroundColor')
+
+        if (computedStyle.getPropertyValue('--is-dark') === '1') {
+          darkInverter = -1
+        } else if (deprecatedFG && deprecatedBG) {
+          try {
+            if (getLuminance(parse(deprecatedBG)) < getLuminance(parse(deprecatedFG))) {
+              darkInverter = -1
+            }
+          } catch (err) {
+            console.error('Cannot parse deprecated CSS variables', err)
+          }
+        }
+      }
 
       if (!mainColor) {
         console.error(`Cannot create palette of unexisting "--${prefix}" CSS body variable`)
@@ -172,7 +220,7 @@ export class ThemeService {
         const key = `--${prefix}-${suffix}`
 
         if (!computedStyle.getPropertyValue(key)) {
-          const newLuminance = Math.max(Math.min(100, Math.round(mainColorHSL.l + (i * 5 * -1))), 0)
+          const newLuminance = Math.max(Math.min(100, Math.round(mainColorHSL.l + (i * 5 * -1 * darkInverter))), 0)
           const newColor = `hsl(${Math.round(mainColorHSL.h)} ${Math.round(mainColorHSL.s)}% ${newLuminance}% / ${mainColorHSL.a})`
 
           rootStyle.setProperty(key, newColor)
@@ -204,6 +252,14 @@ export class ThemeService {
   private loadAndSetFromLocalStorage () {
     const lastActiveThemeString = this.localStorageService.getItem(UserLocalStorageKeys.LAST_ACTIVE_THEME)
     if (!lastActiveThemeString) return
+
+    // Internal theme
+    if (lastActiveThemeString === 'string') {
+      this.themeFromLocalStorage = { name: lastActiveThemeString, version: undefined }
+
+      this.updateCurrentTheme()
+      return
+    }
 
     try {
       const lastActiveTheme = JSON.parse(lastActiveThemeString)

@@ -116,9 +116,9 @@
     align-items: center;
     justify-content: center;
 
-    background-color: pvar(--primary-400);
-    color: pvar(--main-fg-500);
-    border: 1px solid pvar(--main-fg-500);
+    background-color: pvar(--primary);
+    color: pvar(--on-primary);
+    border: 1px solid pvar(--on-primary);
     font-weight: $font-bold;
     font-size: 10px;
 

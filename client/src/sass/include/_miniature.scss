@@ -5,7 +5,7 @@
 @mixin miniature-name {
   transition: color 0.2s;
   font-weight: $font-bold;
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
 
   @include peertube-word-wrap(false);
 

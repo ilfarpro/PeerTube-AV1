@@ -133,7 +133,7 @@
   &,
   &:active,
   &:focus {
-    color: pvar(--fg);
+    color: pvar(--on-primary);
     background-color: pvar(--primary-450);
     border: 1px solid pvar(--primary-450);
   }
@@ -142,13 +142,13 @@
   &.btn:active,
   &.btn:focus-visible,
   &.btn.show {
-    color: pvar(--fg) !important;
+    color: pvar(--on-primary) !important;
     background-color: pvar(--primary-450) !important;
     border: 1px solid pvar(--primary-450) !important;
   }
 
   &:hover {
-    color: pvar(--fg);
+    color: pvar(--on-primary);
     background-color: pvar(--primary-400);
   }
 

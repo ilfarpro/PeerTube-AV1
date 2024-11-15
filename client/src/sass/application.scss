@@ -33,7 +33,7 @@ body {
   --mainHoverColor: #{$main-hover-color};
   --mainBackgroundHoverColor: #{$main-background-hover-color};
 
-  --bg: #{$bg-color};
+  --mainBackgroundColor: #{$bg-color};
   --mainForegroundColor: #{$fg-color};
 
   --greyForegroundColor: #{$grey-foreground-color};
@@ -68,19 +68,41 @@ body {
   --mainColWidth: calc(100vw - #{$menu-width});
 
   // Create a theme system using CSS variables
-  --fg: #{pvar(--main-fg-600)};
-  --bg: #{pvar(--secondary-300)};
 
-  --primary: #F2690D;
+  // Fallback from old theme
+  --primary: var(--mainColor);
+  --secondary: var(--greyBackgroundColor);
+  --main-fg: var(--mainForegroundColor);
+  --main-fg-500: var(--greyForegroundColor);
 
-  --main-fg: hsl(0 14% 12%);
-  --secondary: hsl(0 10% 76%);
+  // New theme with fallback
+  --fg: var(--mainForegroundColor, #{pvar(--main-fg-600)});
+  --bg: var(--mainBackgroundColor, #{pvar(--secondary-300)});
+  --on-primary: var(--inputForegroundColor, #{pvar(--fg)});
+
+  // Light theme
+  &[data-pt-theme=peertube-core-light],
+  &[data-pt-theme=default] {
+    --is-dark: 0;
+    --primary: #F2690D;
+    --main-fg: hsl(0 14% 12%);
+    --secondary: hsl(0 10% 76%);
+  }
+
+  // Brown
+  &[data-pt-theme=peertube-core-dark] {
+    --is-dark: 1;
+    --primary: #FD9C50;
+    --main-fg: hsl(0 10% 86%);
+    --secondary: hsl(0 14% 22%);
+    --bg: #{pvar(--secondary-350)};
+    --on-primary: #{pvar(--secondary-600)};
+  }
 
   font-family: $main-fonts;
   font-weight: $font-regular;
   color: pvar(--fg);
   background-color: pvar(--bg);
-  font-size: 1rem;
 
   // On desktop browsers, make sure vertical scroll bar is always visible
   // Allow to disable the scrollbar instead of hide it when the content fit the body
