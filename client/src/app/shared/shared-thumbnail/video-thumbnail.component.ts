@@ -46,10 +46,12 @@ export class VideoThumbnailComponent {
     return this.addToWatchLaterText
   }
 
-  isLiveEnded () {
-    if (!this.video.state) return
+  isLiveStreaming () {
+    return this.video.isLive && this.video.state?.id === VideoState.PUBLISHED
+  }
 
-    return this.video.state.id === VideoState.LIVE_ENDED
+  isEndedLive () {
+    return this.video.state?.id === VideoState.LIVE_ENDED
   }
 
   getImageUrl () {

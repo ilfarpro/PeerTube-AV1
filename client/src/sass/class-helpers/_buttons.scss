@@ -1,3 +1,4 @@
+@use '_variables' as *;
 @use '_mixins' as *;
 
 .peertube-button {
@@ -57,4 +58,15 @@
 .button-unstyle {
   padding: 0;
   border: 0;
+}
+
+.peertube-button-like-link {
+  padding: 0;
+  border: 0 !important;
+  text-decoration: underline;
+  color: pvar(--main-fg-500);
+
+  &:hover {
+    color: pvar(--main-fg-200);
+  }
 }

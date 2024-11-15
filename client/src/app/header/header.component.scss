@@ -23,13 +23,14 @@
     }
   }
 
-  .icon.icon-logo {
+  .icon-logo {
     display: inline-block;
     width: 34px;
     height: 34px;
 
     background-repeat: no-repeat;
 
+    @include margin-left(18px);
     @include margin-right(10px);
   }
 }
@@ -69,7 +70,7 @@
   }
 
   .username {
-    color: pvar(--secondary);
+    color: pvar(--main-fg-400);
   }
 
   > .dropdown-toggle {

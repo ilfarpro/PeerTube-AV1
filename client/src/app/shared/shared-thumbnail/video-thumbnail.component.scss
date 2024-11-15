@@ -23,8 +23,8 @@
 .label-overlay,
 .duration-overlay,
 .live-overlay {
-  font-size: 12px;
-  line-height: 1.1;
+  font-size: 0.75rem;
+  line-height: normal;
   z-index: z(miniature);
 
   @include static-thumbnail-overlay;
@@ -39,7 +39,7 @@
   font-weight: $font-bold;
 
   &.warning { background-color: #ffa500; }
-  &.danger { background-color: #ff0000; }
+  &.danger { background-color: pvar(--red); }
 }
 
 .duration-overlay,
@@ -53,10 +53,23 @@
 
 .live-overlay {
   font-weight: $font-bold;
-  color: #fff;
+  color: pvar(--secondary-300);
 
-  &:not(.live-ended) {
-    background-color: rgba(224, 8, 8, 0.7);
+  &.live-streaming {
+    color: pvar(--secondary-300);
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 100%;
+      background-color: pvar(--primary);
+      position: relative;
+      top: -1px;
+
+      @include margin-right(8px);
+    }
   }
 }
 
@@ -83,6 +96,6 @@
     width: 22px;
     height: 22px;
 
-    @include apply-svg-color(#fff);
+    color: pvar(--secondary-300);
   }
 }

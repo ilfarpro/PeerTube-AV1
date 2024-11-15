@@ -68,16 +68,13 @@ body {
   --mainColWidth: calc(100vw - #{$menu-width});
 
   // Create a theme system using CSS variables
-  --fg: #0A0A0A;
-  --bg :#E9DFDF;
+  --fg: #{pvar(--main-fg-600)};
+  --bg: #{pvar(--secondary-300)};
 
-  --primary: #FF8F37;
+  --primary: #F2690D;
 
-  --secondary: #8D7777;
-  // --secondary-300: #E9DFDF;
-  // --secondary-400: #D4C7C7;
-
-  --secondary-text-emphasis: #553D3D;
+  --main-fg: hsl(0 14% 12%);
+  --secondary: hsl(0 10% 76%);
 
   font-family: $main-fonts;
   font-weight: $font-regular;
@@ -315,7 +312,7 @@ my-global-icon[iconName=external-link] {
 
 ngx-loading-bar {
   .ngx-bar {
-    height: 4px !important;
+    height: 3px !important;
     border-radius: 0 !important;
     border-start-end-radius: 6px !important;
     border-end-end-radius: 6px !important;

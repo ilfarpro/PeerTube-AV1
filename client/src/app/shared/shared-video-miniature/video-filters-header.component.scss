@@ -1,6 +1,8 @@
 @use '_variables' as *;
 @use '_mixins' as *;
 
+$filters-background: pvar(--secondary-400);
+
 .root {
   margin-bottom: 45px;
 }
@@ -8,19 +10,15 @@
 .first-row {
   display: flex;
   justify-content: space-between;
-}
-
-.active-filters {
-  display: flex;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .filters {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 25px;
-
-  border-bottom: 1px solid $separator-border-color;
+  background-color: $filters-background;
+  padding: 1.5rem;
+  border-radius: 14px;
 
   input[type=radio] + label {
     font-weight: $font-regular;
@@ -43,67 +41,32 @@
   }
 }
 
-.pastille {
-  border-radius: 24px;
-  padding: 4px 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
-
-  @include margin-right(15px);
-
-  &:focus-visible {
-    outline: pvar(--mainColor) auto 1px;
-  }
+.filters-summary {
+  color: pvar(--main-fg-300);
 }
 
 .filters-toggle {
-  border: 2px solid pvar(--mainForegroundColor);
+  padding: 6px 0.25rem calc(6px + 0.5rem) 0.5rem;
+
+  @include margin-left(0.25rem);
 
   my-global-icon {
     @include margin-left(5px);
   }
 
-  &.active my-global-icon {
-    position: relative;
-    top: -1px;
-  }
-
-  &:not(.active) {
-    my-global-icon ::ng-deep svg {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-// Than have an icon
-.filters-toggle,
-.active-filter.can-remove {
-  padding: 4px 11px 4px 15px;
-}
-
-.active-filter {
-  background-color: pvar(--channelBackgroundColor);
-  display: flex;
-  align-items: center;
-
-  &:not(.can-remove) {
-    cursor: default;
-  }
-
-  &.can-remove:hover {
-    opacity: 0.9;
-  }
-
-  > .remove-button {
-    border: 0;
-    padding: 0;
-
-    @include margin-left(10px);
+  &.active {
+    background-color: $filters-background;
+    border-start-start-radius: 14px;
+    border-start-end-radius: 14px;
 
     my-global-icon {
-      width: 16px;
-      color: pvar(--greyForegroundColor);
+      position: relative;
+      top: -1px;
     }
+  }
+
+  &:not(.active) my-global-icon ::ng-deep svg {
+    transform: rotate(180deg);
   }
 }
 

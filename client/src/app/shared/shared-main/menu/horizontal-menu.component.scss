@@ -3,11 +3,11 @@
 
 .root {
   width: 100%;
-  border-bottom: 1px solid pvar(--secondary-text-emphasis);
+  border-bottom: 1px solid pvar(--main-fg-300);
 }
 
 .x-menu-entry {
-  color: pvar(--secondary);
+  color: pvar(--secondary-750);
   display: inline-block;
   font-weight: $font-bold;
   white-space: nowrap;
@@ -24,7 +24,7 @@
       content: '';
       display: block;
       height: 4px;
-      background-color: pvar(--primary);
+      background-color: pvar(--primary-500);
       border-radius: 2px;
       position: absolute;
       bottom: -2px;

@@ -5,6 +5,11 @@
   width: 100%;
 }
 
+li {
+  // Fix child outline on focus-visible
+  padding-top: 2px;
+}
+
 .list-overflow-parent {
   display: flex;
   align-items: center;

@@ -84,15 +84,10 @@
   line-height: calc(#{$font-size} + #{math.round(math.div($font-size, 2))});
 }
 
-@mixin rounded-line-height-1-42 ($font-size) {
-  line-height: math.round($font-size * 1.4285714286);
-}
-
 @mixin peertube-input-text($width, $font-size: $form-input-font-size) {
   font-size: $font-size;
 
   padding: 6px 20px;
-  line-height: 1.66;
   width: $width;
   max-width: $width;
   color: pvar(--inputForegroundColor);
@@ -100,14 +95,22 @@
   border: 1px solid pvar(--inputBorderColor);
   border-radius: 4px;
 
-  @include rounded-line-height-1-42($font-size);
+  @include rounded-line-height-1-5($font-size);
 
   &::placeholder {
     color: pvar(--inputPlaceholderColor);
+    font-size: 14px;
   }
 
   &[readonly] {
     color: pvar(--greyForegroundColor);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 0;
+    border-color: pvar(--fg);
+    box-shadow: none;
   }
 
   @media screen and (max-width: calc(#{$width} + 40px)) {
@@ -131,8 +134,8 @@
   &:active,
   &:focus {
     color: pvar(--fg);
-    background-color: pvar(--primary);
-    border: 1px solid pvar(--primary);
+    background-color: pvar(--primary-450);
+    border: 1px solid pvar(--primary-450);
   }
 
   // Override bootstrap
@@ -140,8 +143,8 @@
   &.btn:focus-visible,
   &.btn.show {
     color: pvar(--fg) !important;
-    background-color: pvar(--primary) !important;
-    border: 1px solid pvar(--primary) !important;
+    background-color: pvar(--primary-450) !important;
+    border: 1px solid pvar(--primary-450) !important;
   }
 
   &:hover {
@@ -155,7 +158,7 @@
   }
 
   my-global-icon {
-    @include apply-svg-color(pvar(--fg));
+    color: pvar(--fg);
   }
 }
 
@@ -164,15 +167,15 @@
   & {
     color: pvar(--fg);
     background-color: transparent;
-    border: 1px solid pvar(--secondary-400);
+    border: 1px solid pvar(--secondary-500);
   }
 
   &:active,
   &:focus,
   &:focus-visible {
     color: pvar(--fg);
-    background-color: pvar(--secondary);
-    border-color: pvar(--secondary);
+    background-color: pvar(--secondary-450);
+    border-color: pvar(--secondary-500);
   }
 
   // Override bootstrap
@@ -180,13 +183,13 @@
   &.btn:focus-visible,
   &.btn.show {
     color: pvar(--fg) !important;
-    background-color: pvar(--secondary) !important;
-    border-color: pvar(--secondary) !important;
+    background-color: pvar(--secondary-450) !important;
+    border-color: pvar(--secondary-500) !important;
   }
 
   &:hover {
     color: pvar(--fg);
-    background-color: pvar(--secondary-400);
+    background-color: pvar(--secondary-450);
   }
 
   &[disabled] {
@@ -195,18 +198,18 @@
   }
 
   my-global-icon {
-    @include apply-svg-color(pvar(--secondary-400));
+    color: pvar(--secondary-750);
   }
 }
 
 @mixin tertiary-button {
-  color: pvar(--secondary);
+  color: pvar(--main-fg-300);
   background-color: transparent;
   border: 1px solid transparent;
 
   &:hover {
-    color: pvar(--secondary);
-    background-color: pvar(--secondary-300);
+    color: pvar(--main-fg-300);
+    background-color: pvar(--secondary-400);
   }
 
   &[disabled] {
@@ -214,11 +217,11 @@
   }
 
   &:active {
-    background-color: pvar(--secondary-200);
+    background-color: pvar(--secondary-450);
   }
 
   &.show {
-    border-color: pvar(--secondary);
+    border-color: pvar(--main-fg-300);
   }
 
   // Override bootstrap
@@ -227,10 +230,8 @@
   }
 
   &.btn.show {
-    border-color: pvar(--secondary) !important;
+    border-color: pvar(--main-fg-300) !important;
   }
-
-  @include button-focus(--secondary);
 }
 
 @mixin rounded-icon-button {
@@ -323,14 +324,6 @@
   @include peertube-button-big;
 }
 
-@mixin peertube-button-outline {
-  display: inline-block;
-  border: 1px solid;
-
-  @include disable-default-a-behaviour;
-  @include peertube-button;
-}
-
 @mixin button-with-icon($width: 20px, $margin-right: 3px, $top: -1px, $right: 0) {
   my-global-icon {
     position: relative;
@@ -402,9 +395,7 @@
   position: relative;
   height: min-content;
 
-  select[disabled] {
-    background-color: #f9f9f9;
-  }
+  @include secondary-button;
 
   @media screen and (max-width: $width) {
     width: 100%;
@@ -419,7 +410,7 @@
     position: absolute;
     pointer-events: none;
     border: 5px solid rgba(0, 0, 0, 0);
-    border-top-color: pvar(--mainForegroundColor);
+    border-top-color: pvar(--secondary);
     margin-top: -2px;
     z-index: 100;
   }
@@ -427,31 +418,21 @@
   select {
     font-size: $form-input-font-size;
 
-    padding: 3px 35px 3px 12px;
+    font-weight: $font-semibold;
+    padding: 6px 43px 6px 20px;
     position: relative;
-    border: 1px solid pvar(--inputBorderColor);
+    border: 0;
     background: transparent none;
     appearance: none;
     text-overflow: ellipsis;
-    color: pvar(--mainForegroundColor);
 
     @include rounded-line-height-1-5($form-input-font-size);
 
-    option {
-      color: #000;
-    }
-  }
-
-  &.peertube-select-button {
-    @include secondary-button;
-
-    select {
-      font-weight: $font-semibold;
-      color: pvar(--greyForegroundColor);
-      border: 0;
-
-      // No border, add +1 to vertical padding
-      padding: 4px 35px 4px 12px;
+    &:focus,
+    &:focus-visible {
+      outline: 0;
+      border-color: pvar(--fg);
+      box-shadow: none;
     }
   }
 }
@@ -747,7 +728,7 @@
   border-top: #{math.div($height, 2)} solid transparent;
   border-bottom: #{math.div($height, 2)} solid transparent;
 
-  border-left: $width solid rgba(255, 255, 255, 0.95);
+  border-left: $width solid pvar(--secondary-300);
 }
 
 @mixin on-small-main-col () {

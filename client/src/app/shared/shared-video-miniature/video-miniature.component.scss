@@ -34,15 +34,19 @@ $more-button-width: 40px;
   font-size: var(--fs-small);
 }
 
+.date-and-views {
+  color: pvar(--main-fg-300);
+}
+
 .owner-label {
   display: block;
-  color: pvar(--greyForegroundColor);
+  color: pvar(--main-fg-500);
 
   @include disable-default-a-behaviour;
   @include ellipsis;
 
   &:hover {
-    color: $grey-foreground-hover-color;
+    color: pvar(--main-fg-600);
   }
 }
 

@@ -30,11 +30,11 @@
 }
 
 .toggle-menu {
-  color: pvar(--secondary);
+  color: pvar(--secondary-750);
   width: 24px;
   height: 24px;
   border-radius: 100%;
-  background-color: pvar(--secondary-400);
+  background-color: pvar(--secondary-450);
 
   @include button-with-icon(20px, 0, 0, 1px);
 
@@ -49,7 +49,7 @@
 
 .menu-container:not(.collapsed) .toggle-menu {
   position: absolute;
-  top: 20px;
+  top: 22px;
 
   @include right(24px);
 }
@@ -89,7 +89,7 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   border-radius: 14px;
-  background-color: pvar(--secondary-300);
+  background-color: pvar(--secondary-400);
 }
 
 .menu-link,
@@ -107,7 +107,7 @@
     content: '';
     display: block;
     height: 2px;
-    background: pvar(--secondary);
+    background: pvar(--secondary-450);
     margin: 1rem var(--menuXPadding);
   }
 }
@@ -144,7 +144,7 @@
   display: flex;
   align-items: center;
 
-  color: pvar(--fg);
+  color: pvar(--main-fg-450);
   color: #2b2f32;
   white-space: normal;
   word-break: break-word;
@@ -170,7 +170,7 @@
     line-height: 22px;
     position: relative;
     top: -1px;
-    color: pvar(--secondary);
+    color: pvar(--secondary-750);
 
     + *:not(.visually-hidden) {
       @include margin-left(12px);
@@ -185,6 +185,6 @@
 .about {
   .description {
     font-size: 14px;
-    color: pvar(--secondary-text-emphasis);
+    color: pvar(--main-fg-300);
   }
 }

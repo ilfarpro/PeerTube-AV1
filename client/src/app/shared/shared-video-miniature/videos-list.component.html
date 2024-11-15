@@ -1,6 +1,6 @@
 <div class="margin-content">
-  <div class="videos-header mb-4">
-    <div *ngIf="headerActions.length !== 0" class="action-block mt-3">
+  <div class="videos-header">
+    <div *ngIf="headerActions.length !== 0" class="action-block mt-3 mb-4">
       <ng-container *ngFor="let action of headerActions">
         @if (action.routerLink) {
           <my-button theme="secondary" [ptRouterLink]="action.routerLink" [icon]="action.iconName">{{ action.label }}</my-button>
@@ -10,8 +10,8 @@
   </div>
 
   <my-video-filters-header
-    *ngIf="displayFilters" [displayModerationBlock]="displayModerationBlock" [hideScope]="hideScopeFilter"
-    [filters]="filters"
+    *ngIf="displayFilters" class="d-block mt-3"
+    [displayModerationBlock]="displayModerationBlock" [hideScope]="hideScopeFilter" [filters]="filters"
     (filtersChanged)="onFiltersChanged(true)"
   ></my-video-filters-header>
 

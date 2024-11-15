@@ -116,10 +116,11 @@
     align-items: center;
     justify-content: center;
 
-    background-color: pvar(--mainColor);
-    color: #fff;
+    background-color: pvar(--primary-400);
+    color: pvar(--main-fg-500);
+    border: 1px solid pvar(--main-fg-500);
+    font-weight: $font-bold;
     font-size: 10px;
-    font-weight: $font-semibold;
 
     border-radius: 16px;
     width: 16px;

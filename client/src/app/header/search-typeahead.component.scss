@@ -3,9 +3,8 @@
 
 #search-video {
   text-overflow: ellipsis;
-  line-height: 42px;
 
-  @include peertube-input-text(270px, 14px);
+  @include peertube-input-text(270px);
 
   & {
     padding-inline-start: 42px; // For the search icon

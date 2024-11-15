@@ -140,21 +140,29 @@ export class VideoFiltersHeaderComponent implements OnInit, OnDestroy {
     return serverConfig.trending.videos.algorithms.enabled.includes(sort)
   }
 
-  resetFilter (key: string, canRemove: boolean) {
-    if (!canRemove) return
+  getActiveFilters () {
+    const store: string[] = []
 
-    this.filters.reset(key)
-    this.patchForm(false)
-    this.filtersChanged.emit()
+    for (const activeFilter of this.filters.getActiveFilters()) {
+      if (activeFilter.value) {
+        store.push($localize`${activeFilter.label}\: ${this.getFilterValue(activeFilter)}`)
+      } else {
+        store.push(activeFilter.label)
+      }
+    }
+
+    const output = store.reduce((p, c) => {
+      if (!p) return c
+
+      return $localize`${p}, ${c}`
+    }, '')
+
+    if (output) return `${output}.`
+
+    return output
   }
 
-  getFilterTitle (canRemove: boolean) {
-    if (canRemove) return $localize`Remove this filter`
-
-    return ''
-  }
-
-  getFilterValue (filter: VideoFilterActive) {
+  private getFilterValue (filter: VideoFilterActive) {
     if ((filter.key === 'categoryOneOf' || filter.key === 'languageOneOf') && Array.isArray(filter.rawValue)) {
       if (filter.rawValue.length > 2) {
         return filter.rawValue.length

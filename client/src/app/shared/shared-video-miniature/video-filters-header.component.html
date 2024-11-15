@@ -10,9 +10,11 @@
 <div class="root" [formGroup]="form">
 
   <div class="first-row">
-    <div class="active-filters">
+    <div class="filters-summary">
+      <div class="d-inline-block active-filters">{{ getActiveFilters() }}</div>
+
       <button
-        class="pastille filters-toggle" (click)="areFiltersCollapsed = !areFiltersCollapsed"
+        class="filters-toggle peertube-button-like-link" (click)="areFiltersCollapsed = !areFiltersCollapsed"
         [attr.aria-expanded]="!areFiltersCollapsed" aria-controls="collapseBasic"
         [ngClass]="{ active: !areFiltersCollapsed }"
       >
@@ -24,25 +26,6 @@
 
         <my-global-icon iconName="chevrons-up"></my-global-icon>
       </button>
-
-      <div
-        *ngFor="let activeFilter of filters.getActiveFilters()"
-        class="active-filter pastille button-unstyle" [ngClass]="{ 'can-remove': activeFilter.canRemove }" [title]="getFilterTitle(activeFilter.canRemove)"
-      >
-        <span>
-          {{ activeFilter.label }}
-
-          <ng-container *ngIf="activeFilter.value">: {{ getFilterValue(activeFilter) }}</ng-container>
-        </span>
-
-        <button
-          *ngIf="activeFilter.canRemove" type="button" class="remove-button"
-          (click)="resetFilter(activeFilter.key, activeFilter.canRemove)"
-          i18n-title title="Remove this filter"
-        >
-          <my-global-icon iconName="cross"></my-global-icon>
-        </button>
-      </div>
     </div>
 
     <label class="visually-hidden" for="sort-videos">Sort videos</label>

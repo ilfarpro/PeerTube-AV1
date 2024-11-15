@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core'
+import { HTMLServerConfig, ServerConfigTheme } from '@peertube/peertube-models'
 import { logger } from '@root-helpers/logger'
 import { capitalizeFirstLetter } from '@root-helpers/string'
 import { UserLocalStorageKeys } from '@root-helpers/users'
-import { HTMLServerConfig, ServerConfigTheme } from '@peertube/peertube-models'
+import { format, parse, toHSLA } from 'color-bits'
+import debug from 'debug'
 import { environment } from '../../../environments/environment'
 import { AuthService } from '../auth'
 import { PluginService } from '../plugins/plugin.service'
 import { ServerService } from '../server'
 import { UserService } from '../users/user.service'
 import { LocalStorageService } from '../wrappers/storage.service'
-import { darken, lighten, format, parse, blend } from 'color-bits'
+
+const debugLogger = debug('peertube:theme')
 
 @Injectable()
 export class ThemeService {
@@ -143,32 +146,17 @@ export class ThemeService {
   }
 
   private injectColorPalette () {
-    const style = document.body.style
+    const rootStyle = document.body.style
     const computedStyle = getComputedStyle(document.body)
 
     // FIXME: Remove previously injected properties
     for (const property of this.oldInjectedProperties) {
-      style.removeProperty(property)
+      rootStyle.removeProperty(property)
     }
 
     this.oldInjectedProperties = []
 
-    const lightenRatios = [
-      { suffix: 100, value: 0.8 },
-      { suffix: 200, value: 0.6 },
-      { suffix: 300, value: 0.4 },
-      { suffix: 400, value: 0.2 },
-      { suffix: 500, value: 0 }
-    ]
-
-    const darkenRatios = [
-      { suffix: 600, value: 0.2 },
-      { suffix: 700, value: 0.4 },
-      { suffix: 800, value: 0.6 },
-      { suffix: 900, value: 0.8 }
-    ]
-
-    for (const prefix of [ 'primary', 'secondary' ]) {
+    for (const prefix of [ 'primary', 'secondary', 'main-fg' ]) {
       const mainColor = computedStyle.getPropertyValue('--' + prefix)
 
       if (!mainColor) {
@@ -177,14 +165,20 @@ export class ThemeService {
       }
 
       const mainColorParsed = parse(mainColor)
-      for (const { ratios, color } of [ { ratios: lightenRatios, color: parse('#fff') }, { ratios: darkenRatios, color: parse('#000') } ]) {
-        for (const ratio of ratios) {
-          const key = `--${prefix}-${ratio.suffix}`
+      const mainColorHSL = toHSLA(mainColorParsed)
 
-          if (!computedStyle.getPropertyValue(key)) {
-            style.setProperty(key, format(blend(mainColorParsed, color, ratio.value)))
-            this.oldInjectedProperties.push(key)
-          }
+      for (let i = -8; i <= 8; i++) {
+        const suffix = 500 + (50 * i)
+        const key = `--${prefix}-${suffix}`
+
+        if (!computedStyle.getPropertyValue(key)) {
+          const newLuminance = Math.max(Math.min(100, Math.round(mainColorHSL.l + (i * 5 * -1))), 0)
+          const newColor = `hsl(${Math.round(mainColorHSL.h)} ${Math.round(mainColorHSL.s)}% ${newLuminance}% / ${mainColorHSL.a})`
+
+          rootStyle.setProperty(key, newColor)
+          this.oldInjectedProperties.push(key)
+
+          debugLogger(`Injected theme palette ${key} -> ${newColor}`)
         }
       }
     }
