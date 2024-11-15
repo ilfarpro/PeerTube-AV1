@@ -32,7 +32,7 @@ my-edit-button {
   width: fit-content;
   display: flex;
   align-items: baseline;
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
 
   @include disable-default-a-behaviour;
 }
@@ -44,13 +44,13 @@ my-edit-button {
 
 .video-channel-name {
   font-size: 14px;
-  color: pvar(--greyForegroundColor);
+  color: pvar(--main-fg-400);
 
   @include margin-left(5px);
 }
 
 .video-channel-followers {
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
 }
 
 .video-channel-buttons {

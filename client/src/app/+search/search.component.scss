@@ -74,7 +74,7 @@
 .video-channel-names {
   display: flex;
   align-items: baseline;
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
   width: fit-content;
   flex-wrap: wrap;
 
@@ -86,7 +86,7 @@
 }
 
 .video-channel-name {
-  color: pvar(--greyForegroundColor);
+  color: pvar(--main-fg-400);
 }
 
 // Use the same breakpoints as in video-miniature

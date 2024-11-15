@@ -21,64 +21,45 @@ body {
   /*** theme ***/
   // now beware sass requires interpolation
   // for css custom properties #{$var}
-  --red: #{$red};
-  --green: #{$green};
-  --white: #{$white};
-
-  --mainColor: #{$main-color};
-  --mainColorLighter: #{$main-color-lighter};
-  --mainColorLightest: #{$main-color-lightest};
-  --mainColorVeryLight: #{$main-color-very-light};
-
-  --mainHoverColor: #{$main-hover-color};
-  --mainBackgroundHoverColor: #{$main-background-hover-color};
-
-  --mainBackgroundColor: #{$bg-color};
-  --mainForegroundColor: #{$fg-color};
-
-  --greyForegroundColor: #{$grey-foreground-color};
-  --greyBackgroundColor: #{$grey-background-color};
-  --greySecondaryBackgroundColor: #{$grey-background-hover-color};
 
   --menuBackgroundColor: #{$menu-background};
   --menuForegroundColor: #{$menu-color};
 
-  --submenuBackgroundColor: #{$sub-menu-background-color};
-  --channelBackgroundColor: #{$channel-background-color};
-
-  --inputForegroundColor: #{$input-foreground-color};
-  --inputBackgroundColor: #{$input-background-color};
-  --inputPlaceholderColor: #{$input-placeholder-color};
-  --inputBorderColor: #{$input-border-color};
-
-  --textareaForegroundColor: #{$textarea-foreground-color};
-  --textareaBackgroundColor: #{$textarea-background-color};
-  --markdownTextareaBackgroundColor: #{$markdown-textarea-background-color};
-
-  --actionButtonColor: #{$grey-foreground-color};
-
-  --supportButtonBackgroundColor: #{transparent};
-  --supportButtonColor: #{pvar(--actionButtonColor)};
-  --supportButtonHeartColor: #{$support-button-heart};
-
-  --activatedActionButtonColor: #{$activated-action-button-color};
-
-  --horizontalMarginContent: 2rem;
-  --videosHorizontalMarginContent: 2rem;
-  --mainColWidth: calc(100vw - #{$menu-width});
-
   // Create a theme system using CSS variables
 
   // Fallback from old theme
-  --primary: var(--mainColor);
+  --primary: var(--primary);
   --secondary: var(--greyBackgroundColor);
-  --main-fg: var(--mainForegroundColor);
-  --main-fg-500: var(--greyForegroundColor);
+  --main-fg: var(--fg);
+  --main-fg-500: var(--greyForegroundColor, 0); // 0 means undefined
 
   // New theme with fallback
   --fg: var(--mainForegroundColor, #{pvar(--main-fg-600)});
   --bg: var(--mainBackgroundColor, #{pvar(--secondary-300)});
-  --on-primary: var(--inputForegroundColor, #{pvar(--fg)});
+  --on-primary: #{pvar(--fg)};
+
+  --red: #{$red};
+  --on-red: #{$white};
+
+  --green: #{$green};
+
+  --input-fg: var(--inputForegroundColor, #{pvar(--fg)});
+  --input-bg: var(--inputBackgroundColor, #{pvar(--secondary-400)});
+  --input-placeholder: var(--inputPlaceholderColor, #{pvar(--secondary-750)});
+  --input-border-color: var(--inputBorderColor, #{pvar(--secondary-500)});
+
+  --textarea-fg: var(--textareaForegroundColor, #{pvar(--input-fg)});
+  --textarea-bg: var(--textareaBackgroundColor, #{pvar(--input-bg)});
+
+  --channel-bg: var(--channelBackgroundColor, #{pvar(--primary-50)});
+
+  --support-btn-fg: var(--supportButtonColor, #{pvar(--main-fg-400)});
+  --support-btn-bg: var(--supportButtonBackgroundColor, transparent);
+  --support-btn-heart-bg: var(--supportButtonHeartColor, #{$support-button-heart});
+
+  --x-margin-content: 2rem;
+  --x-videos-margin-content: 2rem;
+  --main-col-width: calc(100vw - #{$menu-width});
 
   // Light theme
   &[data-pt-theme=peertube-core-light],
@@ -99,23 +80,25 @@ body {
     --on-primary: #{pvar(--secondary-600)};
   }
 
-  font-family: $main-fonts;
-  font-weight: $font-regular;
-  color: pvar(--fg);
-  background-color: pvar(--bg);
+  & {
+    font-family: $main-fonts;
+    font-weight: $font-regular;
+    color: pvar(--fg);
+    background-color: pvar(--bg);
 
-  // On desktop browsers, make sure vertical scroll bar is always visible
-  // Allow to disable the scrollbar instead of hide it when the content fit the body
-  // And not move the content and header horizontally sticked to right when the content is updating
-  overflow-y: scroll;
+    // On desktop browsers, make sure vertical scroll bar is always visible
+    // Allow to disable the scrollbar instead of hide it when the content fit the body
+    // And not move the content and header horizontally sticked to right when the content is updating
+    overflow-y: scroll;
 
-  // Fix "reboot" style that set text-align: left
-  text-align: start;
+    // Fix "reboot" style that set text-align: left
+    text-align: start;
+  }
 }
 
 ::selection {
   color: pvar(--bg);
-  background-color: pvar(--mainHoverColor);
+  background-color: pvar(--primary-450);
 }
 
 // Force to override bootstrap utilities
@@ -141,19 +124,19 @@ strong {
 
 input[readonly] {
   // Force blank on readonly inputs
-  background-color: pvar(--inputBackgroundColor) !important;
+  background-color: pvar(--input-bg) !important;
 }
 
 input,
 textarea {
-  color: pvar(--inputForegroundColor);
+  color: pvar(--input-fg);
 
   @include disable-outline;
 }
 
 button {
   background: unset;
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
 
   @include disable-outline;
 }
@@ -164,8 +147,8 @@ label {
 }
 
 code {
-  background-color: pvar(--greyBackgroundColor);
-  color: pvar(--greyForegroundColor);
+  background-color: pvar(--secondary-350);
+  color: pvar(--main-fg-500);
   border-radius: 3px;
   padding: .2em .4em;
   margin: auto .4em;
@@ -182,20 +165,20 @@ code {
   outline: none;
 
   .margin-content {
-    margin: 0 pvar(--horizontalMarginContent);
+    margin: 0 pvar(--x-margin-content);
     flex-grow: 1;
   }
 
   .revert-margin-content {
-    margin: 0 calc(#{pvar(--horizontalMarginContent)} * -1);
+    margin: 0 calc(#{pvar(--x-margin-content)} * -1);
   }
 
   .sub-menu {
-    background-color: pvar(--submenuBackgroundColor);
+    background-color: pvar(--secondary-400);
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 0 pvar(--horizontalMarginContent);
+    padding: 0 pvar(--x-margin-content);
     height: $sub-menu-height;
     margin-bottom: $sub-menu-margin-bottom;
     overflow-x: auto;
@@ -203,7 +186,7 @@ code {
     &.sub-menu-fixed {
       position: fixed;
       z-index: #{z('sub-menu') - 1};
-      max-width: pvar(--mainColWidth);
+      max-width: pvar(--main-col-width);
     }
   }
 
@@ -227,7 +210,7 @@ code {
 
   // Override some properties if the main content is expanded (no menu on the left)
   &.expanded {
-    --mainColWidth: 100vw;
+    --main-col-width: 100vw;
 
     width: calc(100% - #{$collapsed-menu-width});
 
@@ -245,29 +228,12 @@ code {
   }
 }
 
-// In tables, don't have a hover different background
-table {
-  my-edit-button,
-  my-delete-button {
-    .action-button {
-      &:hover,
-      &:active,
-      &:focus,
-      &[disabled],
-      &.disabled {
-        background-color: pvar(--greyBackgroundColor) !important;
-        opacity: 0.8;
-      }
-    }
-  }
-}
-
 my-global-icon[iconName=external-link] {
   margin: 0 0.3em;
   width: 0.9em;
   height: 0.9em;
   display: inline-block;
-  color: pvar(--inputPlaceholderColor);
+  color: pvar(--secondary-750);
   position: relative;
   top: -0.1em;
 }
@@ -295,7 +261,7 @@ my-global-icon[iconName=external-link] {
 @media screen and (max-width: $small-view) {
   .main-col,
   .main-col.expanded {
-    --horizontalMarginContent: 15px;
+    --x-margin-content: 15px;
 
     @include margin-left(0);
 

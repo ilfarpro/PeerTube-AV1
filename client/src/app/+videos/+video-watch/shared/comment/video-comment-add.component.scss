@@ -26,7 +26,7 @@ form {
     min-height: calc(#{$peertube-textarea-height} - 15px * 2);
 
     @include peertube-textarea(100%, $peertube-textarea-height);
-    @include button-focus(pvar(--mainColorLightest));
+    @include button-focus(pvar(--primary-100));
     @include padding-right($markdown-icon-width + 15px !important);
 
     @media screen and (max-width: 600px) {
@@ -56,8 +56,8 @@ form {
       width: $markdown-icon-width;
 
       svg {
-        color: pvar(--inputBorderColor);
-        fill: pvar(--inputBorderColor);
+        color: pvar(--input-border-color);
+        fill: pvar(--input-border-color);
         border-radius: 3px;
       }
     }
@@ -66,7 +66,7 @@ form {
     &:active,
     &:hover {
       my-global-icon svg {
-        background-color: pvar(--inputBorderColor);
+        background-color: pvar(--input-border-color);
         color: pvar(--bg);
         fill: pvar(--bg);
       }

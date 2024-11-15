@@ -36,8 +36,6 @@ my-copy-button {
   grid-template-columns: 1fr min-content;
   grid-template-rows: auto auto;
 
-  background-color: pvar(--submenuBackgroundColor);
-
   @include grid-videos-miniature-margins(false, 15px);
   @include padding-top(3.75rem);
   @include padding-bottom(3.75rem);
@@ -93,7 +91,7 @@ my-copy-button {
   .description:not(.expanded) {
     max-height: 70px;
 
-    @include fade-text(30px, pvar(--submenuBackgroundColor));
+    @include fade-text(30px, pvar(--bg));
   }
 
   .buttons {

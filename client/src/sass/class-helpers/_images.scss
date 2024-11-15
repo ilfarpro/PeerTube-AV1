@@ -6,5 +6,5 @@
 }
 
 .revert-margin-content.banner {
-  width: calc(100% + 2 * #{pvar(--horizontalMarginContent)});
+  width: calc(100% + 2 * #{pvar(--x-margin-content)});
 }

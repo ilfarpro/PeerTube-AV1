@@ -24,7 +24,7 @@
 .actor-info-username {
   position: relative;
   font-size: 14px;
-  color: pvar(--greyForegroundColor);
+  color: pvar(--main-fg-400);
 }
 
 .actor-info-followers {
@@ -41,7 +41,7 @@
 }
 
 .button-focus-within:focus-within {
-  box-shadow: #{$focus-box-shadow-form} pvar(--mainColorLightest);
+  box-shadow: #{$focus-box-shadow-form} pvar(--primary-100);
 }
 
 .dropdown-item {

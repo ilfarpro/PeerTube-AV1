@@ -159,7 +159,7 @@ $video-max-height: calc(100vh - #{$header-height} - #{$theater-bottom-space});
   font-weight: $font-semibold;
 
   a {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     @include disable-default-a-behaviour;
     @include peertube-word-wrap;

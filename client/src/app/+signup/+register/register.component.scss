@@ -10,7 +10,7 @@ my-signup-step-title strong {
 }
 
 .title-page-v2 {
-  background-color: pvar(--mainColorVeryLight);
+  background-color: pvar(--primary-50);
   margin: 0;
   padding-bottom: 10px;
 }
@@ -37,7 +37,7 @@ my-instance-about-accordion {
   }
 
   .underline-orange {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     &:hover {
       opacity: 0.8;

@@ -215,11 +215,12 @@ export class ThemeService {
       const mainColorParsed = parse(mainColor)
       const mainColorHSL = toHSLA(mainColorParsed)
 
-      for (let i = -8; i <= 8; i++) {
+      for (let i = -9; i <= 9; i++) {
         const suffix = 500 + (50 * i)
         const key = `--${prefix}-${suffix}`
 
-        if (!computedStyle.getPropertyValue(key)) {
+        const existingValue = computedStyle.getPropertyValue(key)
+        if (!existingValue || existingValue === '0') {
           const newLuminance = Math.max(Math.min(100, Math.round(mainColorHSL.l + (i * 5 * -1 * darkInverter))), 0)
           const newColor = `hsl(${Math.round(mainColorHSL.h)} ${Math.round(mainColorHSL.s)}% ${newLuminance}% / ${mainColorHSL.a})`
 

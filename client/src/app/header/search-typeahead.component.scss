@@ -12,7 +12,7 @@
   }
 
   &::placeholder {
-    color: pvar(--inputPlaceholderColor);
+    color: pvar(--input-placeholder);
   }
 
   @media screen and (max-width: $small-view) {

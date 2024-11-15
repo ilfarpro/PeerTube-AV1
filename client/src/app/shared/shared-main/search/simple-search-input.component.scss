@@ -12,10 +12,10 @@
   my-global-icon {
     height: 28px;
     width: 28px;
-    color: pvar(--mainColor);
+    color: pvar(--primary);
 
     &:hover {
-      color: pvar(--mainHoverColor);
+      color: pvar(--primary-400);
     }
   }
 }

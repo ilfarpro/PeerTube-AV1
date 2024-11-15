@@ -86,7 +86,7 @@
         margin-top: -1px; // To not have 2 borders with the last notification
         text-align: center;
         font-weight: $font-semibold;
-        color: pvar(--mainForegroundColor);
+        color: pvar(--fg);
         padding: 0.75rem 0;
         text-decoration: underline !important;
 

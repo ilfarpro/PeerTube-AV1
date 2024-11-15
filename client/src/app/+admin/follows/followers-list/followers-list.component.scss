@@ -8,12 +8,12 @@ a {
 
   &,
   &:hover {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
   }
 
   span {
     font-size: 80%;
-    color: pvar(--inputPlaceholderColor);
+    color: pvar(--secondary-750);
   }
 }
 

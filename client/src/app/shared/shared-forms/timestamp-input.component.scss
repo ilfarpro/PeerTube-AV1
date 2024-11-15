@@ -8,7 +8,7 @@ p-inputmask {
 
     &:focus-within,
     &:focus {
-      box-shadow: #{$focus-box-shadow-form} pvar(--mainColorLightest);
+      box-shadow: #{$focus-box-shadow-form} pvar(--primary-100);
     }
 
     &:disabled {

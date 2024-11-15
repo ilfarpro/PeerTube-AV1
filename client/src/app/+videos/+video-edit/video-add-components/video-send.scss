@@ -19,8 +19,7 @@ $width-size: 275px;
   .upload-icon {
     width: 90px;
     margin-bottom: 25px;
-
-    @include apply-svg-color(pvar(--inputBorderColor));
+    color: pvar(--main-fg-400);
   }
 
   .peertube-select-container {

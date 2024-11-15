@@ -18,20 +18,20 @@
 
 @mixin underline-orange {
   text-decoration: underline !important;
-  text-decoration-color: pvar(--mainColor) !important;
+  text-decoration-color: pvar(--primary) !important;
   text-underline-offset: 0.25em !important;
   text-decoration-thickness: 0.15em !important;
 }
 
 .link-orange {
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
   font-weight: $font-semibold;
   line-height: 1.1;
 
   @include underline-orange;
 
   &:hover {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
     opacity: 0.8;
 
     @include underline-orange;

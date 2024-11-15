@@ -40,7 +40,7 @@ $more-button-width: 40px;
 
 .owner-label {
   display: block;
-  color: pvar(--main-fg-500);
+  color: pvar(--main-fg-400);
 
   @include disable-default-a-behaviour;
   @include ellipsis;

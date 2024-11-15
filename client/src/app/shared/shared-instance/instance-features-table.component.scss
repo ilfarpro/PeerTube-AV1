@@ -3,7 +3,7 @@
 
 table {
   font-size: 14px;
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
   width: 100%;
 
   .label,
@@ -34,7 +34,7 @@ table {
   caption {
     caption-side: top;
     font-weight: $font-semibold;
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
   }
 
   .plugin,

@@ -32,7 +32,7 @@ button {
   &.route-active {
     &::after {
       display: inherit;
-      border: 2px solid pvar(--mainColor);
+      border: 2px solid pvar(--primary);
       position: relative;
       right: 95%;
       top: 50%;
@@ -54,8 +54,8 @@ button {
     @include disable-default-a-behaviour;
 
     &.active {
-      color: pvar(--bg) !important;
-      background-color: pvar(--mainHoverColor);
+      color: pvar(--on-primary) !important;
+      background-color: pvar(--primary-450);
       opacity: .9;
     }
   }

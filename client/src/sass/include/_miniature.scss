@@ -113,7 +113,7 @@
 
 // Use margin by default, or padding if $margin is false
 @mixin grid-videos-miniature-margins ($margin: true, $min-margin: 0) {
-  --gridVideosMiniatureMargins: #{pvar(--videosHorizontalMarginContent)};
+  --gridVideosMiniatureMargins: #{pvar(--x-videos-margin-content)};
 
   @if $margin {
     @include margin-left(var(--gridVideosMiniatureMargins) !important);

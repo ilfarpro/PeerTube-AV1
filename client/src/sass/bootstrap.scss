@@ -28,16 +28,16 @@
 @import 'bootstrap/scss/utilities/api';
 
 body {
-  --bs-border-color-translucent: #{pvar(--inputBorderColor)};
+  --bs-border-color-translucent: #{pvar(--input-border-color)};
 
-  --bs-body-color: #{pvar(--mainForegroundColor)};
+  --bs-body-color: #{pvar(--fg)};
   --bs-body-bg: #{pvar(--bg)};
 
-  --bs-emphasis-color: #{pvar(--mainForegroundColor)};
+  --bs-emphasis-color: #{pvar(--fg)};
 }
 
 .accordion {
-  --bs-accordion-color: #{pvar(--mainForegroundColor)};
+  --bs-accordion-color: #{pvar(--fg)};
   --bs-accordion-bg: #{pvar(--bg)};
 
   --bs-accordion-btn-color: var(--bs-accordion-color);
@@ -46,14 +46,14 @@ body {
 
 .popover {
   --bs-popover-bg: #{pvar(--bg)};
-  --bs-popover-body-color: #{pvar(--mainForegroundColor)};
-  --bs-popover-header-color: #{pvar(--mainForegroundColor)};
+  --bs-popover-body-color: #{pvar(--fg)};
+  --bs-popover-header-color: #{pvar(--fg)};
 
   font-family: $main-fonts;
 }
 
 .btn-outline-secondary {
-  --bs-btn-color: #{pvar(--greyForegroundColor)};
+  --bs-btn-color: #{pvar(--main-fg-400)};
 }
 
 .btn {
@@ -75,9 +75,9 @@ body {
 // ---------------------------------------------------------------------------
 
 .dropdown-menu {
-  --bs-dropdown-link-hover-bg: #{pvar(--mainBackgroundHoverColor)};
-  --bs-dropdown-link-color: #{pvar(--mainForegroundColor)};
-  --bs-dropdown-border-color: #{pvar(--inputBorderColor)};
+  --bs-dropdown-link-hover-bg: #{pvar(--secondary-350)};
+  --bs-dropdown-link-color: #{pvar(--fg)};
+  --bs-dropdown-border-color: #{pvar(--input-border-color)};
 
   text-align: start;
 
@@ -90,7 +90,7 @@ body {
 
     &.active {
       color: pvar(--bg) !important;
-      background-color: pvar(--mainColor);
+      background-color: pvar(--primary);
       font-weight: $font-semibold;
     }
 
@@ -241,14 +241,14 @@ body {
   }
 
   a {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     @include disable-default-a-behaviour;
   }
 }
 
 .nav-tabs .nav-link {
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
   font-weight: $font-semibold;
   border: 0;
   border-bottom: 2px solid transparent;
@@ -257,9 +257,9 @@ body {
   @include disable-default-a-behaviour;
 
   &.active {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
     background-color: pvar(--bg) !important;
-    border-bottom-color: pvar(--mainColor);
+    border-bottom-color: pvar(--primary);
   }
 
   &.active,
@@ -286,7 +286,7 @@ body {
     font-weight: $font-bold;
 
     my-global-icon {
-      color: pvar(--mainColorLighter);
+      color: pvar(--primary-400);
     }
   }
 }
@@ -300,7 +300,7 @@ body {
 }
 
 .btn-outline-secondary {
-  border-color: pvar(--inputBorderColor);
+  border-color: pvar(--input-border-color);
 
   &:focus-within,
   &:focus,
@@ -339,8 +339,8 @@ body {
 }
 
 .form-control {
-  color: pvar(--mainForegroundColor);
-  background-color: pvar(--inputBackgroundColor);
+  color: pvar(--fg);
+  background-color: pvar(--input-bg);
   outline: none;
 }
 

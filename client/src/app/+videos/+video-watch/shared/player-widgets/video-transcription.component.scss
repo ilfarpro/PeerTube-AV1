@@ -4,7 +4,7 @@
 .segment {
   &.active,
   &:hover {
-    background: pvar(--mainBackgroundHoverColor);
+    background: pvar(--secondary-300);
   }
 }
 

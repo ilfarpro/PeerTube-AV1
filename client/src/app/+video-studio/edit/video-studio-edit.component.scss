@@ -59,7 +59,7 @@ h1 {
 h2 {
   font-weight: $font-bold;
   font-size: 16px;
-  color: pvar(--mainColor);
+  color: pvar(--primary);
   background-color: pvar(--bg);
   padding: 0 5px;
   width: fit-content;
@@ -83,7 +83,7 @@ h2 {
   }
 
   .description {
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
     margin-top: 5px;
     margin-bottom: 15px;
   }

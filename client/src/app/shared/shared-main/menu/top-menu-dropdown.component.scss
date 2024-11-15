@@ -42,8 +42,8 @@
     @include disable-default-a-behaviour;
 
     &.active {
-      color: pvar(--bg) !important;
-      background-color: pvar(--mainHoverColor);
+      color: pvar(--on-primary) !important;
+      background-color: pvar(--primary-450);
       opacity: .9;
     }
   }

@@ -44,7 +44,7 @@
 }
 
 a {
-  color: pvar(--mainColor);
+  color: pvar(--primary);
   transition: color 0.3s;
 
   @include disable-default-a-behaviour;

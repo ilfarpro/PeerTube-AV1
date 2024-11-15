@@ -46,8 +46,8 @@ type ChartBuilderResult = {
 type Card = { label: string, value: string | number, moreInfo?: string, help?: string }
 
 ChartJSDefaults.backgroundColor = getComputedStyle(document.body).getPropertyValue('--bg')
-ChartJSDefaults.borderColor = getComputedStyle(document.body).getPropertyValue('--greySecondaryBackgroundColor')
-ChartJSDefaults.color = getComputedStyle(document.body).getPropertyValue('--mainForegroundColor')
+ChartJSDefaults.borderColor = getComputedStyle(document.body).getPropertyValue('--secondary-350')
+ChartJSDefaults.color = getComputedStyle(document.body).getPropertyValue('--fg')
 
 @Component({
   templateUrl: './video-stats.component.html',
@@ -583,7 +583,7 @@ export class VideoStatsComponent implements OnInit {
   }
 
   private buildChartColor () {
-    return getComputedStyle(document.body).getPropertyValue('--mainColorLighter')
+    return getComputedStyle(document.body).getPropertyValue('--primary-400')
   }
 
   private formatXTick (options: {

@@ -16,12 +16,12 @@
 
   &.badge-primary {
     color: pvar(--bg);
-    background-color: pvar(--mainColor);
+    background-color: pvar(--primary);
   }
 
   &.badge-secondary {
     color: pvar(--bg);
-    background-color: pvar(--greyForegroundColor);
+    background-color: pvar(--main-fg-400);
     opacity: 0.7;
   }
 

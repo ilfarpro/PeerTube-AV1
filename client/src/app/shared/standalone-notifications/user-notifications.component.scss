@@ -23,7 +23,7 @@
   my-global-icon {
     width: 24px;
 
-    @include apply-svg-color(#{pvar(--mainForegroundColor)});
+    @include apply-svg-color(#{pvar(--fg)});
     @include margin-right(11px);
     @include margin-left(3px);
   }
@@ -48,7 +48,7 @@
 
   .from-date {
     font-size: 0.85em;
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
     min-width: 70px;
     text-align: end;
 

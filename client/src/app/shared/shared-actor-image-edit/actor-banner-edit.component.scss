@@ -6,7 +6,7 @@
 }
 
 .banner-placeholder {
-  background-color: pvar(--greyBackgroundColor);
+  background-color: pvar(--secondary-350);
 }
 
 .actor-img-edit-container {
@@ -35,7 +35,7 @@
 }
 
 .button-focus-within:focus-within {
-  box-shadow: #{$focus-box-shadow-form} pvar(--mainColorLightest);
+  box-shadow: #{$focus-box-shadow-form} pvar(--primary-100);
 }
 
 .dropdown-item {

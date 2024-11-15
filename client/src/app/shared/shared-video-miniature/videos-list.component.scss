@@ -36,8 +36,8 @@ $margin-top: 2rem;
 }
 
 .display-as-row.videos {
-  @include margin-left(pvar(--horizontalMarginContent));
-  @include margin-right(pvar(--horizontalMarginContent));
+  @include margin-left(pvar(--x-margin-content));
+  @include margin-right(pvar(--x-margin-content));
 
   .video-wrapper {
     margin-bottom: 1rem;

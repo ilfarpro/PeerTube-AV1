@@ -6,8 +6,7 @@
     width: 17px;
     position: relative;
     top: -1px;
-
-    @include apply-svg-color(pvar(--greyForegroundColor));
+    color: pvar(--main-fg-500);
   }
 }
 

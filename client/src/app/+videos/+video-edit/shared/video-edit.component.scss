@@ -36,7 +36,7 @@ my-timestamp-input {
   flex-wrap: wrap;
 
   a.caption-entry-label {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     @include disable-default-a-behaviour;
 
@@ -68,7 +68,7 @@ my-timestamp-input {
 
   .message-submit {
     display: inline-block;
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
 
     @include margin-right(25px);
   }

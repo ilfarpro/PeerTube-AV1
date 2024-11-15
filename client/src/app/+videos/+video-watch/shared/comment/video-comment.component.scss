@@ -32,8 +32,8 @@
 
 .highlighted-comment {
   display: inline-block;
-  background-color: pvar(--greySecondaryBackgroundColor);
-  color: pvar(--mainForegroundColor);
+  background-color: pvar(--secondary-350);
+  color: pvar(--fg);
   padding: 0 5px;
   font-size: 13px;
   margin-bottom: 5px;
@@ -68,7 +68,7 @@
   font-size: 90%;
 
   a {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     @include disable-default-a-behaviour;
 
@@ -78,13 +78,13 @@
   }
 
   .comment-account-fid {
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
   }
 }
 
 .comment-date {
   font-size: 90%;
-  color: pvar(--greyForegroundColor);
+  color: pvar(--main-fg-400);
   text-decoration: none;
 
   @include margin-left(5px);
@@ -101,7 +101,7 @@
   ::ng-deep a {
 
     &:not(.linkified-url) {
-      color: pvar(--mainForegroundColor);
+      color: pvar(--fg);
 
       font-weight: $font-semibold;
 
@@ -116,7 +116,7 @@
   }
 
   &.comment-html-deleted {
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
     margin-bottom: 1rem;
   }
 }
@@ -127,7 +127,7 @@
 
   ::ng-deep .dropdown-toggle,
   .comment-action-reply {
-    color: pvar(--greyForegroundColor);
+    color: pvar(--main-fg-400);
     cursor: pointer;
 
     @include margin-right(10px);
@@ -136,7 +136,7 @@
     &:active,
     &:focus,
     &:focus-visible {
-      color: pvar(--mainForegroundColor);
+      color: pvar(--fg);
     }
   }
 

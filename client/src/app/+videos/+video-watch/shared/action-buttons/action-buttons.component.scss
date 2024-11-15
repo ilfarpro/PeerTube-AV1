@@ -22,7 +22,7 @@
     padding: 4px 10px;
     white-space: nowrap;
     background-color: transparent !important;
-    color: pvar(--actionButtonColor);
+    color: pvar(--main-fg-400);
     text-transform: uppercase;
 
     @include peertube-button;
@@ -37,17 +37,18 @@
     }
 
     &.action-button-support {
-      color: pvar(--supportButtonColor);
+      color: pvar(--support-btn-fg);
+      background-color: pvar(--support-btn-bg);
 
       my-global-icon {
-        @include apply-svg-color(pvar(--supportButtonColor));
+        @include apply-svg-color(pvar(--support-btn-fg));
       }
     }
 
     &.action-button-support {
       my-global-icon {
         ::ng-deep path:first-child {
-          fill: pvar(--supportButtonHeartColor) !important;
+          fill: pvar(--support-btn-heart-bg) !important;
         }
       }
     }
@@ -91,7 +92,7 @@
     background-color: #909090;
 
     &.liked {
-      background-color: pvar(--activatedActionButtonColor);
+      background-color: pvar(--main-fg-500);
     }
   }
 }

@@ -33,7 +33,7 @@ textarea {
   max-width: 60%;
 
   .author {
-    color: var(--greyForegroundColor);
+    color: var(--main-fg-400);
     font-size: 14px;
     padding: 0 0 3px 10px;
   }
@@ -41,23 +41,23 @@ textarea {
   .bubble {
     border-radius: 10px;
     padding: 5px 10px;
-    color: var(--mainForegroundColor);
-    background-color: var(--greyBackgroundColor);
+    color: var(--fg);
+    background-color: var(--secondary-400);
 
     .date {
       font-size: 13px;
-      color: var(--greyForegroundColor);
+      color: var(--main-fg-400);
     }
   }
 
   &.by-me {
 
     .bubble {
-      color: var(--bg);
-      background-color: var(--mainColorLighter);
+      color: var(--on-primary);
+      background-color: var(--primary-400);
 
       .date {
-        color: var(--bg);
+        color: var(--on-primary);
       }
     }
   }

@@ -8,18 +8,18 @@ a {
 
   &,
   &:hover {
-    color: pvar(--mainForegroundColor);
+    color: pvar(--fg);
 
     &.focus-visible {
-      background-color: pvar(--mainHoverColor);
-      color: pvar(--bg);
+      background-color: pvar(--primary-450);
+      color: pvar(--on-primary);
     }
   }
 }
 
 .result-type {
   background-color: pvar(--bg);
-  color: pvar(--mainForegroundColor);
+  color: pvar(--fg);
 }
 
 my-global-icon {
@@ -27,5 +27,5 @@ my-global-icon {
   position: relative;
   top: -1px;
 
-  @include apply-svg-color(pvar(--mainForegroundColor));
+  @include apply-svg-color(pvar(--fg));
 }

@@ -27,7 +27,7 @@ $chapter-marker-size: 9px;
   border-radius: $chapter-marker-size;
   margin-left: - math.div($chapter-marker-size, 2);
 
-  background-color: $bg-color;
+  background-color: pvar(--bg);
   cursor: pointer;
   transition: transform 50ms ease-in-out, border-color 50ms ease-in-out;
   border: 2px solid transparent;
@@ -36,7 +36,7 @@ $chapter-marker-size: 9px;
   &:hover {
     transform: scale(1.5);
 
-    border-color: $main-color;
+    border-color: pvar(--primary);
   }
 }
 
