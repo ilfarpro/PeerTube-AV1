@@ -1,3 +1,87 @@
+About this fork
+----------------------------------------------------------------
+
+This fork contains patches to support High Quality AV1 (hls) transcoding with runners and High Quality H264 (web-videos) as a fallback.
+
+2 additional branches created for this purpose:
+- **develop-av1-hq** - contains patches to support AV1 transcoding with runners
+- **develop-h264-hq** - contains patches to improve H264 transcoding quality with runners
+
+How to deploy this fork
+----------------------------------------------------------------
+
+1. Deploy modified PeerTube. Follow official docker installation guide (https://docs.joinpeertube.org/install/docker), but use ilfarpro/peertube image in docker-compose.yml file.
+Choose image tag here: https://hub.docker.com/repository/docker/ilfarpro/peertube/tags (latest numeric tag is recommended).
+
+2. Deploy modified PeerTube Runners. It is reccomended to deploy 2 runners: 1 with H264, other with AV1 for compatibility reasons.
+
+H264 runner will process only web-videos and AV1 runner will process only hls. You will have to manually create transcoding jobs every time for every video.
+
+You also may deploy only H264 runner, if you don't wish to use AV1. In this case choose docker image without "onlyweb" in tag name.
+
+You also may deploy only AV1 runner, if you don't wish to use H264. In this case choose docker image without "onlyhls" in tag name. AV1 HLS videos won't play in Safari browsers, on iPhones wihout hardware support of AV1. On android devices Firefox browser recommended because it provides better playback experience than Chrome at the moment of writing this.
+
+Create folder for runner config and empty config.toml files in created directories. For example:
+```
+touch /home/username/peertube-runner-av1-hq/config.toml
+```
+```
+touch /home/username/peertube-runner-h264-hq/config.toml
+```
+
+Next deploy runners.
+
+AV1 runner docker-composee.yml file:
+```yaml
+---
+version: '3.8'
+
+services:
+  node_exporter:
+    image: ilfarpro/peertube-runner-av1-hq:0.0.22-av1-onlyhls
+    container_name: peertube-runner-av1-onlyhls
+    restart: always
+    volumes:
+      - '/home/username/peertube-runner-av1-hq/config.toml:/root/.config/peertube-runner-nodejs/default/config.toml'
+```
+
+H264 runner docker-composee.yml file:
+```yaml
+---
+version: '3.8'
+
+services:
+  node_exporter:
+    image: ilfarpro/peertube-runner-h264-hq:0.0.22-h264-onlyweb
+    container_name: peertube-runner-h264-onlyweb
+    restart: always
+    volumes:
+      - '/home/username/peertube-runner-h264-hq/config.toml:/root/.config/peertube-runner-nodejs/default/config.toml'
+```
+3. Register runners in PeerTube.
+
+Go to PeerTube instance Admin panel -> System -> Settings -> Remote Runners -> Runner registration tokens (in right side of page). Copy or create token.
+
+Enter inside runner container to execute registration command:
+```
+docker exec -it peertube-runner-av1-onlyhls bash
+node node_modules/peertube-runner-av1-hq/dist/peertube-runner.js register --url https://myinstance.mydomain.org --runner-name AV1 --registration-token
+```
+DO NOT add "/" symbol at the end of your peertube instance url, it won't work!
+
+Modify this command to register H264 runner too. You are all set!
+
+How do I transcode now?
+----------------------------------------------------------------
+
+1. Upload new video, then in Admin Panel -> Overview -> Videos choose video and manually create HLS transcoding job first.
+2. Once all HLS jobs are done, create Web-Video transcoding job.
+
+If don't do this in that order, you will transcode AV1 HLS from noticeable worsened H264 web-videos. That's why it is important to create HLS transcoding job first and wait till all of them are done.
+
+Original README file content follows next.
+
+----------------------------------------------------------------
 <h1 align="center">
   <a href="https://joinpeertube.org">
     <img src="https://joinpeertube.org/img/brand.png" alt="PeerTube">
