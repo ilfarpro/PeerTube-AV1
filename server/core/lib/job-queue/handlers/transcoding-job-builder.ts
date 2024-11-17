@@ -1,9 +1,10 @@
-import { pick } from '@peertube/peertube-core-utils'
-import { TranscodingJobBuilderPayload, VideoFileStream } from '@peertube/peertube-models'
-import { createOptimizeOrMergeAudioJobs } from '@server/lib/transcoding/create-transcoding-job.js'
-import { UserModel } from '@server/models/user/user.js'
+//import { pick } from '@peertube/peertube-core-utils'
+//import { TranscodingJobBuilderPayload, VideoFileStream } from '@peertube/peertube-models'
+import { TranscodingJobBuilderPayload } from '@peertube/peertube-models'
+//import { createOptimizeOrMergeAudioJobs } from '@server/lib/transcoding/create-transcoding-job.js'
+//import { UserModel } from '@server/models/user/user.js'
 import { VideoJobInfoModel } from '@server/models/video/video-job-info.js'
-import { VideoModel } from '@server/models/video/video.js'
+//import { VideoModel } from '@server/models/video/video.js'
 import { Job } from 'bullmq'
 import { logger } from '../../../helpers/logger.js'
 import { JobQueue } from '../job-queue.js'
@@ -13,20 +14,20 @@ async function processTranscodingJobBuilder (job: Job) {
 
   logger.info('Processing transcoding job builder in job %s.', job.id)
 
-  if (payload.optimizeJob) {
-    const video = await VideoModel.loadFull(payload.videoUUID)
-    const user = await UserModel.loadByVideoId(video.id)
-    const videoFile = video.getMaxQualityFile(VideoFileStream.VIDEO) || video.getMaxQualityFile(VideoFileStream.AUDIO)
+  // if (payload.optimizeJob) {
+  //   const video = await VideoModel.loadFull(payload.videoUUID)
+  //   const user = await UserModel.loadByVideoId(video.id)
+  //   const videoFile = video.getMaxQualityFile(VideoFileStream.VIDEO) || video.getMaxQualityFile(VideoFileStream.AUDIO)
 
-    await createOptimizeOrMergeAudioJobs({
-      ...pick(payload.optimizeJob, [ 'isNewVideo' ]),
+  //   await createOptimizeOrMergeAudioJobs({
+  //     ...pick(payload.optimizeJob, [ 'isNewVideo' ]),
 
-      video,
-      videoFile,
-      user,
-      videoFileAlreadyLocked: false
-    })
-  }
+  //     video,
+  //     videoFile,
+  //     user,
+  //     videoFileAlreadyLocked: false
+  //   })
+  // }
 
   for (const job of (payload.jobs || [])) {
     await JobQueue.Instance.createJob(job)
