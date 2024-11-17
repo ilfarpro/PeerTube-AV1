@@ -202,9 +202,14 @@ export class HLSOptionsBuilder {
       ? this.getHLSLiveOptions()
       : this.getHLSVODOptions()
 
-    const base = {
-      capLevelToPlayerSize: true,
-      autoStartLoad: false,
+      const base = {
+        autoStartLoad: false,
+        capLevelToPlayerSize: true, // we use High Quality AV1 encoding which looks great even in lower resolutions
+        capLevelOnFPSDrop: true, // step down quality if we loose too much frames
+        ignoreDevicePixelRatio: true, // if this disabled player might choose 2k or 4k AV1 stream which is hard to keep up on mobile devices
+        fpsDroppedMonitoringPeriod: 300, // milliseconds. If 55% of frames are dropped in 300ms, we step down quality
+        fpsDroppedMonitoringThreshold: 0.55, // 55% of fpsDroppedMonitoringPeriod
+        autoLevelCapping: 3, // goind all the way up may lead to frame drops and freezes, so we cap level
 
       loaderBuilder,
 
@@ -218,11 +223,13 @@ export class HLSOptionsBuilder {
       ...base,
 
       abrEwmaDefaultEstimate: averageBandwidth * 8, // We want bit/s
-      backBufferLength: 90,
+      //backBufferLength: 90, // use default infinity value
+      maxBufferLength: 30, //preload more to be ready for sudden bitrate spikes
+      maxBufferSize: 240 * 1000 * 1000, // increased to 240 MB since we use High Quality transcoding
       startLevel: -1,
       testBandwidth: false,
       debug: false,
-      enableWorker: false
+      enableWorker: true // Enable WebWorker (if available on browser) for TS demuxing/MP4 remuxing, to improve performance and avoid lag/frame drops.
     }
   }
 
