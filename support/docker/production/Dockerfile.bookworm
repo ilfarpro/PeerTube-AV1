@@ -19,16 +19,22 @@ WORKDIR /app
 USER peertube
 
 # Install manually client dependencies to apply our network timeout option
-RUN if [ "${ALREADY_BUILT}" = 0 ]; then \
-    cd client && yarn install --pure-lockfile --network-timeout 1200000 && cd ../ \
-    && yarn install --pure-lockfile --network-timeout 1200000 \
-    && npm run build; \
+RUN set -e; \
+  if [ "${ALREADY_BUILT}" = 0 ]; then \
+      echo "Starting client dependencies installation..." && \
+      cd client && yarn install --pure-lockfile --network-timeout 1200000 && cd ../ && \
+      echo "Starting server dependencies installation..." && \
+      yarn install --pure-lockfile --network-timeout 1200000 && \
+      echo "Building application..." && \
+      npm run build && \
+      echo "Build completed successfully"; \
   else \
-    echo "Do not build application inside Docker because of ALREADY_BUILT build argument"; \
+      echo "Do not build application inside Docker because of ALREADY_BUILT build argument"; \
   fi; \
-  rm -rf ./node_modules ./client/node_modules ./client/.angular \
-  && NOCLIENT=1 yarn install --pure-lockfile --production --network-timeout 1200000 --network-concurrency 20 \
-  && yarn cache clean
+  echo "Cleaning up build artifacts..." && \
+  rm -rf ./node_modules ./client/node_modules ./client/.angular && \
+  echo "Installing production dependencies..." && \
+  NOCLIENT=1 yarn install --pure-lockfile --production --network-timeout 1200000 --network-concurrency 20
 
 USER root
 
