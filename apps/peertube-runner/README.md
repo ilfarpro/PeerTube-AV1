@@ -2,6 +2,10 @@
 
 Runner program to execute jobs (transcoding...) of remote PeerTube instances.
 
+This version of runner specifically targets to achieve high quality outputs.
+
+---
+
 Commands below has to be run at the root of PeerTube git repository.
 
 ## Dev

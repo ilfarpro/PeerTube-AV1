@@ -1,6 +1,6 @@
 {
-  "name": "@peertube/peertube-runner",
-  "version": "0.0.22",
+  "name": "peertube-runner-h264-hq",
+  "version": "0.0.22-h264",
   "type": "module",
   "main": "dist/peertube-runner.js",
   "bin": "dist/peertube-runner.js",
