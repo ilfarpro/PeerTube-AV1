@@ -71,8 +71,14 @@ const defaultLibFDKAACVODOptionsBuilder: EncoderOptionsBuilder = ({ streamNum })
 export function getDefaultAvailableEncoders () {
   return {
     vod: {
+      libsvtav1: {
+        default: defaultAV1VODOptionsBuilder
+      },
       libx264: {
         default: defaultX264VODOptionsBuilder
+      },
+      libopus: {
+        default: defaultOpusOptionsBuilder
       },
       aac: {
         default: defaultAACOptionsBuilder
@@ -92,15 +98,16 @@ export function getDefaultAvailableEncoders () {
   }
 }
 
+// AV1 FIRST for VOD, H264 for live. AV1 for live is not implemented yet
 export function getDefaultEncodersToTry () {
   return {
     vod: {
-      video: [ 'libx264' ],
-      audio: [ 'libfdk_aac', 'aac' ]
+      video: [ 'libsvtav1', 'libx264' ],
+      audio: [ 'libopus', 'libfdk_aac', 'aac' ]
     },
 
     live: {
-      video: [ 'libx264' ],
+      video: [ 'libx264', 'libsvtav1' ],
       audio: [ 'libfdk_aac', 'aac' ]
     }
   }
@@ -181,4 +188,142 @@ function getCommonOutputOptions (targetBitrate: number, streamNum?: number) {
     // NOTE: Why 16: https://github.com/Chocobozzz/PeerTube/pull/774. b-strategy 2 -> B-frames<16
     `-bf 16`
   ]
+}
+
+const defaultOpusOptionsBuilder: EncoderOptionsBuilder = async ({ input, streamNum, canCopyAudio }) => {
+  const base = ['-b:a', '320k' ] //'-af', 'loudnorm=I=-14:LRA=11:TP=-1'
+  return { outputOptions: base }
+}
+
+const defaultAV1VODOptionsBuilder: EncoderOptionsBuilder = (options: EncoderOptionsBuilderParams) => {
+  const { fps, inputRatio, inputBitrate, resolution } = options
+
+  const targetBitrate = getTargetBitrate({ inputBitrate, ratio: inputRatio, fps, resolution })
+
+  return {
+    outputOptions: [
+      ...getCommonAV1OutputOptions(resolution, fps, targetBitrate),
+
+      // `-r ${fps}` remove fps controll since we want smooth 60fps even for 480p and 360p
+    ]
+  }
+}
+
+// We use capped CRF, because study shows it's better and more efficient than VBR
+// Source: https://streaminglearningcenter.com/articles/learn-to-use-capped-crf-with-svt-av1-for-live-streaming.html
+
+function getCommonAV1OutputOptions (resolution : number, fps : number, targetBitrate: number) {
+  switch(resolution) {
+    case 2160: {
+      return [
+        `-preset 4`,
+        `-crf 32`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:enable-variance-boost=1:tile-rows=3:tile-columns=4:fast-decode=2`,
+        `-maxrate:v ${targetBitrate * 1.5}`,
+        `-bufsize:v ${targetBitrate * 3}`,
+        // `-b:a 320k`,
+      ]
+    }
+    case 1440: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 4`,
+        `-crf 28`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:enable-variance-boost=1:tile-rows=3:tile-columns=4:fast-decode=2`,
+        `-maxrate:v ${targetBitrate * 2}`,
+        `-bufsize:v ${targetBitrate * 4}`,
+        // `-b:a 320k`,
+      ]
+    }
+    case 1080: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:tile-rows=3:tile-columns=4:enable-variance-boost=1`,
+        `-maxrate:v ${targetBitrate * 2.5}`,
+        `-bufsize:v ${targetBitrate * 5}`,
+        // `-b:a 320k`,
+      ]
+    }
+    case 720: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:tile-rows=3:tile-columns=4:enable-variance-boost=1`,
+        `-maxrate:v ${targetBitrate * 2.3}`,
+        `-bufsize:v ${targetBitrate * 4.6}`,
+        // `-b:a 256k`,
+      ]
+    }
+    case 480: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:enable-variance-boost=1`,
+        `-maxrate:v ${targetBitrate * 2.3}`,
+        `-bufsize:v ${targetBitrate * 4.6}`,
+        // `-b:a 196k`,
+      ]
+    }
+    case 360: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:enable-variance-boost=1`,
+        `-maxrate:v ${targetBitrate * 3.5}`,
+        `-bufsize:v ${targetBitrate * 7}`,
+        // `-b:a 128k`,
+      ]
+    }
+    case 240: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:enable-variance-boost=1`,
+        `-maxrate:v ${targetBitrate * 5}`,
+        `-bufsize:v ${targetBitrate * 10}`,
+        // `-b:a 128k`,
+      ]
+    }
+    case 144: {
+      return [
+        `-sws_flags lanczos+accurate_rnd`,
+        `-preset 2`,
+        `-crf 26`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:enable-variance-boost=1`,
+        // `-b:a 96k`,
+      ]
+    }
+    default:
+      return [
+        `-preset 4`,
+        `-crf 30`,
+        `-g ${fps}*2`,
+        `-pix_fmt yuv420p10le`,
+        `-svtav1-params tune=0:fast-decode=2:enable-variance-boost=1:tile-rows=3:tile-columns=4`,
+        // `-b:a 320k`,
+        //`-report`
+      ];
+  }
 }
