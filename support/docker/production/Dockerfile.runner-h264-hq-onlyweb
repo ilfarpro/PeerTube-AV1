@@ -1,0 +1,26 @@
+FROM linuxserver/ffmpeg:latest
+
+WORKDIR /root
+
+# INSTALL NODE.JS
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+# INSTALL PEERTUBE RUNNER
+RUN npm i peertube-runner-h264-hq
+RUN chmod +x /root/node_modules/peertube-runner-h264-hq/dist/peertube-runner.js
+
+# PREPARE CONFIG
+RUN mkdir .config
+RUN mkdir .config/peertube-runner-nodejs
+RUN mkdir .config/peertube-runner-nodejs/defaults
+
+# Create a startup script
+RUN echo '#!/bin/bash\n/usr/bin/node /root/node_modules/peertube-runner-h264-hq/dist/peertube-runner.js server --enable-job vod-web-video-transcoding --enable-job vod-audio-merge-transcoding --verbose' > /root/start.sh && \
+    chmod +x /root/start.sh
+
+# SHELL [ "bash" ]
+ENTRYPOINT [ "bash" ]
+
+# Run the startup script
+CMD ["/root/start.sh"]
