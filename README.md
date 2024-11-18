@@ -71,6 +71,14 @@ DO NOT add "/" symbol at the end of your peertube instance url, it won't work!
 
 Modify this command to register H264 runner too. You are all set!
 
+Change transcoding settings in PeerTube Admin Panel
+----------------------------------------------------------------
+
+For now it doesn't matter if you enable or disable Web Videos in Configuration -> VOD Transcoding section. Because you will have to manually create transcoding jobs anyway.
+I suggest to only enable HLS with P2P.
+
+Important: DISABLE split audio and video streams feature, otherwise on iPhones won't be audio at all.
+
 How do I transcode now?
 ----------------------------------------------------------------
 
