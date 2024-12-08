@@ -216,7 +216,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
   switch(resolution) {
     case 2160: {
       return [
-        `-preset 4`,
+        `-preset 5`,
         `-crf 32`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
@@ -229,7 +229,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     case 1440: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 4`,
+        `-preset 5`,
         `-crf 28`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
@@ -242,7 +242,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     case 1080: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 4`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
@@ -255,7 +255,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     case 720: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 3`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
@@ -317,7 +317,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     }
     default:
       return [
-        `-preset 4`,
+        `-preset 5`,
         `-crf 30`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
