@@ -268,33 +268,33 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     case 480: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 3`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p`,
         `-svtav1-params tune=0:fast-decode=2:tile-rows=3:tile-columns=4:enable-variance-boost=1`,
-        `-maxrate:v ${targetBitrate * 2.3}`,
-        `-bufsize:v ${targetBitrate * 4.6}`,
+        `-maxrate:v ${targetBitrate * 4.6}`,
+        `-bufsize:v ${targetBitrate * 9.2}`,
         // `-b:a 196k`,
       ]
     }
     case 360: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 3`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p`,
         `-svtav1-params tune=0:fast-decode=2:tile-rows=3:tile-columns=4:enable-variance-boost=1`,
-        `-maxrate:v ${targetBitrate * 3.5}`,
-        `-bufsize:v ${targetBitrate * 7}`,
+        `-maxrate:v ${targetBitrate * 4}`,
+        `-bufsize:v ${targetBitrate * 8}`,
         // `-b:a 128k`,
       ]
     }
     case 240: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 3`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p`,
@@ -307,7 +307,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     case 144: {
       return [
         `-sws_flags lanczos+accurate_rnd`,
-        `-preset 2`,
+        `-preset 3`,
         `-crf 26`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p`,
@@ -318,7 +318,7 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
     default:
       return [
         `-preset 5`,
-        `-crf 30`,
+        `-crf 32`,
         `-g ${fps}*2`,
         `-pix_fmt yuv420p10le`,
         `-svtav1-params tune=0:fast-decode=2:tile-rows=3:tile-columns=4:enable-variance-boost=1`,
