@@ -209,7 +209,7 @@ export class HLSOptionsBuilder {
         ignoreDevicePixelRatio: true, // if this disabled player might choose 2k or 4k AV1 stream which is hard to keep up on mobile devices
         fpsDroppedMonitoringPeriod: 300, // milliseconds. If 55% of frames are dropped in 300ms, we step down quality
         fpsDroppedMonitoringThreshold: 0.55, // 55% of fpsDroppedMonitoringPeriod
-        autoLevelCapping: 3, // goind all the way up may lead to frame drops and freezes, so we cap level
+        autoLevelCapping: 3, // (doesn't work until capLevelToPlayerSize disabled) goind all the way up may lead to frame drops and freezes, so we cap level
 
       loaderBuilder,
 
