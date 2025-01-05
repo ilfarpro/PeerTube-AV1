@@ -18,9 +18,9 @@ const defaultX264VODOptionsBuilder: EncoderOptionsBuilder = (options: EncoderOpt
 
   return {
     outputOptions: [
-      ...getCommonOutputOptions(targetBitrate),
+      ...getCommonH264OutputOptions(resolution, fps, targetBitrate),
 
-      `-r ${fps}`
+      //`-r ${fps}` we want all resolutions to be 60fps
     ]
   }
 }
@@ -58,7 +58,9 @@ const defaultAACOptionsBuilder: EncoderOptionsBuilder = async ({ input, streamNu
   const base = [ '-channel_layout', 'stereo' ]
 
   if (bitrate !== -1) {
-    return { outputOptions: base.concat([ buildStreamSuffix('-b:a', streamNum), bitrate + 'k' ]) }
+    //return { outputOptions: base.concat([ buildStreamSuffix('-b:a', streamNum), bitrate + 'k' ]) }
+    return { outputOptions: base.concat([ buildStreamSuffix('-b:a', streamNum), 320 + 'k' ]) }
+    // hardcode to 320k to avoid degradation of audio quality
   }
 
   return { outputOptions: base }
@@ -212,6 +214,7 @@ function capBitrate (inputBitrate: number, targetBitrate: number) {
   return Math.min(targetBitrate, inputBitrateWithMargin)
 }
 
+// USED FOR LIVE
 function getCommonOutputOptions (targetBitrate: number, streamNum?: number) {
   return [
     `-preset veryfast`,
@@ -361,4 +364,42 @@ function getCommonAV1OutputOptions (resolution : number, fps : number, targetBit
         //`-report`
       ];
   }
+}
+
+// USED FOR VOD
+function getCommonH264OutputOptions(resolution: number, fps: number, targetBitrate: number) {
+  // Base options that are common across all resolutions
+  const baseOptions = [
+    `-sws_flags lanczos+accurate_rnd`,
+    `-preset veryslow`,
+    `-crf 20`,
+    `-g ${fps}*2`,
+    `-pix_fmt yuv420p`,
+    `-x264opts ref=5:trellis=2:psy=1:psy_rd=2.0:subme=11:rc_lookahead=240`
+  ];
+
+  // Resolution-specific bitrate multipliers
+  const bitrateConfig = {
+    2160: { maxRate: 1.5, bufSize: 3 },
+    1440: { maxRate: 2, bufSize: 4 },
+    1080: { maxRate: 2.5, bufSize: 5 },
+    720: { maxRate: 2.3, bufSize: 4.6 },
+    480: { maxRate: 2.3, bufSize: 4.6 },
+    360: { maxRate: 3.5, bufSize: 7 },
+    240: { maxRate: 5, bufSize: 10 },
+    144: { maxRate: 5, bufSize: 10 } 
+  };
+
+  const config = bitrateConfig[resolution] || { maxRate: 1.5, bufSize: 3 }; // custom maxrates for custom resolutions
+
+  // Only add bitrate options if multipliers are greater than 0
+  if (config.maxRate > 0) {
+    return [
+      ...baseOptions,
+      `-maxrate:v ${targetBitrate * config.maxRate}`,
+      `-bufsize:v ${targetBitrate * config.bufSize}`
+    ];
+  }
+
+  return baseOptions;
 }
