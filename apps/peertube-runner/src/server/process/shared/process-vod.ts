@@ -13,6 +13,7 @@ import { ConfigManager } from '../../../shared/config-manager.js'
 import { logger } from '../../../shared/index.js'
 import {
   buildFFmpegVOD,
+  buildFFmpegWebVOD,
   downloadInputFile,
   downloadSeparatedAudioFileIfNeeded,
   ProcessOptions,
@@ -45,7 +46,7 @@ export async function processWebVideoTranscoding (options: ProcessOptions<Runner
 
     logger.info(`Downloaded input file ${payload.input.videoFileUrl} for job ${job.jobToken}. Running web video transcoding.`)
 
-    const ffmpegVod = buildFFmpegVOD({
+    const ffmpegVod = buildFFmpegWebVOD({
       onJobProgress: progress => { ffmpegProgress = progress }
     })
 

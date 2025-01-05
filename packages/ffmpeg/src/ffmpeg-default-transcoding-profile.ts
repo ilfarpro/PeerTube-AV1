@@ -74,11 +74,32 @@ export function getDefaultAvailableEncoders () {
       libsvtav1: {
         default: defaultAV1VODOptionsBuilder
       },
-      libx264: {
-        default: defaultX264VODOptionsBuilder
-      },
       libopus: {
         default: defaultOpusOptionsBuilder
+      },
+      aac: {
+        default: defaultAACOptionsBuilder
+      },
+      libfdk_aac: {
+        default: defaultLibFDKAACVODOptionsBuilder
+      }
+    },
+    live: {
+      libx264: {
+        default: defaultX264LiveOptionsBuilder
+      },
+      aac: {
+        default: defaultAACOptionsBuilder
+      }
+    }
+  }
+}
+
+export function getDefaultAvailableEncodersForWebVOD () {
+  return {
+    vod: {
+      libx264: {
+        default: defaultX264VODOptionsBuilder
       },
       aac: {
         default: defaultAACOptionsBuilder
@@ -102,12 +123,26 @@ export function getDefaultAvailableEncoders () {
 export function getDefaultEncodersToTry () {
   return {
     vod: {
-      video: [ 'libsvtav1', 'libx264' ],
+      video: [ 'libsvtav1' ],
       audio: [ 'libopus', 'libfdk_aac', 'aac' ]
     },
 
     live: {
       video: [ 'libx264', 'libsvtav1' ],
+      audio: [ 'libfdk_aac', 'aac' ]
+    }
+  }
+}
+
+export function getDefaultEncodersToTryForWebVOD () {
+  return {
+    vod: {
+      video: [ 'libx264' ],
+      audio: [ 'libfdk_aac', 'aac' ]
+    },
+
+    live: {
+      video: [ 'libx264', ],
       audio: [ 'libfdk_aac', 'aac' ]
     }
   }

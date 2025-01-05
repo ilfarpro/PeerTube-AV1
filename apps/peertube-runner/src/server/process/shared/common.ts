@@ -1,5 +1,5 @@
 import { pick } from '@peertube/peertube-core-utils'
-import { FFmpegEdition, FFmpegLive, FFmpegVOD, getDefaultAvailableEncoders, getDefaultEncodersToTry } from '@peertube/peertube-ffmpeg'
+import { FFmpegEdition, FFmpegLive, FFmpegVOD, getDefaultAvailableEncoders, getDefaultEncodersToTry, getDefaultAvailableEncodersForWebVOD, getDefaultEncodersToTryForWebVOD } from '@peertube/peertube-ffmpeg'
 import { RunnerJob, RunnerJobPayload } from '@peertube/peertube-models'
 import { buildUUID } from '@peertube/peertube-node-utils'
 import { PeerTubeServer } from '@peertube/peertube-server-commands'
@@ -94,6 +94,24 @@ export function buildFFmpegVOD (options: {
   })
 }
 
+export function buildFFmpegWebVOD (options: {
+  onJobProgress: (progress: number) => void
+}) {
+  const { onJobProgress } = options
+
+  return new FFmpegVOD({
+    ...getCommonFFmpegOptionsWebVOD(),
+
+    updateJobProgress: arg => {
+      const progress = arg < 0 || arg > 100
+        ? undefined
+        : arg
+
+      onJobProgress(progress)
+    }
+  })
+}
+
 export function buildFFmpegLive () {
   return new FFmpegLive(getCommonFFmpegOptions())
 }
@@ -113,6 +131,22 @@ function getCommonFFmpegOptions () {
     availableEncoders: {
       available: getDefaultAvailableEncoders(),
       encodersToTry: getDefaultEncodersToTry()
+    },
+    logger: getWinstonLogger()
+  }
+}
+
+function getCommonFFmpegOptionsWebVOD () {
+  const config = ConfigManager.Instance.getConfig()
+
+  return {
+    niceness: config.ffmpeg.nice,
+    threads: config.ffmpeg.threads,
+    tmpDirectory: ConfigManager.Instance.getTranscodingDirectory(),
+    profile: 'default',
+    availableEncoders: {
+      available: getDefaultAvailableEncodersForWebVOD(),
+      encodersToTry: getDefaultEncodersToTryForWebVOD()
     },
     logger: getWinstonLogger()
   }
