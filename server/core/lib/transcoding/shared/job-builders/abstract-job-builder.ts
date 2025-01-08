@@ -22,17 +22,17 @@ export abstract class AbstractJobBuilder <P> {
     videoFileAlreadyLocked: boolean;
   }) {
     const { video, videoFile, isNewVideo, user, videoFileAlreadyLocked } = options;
-
+  
     let children: P[][] = [];
-
+  
     const mutexReleaser = videoFileAlreadyLocked
       ? () => {}
       : await VideoPathManager.Instance.lockFiles(video.uuid);
-
+  
     try {
       await video.reload();
       await videoFile.reload();
-
+  
       await VideoPathManager.Instance.makeAvailableVideoFile(
         videoFile.withVideoOrPlaylist(video),
         async (videoFilePath) => {
@@ -42,11 +42,11 @@ export abstract class AbstractJobBuilder <P> {
             CONFIG.TRANSCODING.FPS.MAX,
             probe
           );
-
+  
           let maxFPS: number;
           let maxResolution: number;
           let hlsAudioAlreadyGenerated = false;
-
+  
           if (videoFile.isAudio()) {
             maxFPS = Math.min(
               DEFAULT_AUDIO_MERGE_RESOLUTION,
@@ -63,16 +63,17 @@ export abstract class AbstractJobBuilder <P> {
               type: "vod",
             });
           }
-
+  
+          // Создаем задачи HLS
           if (CONFIG.TRANSCODING.HLS.ENABLED === true) {
             const hasSplitAudioTranscoding =
               CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO &&
               videoFile.hasAudio();
-
+  
             const copyCodecs = !quickTranscode;
-
+  
             const hlsPayloads: P[] = [];
-
+  
             hlsPayloads.push(
               this.buildHLSJobPayload({
                 deleteWebVideoFiles:
@@ -86,10 +87,10 @@ export abstract class AbstractJobBuilder <P> {
                 isNewVideo,
               })
             );
-
+  
             if (hasSplitAudioTranscoding) {
               hlsAudioAlreadyGenerated = true;
-
+  
               hlsPayloads.push(
                 this.buildHLSJobPayload({
                   deleteWebVideoFiles:
@@ -104,10 +105,27 @@ export abstract class AbstractJobBuilder <P> {
                 })
               );
             }
-
+  
             children.push(hlsPayloads);
           }
-
+  
+          // Создаем задачи Web Video
+          if (CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED === true) {
+            const webVideoPayloads: P[] = [];
+  
+            webVideoPayloads.push(
+              this.buildWebVideoJobPayload({
+                resolution: maxResolution,
+                fps: maxFPS,
+                video,
+                isNewVideo,
+              })
+            );
+  
+            children.push(webVideoPayloads);
+          }
+  
+          // Задачи на более низкие разрешения
           const lowerResolutionJobPayloads =
             await this.buildLowerResolutionJobPayloads({
               video,
@@ -117,19 +135,19 @@ export abstract class AbstractJobBuilder <P> {
               isNewVideo,
               hlsAudioAlreadyGenerated,
             });
-
+  
           children = children.concat(lowerResolutionJobPayloads);
         }
       );
     } finally {
       mutexReleaser();
     }
-
+  
     // Если children пуст, добавляем пустую задачу
     const payloads: [[P], ...P[][]] = children.length
       ? [[children[0][0]], ...children.slice(1)] // Берем первый элемент как [P], а остальные оставляем
       : [[[] as P]]; // Пустой элемент для соответствия типу в случае отсутствия задач
-
+  
     await this.createJobs({
       payloads,
       user,
