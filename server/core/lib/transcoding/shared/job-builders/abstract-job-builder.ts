@@ -14,126 +14,127 @@ const lTags = loggerTagsFactory('transcoding')
 
 export abstract class AbstractJobBuilder <P> {
 
-  async createOptimizeOrMergeAudioJobs (options: {
-    video: MVideoFullLight
-    videoFile: MVideoFile
-    isNewVideo: boolean
-    user: MUserId
-    videoFileAlreadyLocked: boolean
+  async createOptimizeOrMergeAudioJobs(options: {
+    video: MVideoFullLight;
+    videoFile: MVideoFile;
+    isNewVideo: boolean;
+    user: MUserId;
+    videoFileAlreadyLocked: boolean;
   }) {
-    const { video, videoFile, isNewVideo, user, videoFileAlreadyLocked } = options
+    const { video, videoFile, isNewVideo, user, videoFileAlreadyLocked } = options;
 
-    let mergeOrOptimizePayload: P
-    let children: P[][] = []
+    let children: P[][] = [];
 
     const mutexReleaser = videoFileAlreadyLocked
       ? () => {}
-      : await VideoPathManager.Instance.lockFiles(video.uuid)
+      : await VideoPathManager.Instance.lockFiles(video.uuid);
 
     try {
-      await video.reload()
-      await videoFile.reload()
+      await video.reload();
+      await videoFile.reload();
 
-      await VideoPathManager.Instance.makeAvailableVideoFile(videoFile.withVideoOrPlaylist(video), async videoFilePath => {
-        const probe = await ffprobePromise(videoFilePath)
-        const quickTranscode = await canDoQuickTranscode(videoFilePath, CONFIG.TRANSCODING.FPS.MAX, probe)
+      await VideoPathManager.Instance.makeAvailableVideoFile(
+        videoFile.withVideoOrPlaylist(video),
+        async (videoFilePath) => {
+          const probe = await ffprobePromise(videoFilePath);
+          const quickTranscode = await canDoQuickTranscode(
+            videoFilePath,
+            CONFIG.TRANSCODING.FPS.MAX,
+            probe
+          );
 
-        let maxFPS: number
-        let maxResolution: number
+          let maxFPS: number;
+          let maxResolution: number;
+          let hlsAudioAlreadyGenerated = false;
 
-        let hlsAudioAlreadyGenerated = false
-
-        if (videoFile.isAudio()) {
-          // The first transcoding job will transcode to this FPS value
-          maxFPS = Math.min(DEFAULT_AUDIO_MERGE_RESOLUTION, CONFIG.TRANSCODING.FPS.MAX)
-          maxResolution = DEFAULT_AUDIO_RESOLUTION
-
-          mergeOrOptimizePayload = this.buildMergeAudioPayload({
-            video,
-            isNewVideo,
-            inputFile: videoFile,
-            resolution: maxResolution,
-            fps: maxFPS
-          })
-        } else {
-          const inputFPS = videoFile.fps
-          maxResolution = buildOriginalFileResolution(videoFile.resolution)
-          maxFPS = computeOutputFPS({ inputFPS, resolution: maxResolution, isOriginResolution: true, type: 'vod' })
-
-          mergeOrOptimizePayload = this.buildOptimizePayload({
-            video,
-            isNewVideo,
-            quickTranscode,
-            inputFile: videoFile,
-            resolution: maxResolution,
-            fps: maxFPS
-          })
-        }
-
-        // HLS version of max resolution
-        if (CONFIG.TRANSCODING.HLS.ENABLED === true) {
-          const hasSplitAndioTranscoding = CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO && videoFile.hasAudio()
-
-          // We had some issues with a web video quick transcoded while producing a HLS version of it
-          const copyCodecs = !quickTranscode
-
-          const hlsPayloads: P[] = []
-
-          hlsPayloads.push(
-            this.buildHLSJobPayload({
-              deleteWebVideoFiles: !CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED && !hasSplitAndioTranscoding,
-
-              separatedAudio: CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO,
-
-              copyCodecs,
-
+          if (videoFile.isAudio()) {
+            maxFPS = Math.min(
+              DEFAULT_AUDIO_MERGE_RESOLUTION,
+              CONFIG.TRANSCODING.FPS.MAX
+            );
+            maxResolution = DEFAULT_AUDIO_RESOLUTION;
+          } else {
+            const inputFPS = videoFile.fps;
+            maxResolution = buildOriginalFileResolution(videoFile.resolution);
+            maxFPS = computeOutputFPS({
+              inputFPS,
               resolution: maxResolution,
-              fps: maxFPS,
-              video,
-              isNewVideo
-            })
-          )
+              isOriginResolution: true,
+              type: "vod",
+            });
+          }
 
-          if (hasSplitAndioTranscoding) {
-            hlsAudioAlreadyGenerated = true
+          if (CONFIG.TRANSCODING.HLS.ENABLED === true) {
+            const hasSplitAudioTranscoding =
+              CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO &&
+              videoFile.hasAudio();
+
+            const copyCodecs = !quickTranscode;
+
+            const hlsPayloads: P[] = [];
 
             hlsPayloads.push(
               this.buildHLSJobPayload({
-                deleteWebVideoFiles: !CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED,
+                deleteWebVideoFiles:
+                  !CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED &&
+                  !hasSplitAudioTranscoding,
                 separatedAudio: CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO,
-
                 copyCodecs,
-                resolution: 0,
-                fps: 0,
+                resolution: maxResolution,
+                fps: maxFPS,
                 video,
-                isNewVideo
+                isNewVideo,
               })
-            )
+            );
+
+            if (hasSplitAudioTranscoding) {
+              hlsAudioAlreadyGenerated = true;
+
+              hlsPayloads.push(
+                this.buildHLSJobPayload({
+                  deleteWebVideoFiles:
+                    !CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED,
+                  separatedAudio:
+                    CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO,
+                  copyCodecs,
+                  resolution: 0,
+                  fps: 0,
+                  video,
+                  isNewVideo,
+                })
+              );
+            }
+
+            children.push(hlsPayloads);
           }
 
-          children.push(hlsPayloads)
+          const lowerResolutionJobPayloads =
+            await this.buildLowerResolutionJobPayloads({
+              video,
+              inputVideoResolution: maxResolution,
+              inputVideoFPS: maxFPS,
+              hasAudio: videoFile.hasAudio(),
+              isNewVideo,
+              hlsAudioAlreadyGenerated,
+            });
+
+          children = children.concat(lowerResolutionJobPayloads);
         }
-
-        const lowerResolutionJobPayloads = await this.buildLowerResolutionJobPayloads({
-          video,
-          inputVideoResolution: maxResolution,
-          inputVideoFPS: maxFPS,
-          hasAudio: videoFile.hasAudio(),
-          isNewVideo,
-          hlsAudioAlreadyGenerated
-        })
-
-        children = children.concat(lowerResolutionJobPayloads)
-      })
+      );
     } finally {
-      mutexReleaser()
+      mutexReleaser();
     }
 
+    // Если children пуст, добавляем пустую задачу
+    const payloads: [[P], ...P[][]] = children.length
+      ? [[children[0][0]], ...children.slice(1)] // Берем первый элемент как [P], а остальные оставляем
+      : [[[] as P]]; // Пустой элемент для соответствия типу в случае отсутствия задач
+
     await this.createJobs({
-      payloads: [ [ mergeOrOptimizePayload ], ...children ],
+      payloads,
       user,
-      video
-    })
+      video,
+    });
   }
 
   async createTranscodingJobs (options: {
