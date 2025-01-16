@@ -100,36 +100,6 @@ export function getDefaultAvailableEncoders () {
   }
 }
 
-export function getDefaultAvailableEncodersForWebVOD () {
-  return {
-    vod: {
-      libsvtav1: {
-        default: defaultAV1VODOptionsBuilder
-      },
-      libopus: {
-        default: defaultOpusOptionsBuilder
-      },
-      libx264: {
-        default: defaultX264VODOptionsBuilder
-      },
-      aac: {
-        default: defaultAACOptionsBuilder
-      },
-      libfdk_aac: {
-        default: defaultLibFDKAACVODOptionsBuilder
-      }
-    },
-    live: {
-      libx264: {
-        default: defaultX264LiveOptionsBuilder
-      },
-      aac: {
-        default: defaultAACOptionsBuilder
-      }
-    }
-  }
-}
-
 // AV1 FIRST for VOD, H264 for live. AV1 for live is not implemented yet
 export function getDefaultEncodersToTry () {
   return {

@@ -1,5 +1,5 @@
 import { pick } from '@peertube/peertube-core-utils'
-import { FFmpegEdition, FFmpegLive, FFmpegVOD, getDefaultAvailableEncoders, getDefaultEncodersToTry, getDefaultAvailableEncodersForWebVOD, getDefaultEncodersToTryForWebVOD } from '@peertube/peertube-ffmpeg'
+import { FFmpegEdition, FFmpegLive, FFmpegVOD, getDefaultAvailableEncoders, getDefaultEncodersToTry, getDefaultEncodersToTryForWebVOD } from '@peertube/peertube-ffmpeg'
 import { RunnerJob, RunnerJobPayload } from '@peertube/peertube-models'
 import { buildUUID } from '@peertube/peertube-node-utils'
 import { PeerTubeServer } from '@peertube/peertube-server-commands'
@@ -145,7 +145,7 @@ function getCommonFFmpegOptionsWebVOD () {
     tmpDirectory: ConfigManager.Instance.getTranscodingDirectory(),
     profile: 'default',
     availableEncoders: {
-      available: getDefaultAvailableEncodersForWebVOD(),
+      available: getDefaultAvailableEncoders(),
       encodersToTry: getDefaultEncodersToTryForWebVOD()
     },
     logger: getWinstonLogger()
