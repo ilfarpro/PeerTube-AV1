@@ -126,14 +126,16 @@ class VideoTranscodingProfilesManager {
   private buildDefaultEncodersPriorities () {
     return {
       video: [
-        { name: 'libx264', priority: 100, isDefault: true }
+        { name: 'libx264', priority: 100, isDefault: true },
+        { name: 'libsvtav1', priority: 50, isDefault: true }
       ],
 
       // Try the first one, if not available try the second one etc
       audio: [
         // we favor VBR, if a good AAC encoder is available
         { name: 'libfdk_aac', priority: 200, isDefault: true },
-        { name: 'aac', priority: 100, isDefault: true }
+        { name: 'aac', priority: 100, isDefault: true },
+        { name: 'libopus', priority: 50, isDefault: true }
       ]
     }
   }

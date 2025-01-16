@@ -1,6 +1,6 @@
 {
   "name": "peertube-runner-av1-hq",
-  "version": "0.0.27-av1",
+  "version": "0.0.29-av1",
   "type": "module",
   "main": "dist/peertube-runner.js",
   "bin": {

@@ -1,0 +1,114 @@
+FROM node:18-bookworm-slim as builder
+
+ARG ALREADY_BUILT=0
+
+# Устанавливаем пакеты, необходимые для сборки
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      openssl \
+      ffmpeg \
+      python3 \
+      python3-pip \
+      ca-certificates \
+      gnupg \
+      gosu \
+      build-essential \
+      curl \
+      git \
+ && rm -rf /var/lib/apt/lists/*
+
+# Добавляем пользователя peertube
+RUN groupadd -r peertube && useradd -r -g peertube -m peertube
+
+# Создаём рабочую директорию
+WORKDIR /app
+
+# Копируем файлы
+COPY . /app
+
+#
+# Обратите внимание на этот блок:
+# ---------------------------------
+USER root
+RUN chown -R peertube:peertube /app
+USER peertube
+# ---------------------------------
+
+# Выполняем сборку и установку зависимостей
+RUN set -e; \
+  if [ "${ALREADY_BUILT}" = 0 ]; then \
+      echo "Starting client dependencies installation..." && \
+      cd client && yarn install --pure-lockfile --network-timeout 1200000 && cd ../ && \
+      echo "Starting server dependencies installation..." && \
+      yarn install --pure-lockfile --network-timeout 1200000 && \
+      echo "Building application..." && \
+      npm run build && \
+      echo "Build completed successfully"; \
+  else \
+      echo "Do not build application inside Docker because of ALREADY_BUILT build argument"; \
+  fi; \
+  echo "Cleaning up build artifacts..." && \
+  rm -rf ./node_modules ./client/node_modules ./client/.angular && \
+  echo "Installing production dependencies..." && \
+  NOCLIENT=1 yarn install --pure-lockfile --production --network-timeout 1200000 --network-concurrency 20
+
+# -------------------------------------------------------
+# 2. ФИНАЛЬНЫЙ СТЕЙДЖ (production stage)
+# -------------------------------------------------------
+FROM node:18-bookworm-slim
+
+# Устанавливаем только нужные для работы пакеты (без dev-инструментов)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      openssl \
+      ffmpeg \
+      ca-certificates \
+      gnupg \
+      gosu \
+ && rm -rf /var/lib/apt/lists/*
+
+# Создаём пользователя peertube, как и в builder
+RUN groupadd -r peertube \
+    && useradd -r -g peertube -m peertube
+
+# Создаём рабочую директорию
+WORKDIR /app
+
+# Копируем готовые артефакты и production-зависимости из builder-стейджа
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/package.json /app/package.json
+# Если нужно, копируем собранную клиентскую часть
+COPY --from=builder /app/client/dist /app/client/dist
+COPY --from=builder /app/client/package.json /app/client/package.json
+
+# При необходимости копируем дополнительные папки (config, support и т.д.)
+COPY --from=builder /app/config ./config
+COPY --from=builder /app/support ./support
+
+# Переходим временно под root, чтобы создать папки /data и /config
+USER root
+RUN mkdir /data /config \
+ && chown -R peertube:peertube /data /config
+
+# Настраиваем окружение
+ENV NODE_ENV production
+ENV NODE_CONFIG_DIR /app/config:/app/support/docker/production/config:/config
+ENV PEERTUBE_LOCAL_CONFIG /config
+
+# Делаем тома
+VOLUME /data
+VOLUME /config
+
+# Копируем entrypoint (можно и из builder, если он не меняется)
+COPY --from=builder /app/support/docker/production/entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+
+# Открываем порты
+EXPOSE 9000 1935
+
+# Запускаемся от пользователя peertube
+USER peertube
+
+# Запуск приложения
+CMD [ "node", "dist/server" ]

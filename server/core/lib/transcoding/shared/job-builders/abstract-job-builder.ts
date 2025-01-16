@@ -264,7 +264,7 @@ export abstract class AbstractJobBuilder <P> {
             fps,
             isNewVideo,
             separatedAudio: CONFIG.TRANSCODING.HLS.SPLIT_AUDIO_AND_VIDEO,
-            copyCodecs: CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED
+            copyCodecs: false
           })
         )
       }
