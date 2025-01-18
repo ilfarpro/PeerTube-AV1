@@ -43,14 +43,14 @@ export function computeResolutionsToTranscode (options: {
 
   // Put in the order we want to proceed jobs
   const availableResolutions: VideoResolutionType[] = [
-    VideoResolution.H_NOVIDEO,
+    VideoResolution.H_1440P,
+    VideoResolution.H_1080P,
+    VideoResolution.H_720P,
     VideoResolution.H_480P,
     VideoResolution.H_360P,
-    VideoResolution.H_720P,
     VideoResolution.H_240P,
     VideoResolution.H_144P,
-    VideoResolution.H_1080P,
-    VideoResolution.H_1440P,
+    VideoResolution.H_NOVIDEO,
     VideoResolution.H_4K
   ]
 

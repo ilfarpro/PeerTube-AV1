@@ -108,6 +108,19 @@ export abstract class AbstractJobBuilder <P> {
   
             children.push(hlsPayloads);
           }
+
+          // Задачи на более низкие разрешения
+          const lowerResolutionJobPayloads =
+            await this.buildLowerResolutionJobPayloads({
+              video,
+              inputVideoResolution: maxResolution,
+              inputVideoFPS: maxFPS,
+              hasAudio: videoFile.hasAudio(),
+              isNewVideo,
+              hlsAudioAlreadyGenerated,
+            });
+  
+          children = children.concat(lowerResolutionJobPayloads);
   
           // Создаем задачи Web Video
           if (CONFIG.TRANSCODING.WEB_VIDEOS.ENABLED === true) {
@@ -124,19 +137,6 @@ export abstract class AbstractJobBuilder <P> {
   
             children.push(webVideoPayloads);
           }
-  
-          // Задачи на более низкие разрешения
-          const lowerResolutionJobPayloads =
-            await this.buildLowerResolutionJobPayloads({
-              video,
-              inputVideoResolution: maxResolution,
-              inputVideoFPS: maxFPS,
-              hasAudio: videoFile.hasAudio(),
-              isNewVideo,
-              hlsAudioAlreadyGenerated,
-            });
-  
-          children = children.concat(lowerResolutionJobPayloads);
         }
       );
     } finally {
